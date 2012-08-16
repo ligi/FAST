@@ -155,6 +155,8 @@ public class SearchActivity extends SherlockActivity {
 					long arg3) {
 				try {
 					Intent intent = mAdapter.getAtPosition(pos).getIntent();
+					// set flag so that next start the search app comes up and not the last started App
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
 				} catch (ActivityNotFoundException e) {
 					// e.g. uninstalled while app running - TODO should refresh
