@@ -174,8 +174,8 @@ public class SearchActivity extends SherlockActivity {
 	private void process_new_index() {
 
 		if (!new_index.equals(old_index)) {
-			Log.i("FAST", "processing new app-index");
-
+			Log.i("FastAppSearchTool", "processing new app-index");
+			// TODO we should do a cleanup of cached icons here regarding the new index
 			mAdapter.setAllAppsList(pkgAppsListTemp);
 			try {
 				FileOutputStream fos = new FileOutputStream(index_file);
