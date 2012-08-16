@@ -31,9 +31,6 @@ public class AppInfo {
 	private Context ctx;
 	private BitmapDrawable icon; // caching the Icon
 	
-
-
-	
 	private AppInfo(Context _ctx) {
 		ctx = _ctx;
 	}

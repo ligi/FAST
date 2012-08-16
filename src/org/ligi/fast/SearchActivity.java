@@ -11,6 +11,7 @@ import org.ligi.fast.util.FileHelper;
 
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,39 +37,35 @@ import com.actionbarsherlock.view.Menu;
 public class SearchActivity extends SherlockActivity {
 
 	private List<AppInfo> pkgAppsListTemp;
-		
+
 	private AppInfoAdapter mAdapter;
 
 	private File index_file;
-	private String new_index="";
-	private String old_index="";
-	
+	private String new_index = "";
+	private String old_index = "";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_search);
 
-	
 		pkgAppsListTemp = new ArrayList<AppInfo>();
 
 		index_file = new File(getCacheDir(), "index2.csv");
 
-		
-		
 		try {
 			old_index = FileHelper.file2String(index_file);
 			String[] lines = old_index.split("\n");
-			Log.i("FAST","new index:"+old_index);
 			for (String line : lines) {
-				if (line.length()>0)
+				if (line.length() > 0)
 					pkgAppsListTemp.add(new AppInfo(this, line));
 			}
 		} catch (Exception e) {
 
 		}
 
-		mAdapter = new AppInfoAdapter(this,pkgAppsListTemp);
-		
-		if (pkgAppsListTemp.size() == 0) 			
+		mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
+
+		if (pkgAppsListTemp.size() == 0)
 			new BaseAppGatherAsyncTask(this) {
 
 				private LoadingDialog mLoadingDialog;
@@ -87,7 +84,7 @@ public class SearchActivity extends SherlockActivity {
 					mLoadingDialog.setText(values[0].getLabel());
 
 					pkgAppsListTemp.add(values[0]);
-					new_index+=values[0].toCacheString()+"\n";
+					new_index += values[0].toCacheString() + "\n";
 				}
 
 				@Override
@@ -98,15 +95,31 @@ public class SearchActivity extends SherlockActivity {
 				}
 
 			}.execute();
+		else { // the second time - we use the old index to be fast but
+				// regenerate in background to be recent
+			new BaseAppGatherAsyncTask(this) {
 
-			
+				@Override
+				protected void onProgressUpdate(AppInfo... values) {
+					super.onProgressUpdate(values);
+					pkgAppsListTemp.add(values[0]);
+					new_index += values[0].toCacheString() + "\n";
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);
+					process_new_index();
+				}
+
+			}.execute();
+		}
 		GridView app_list = (GridView) findViewById(R.id.listView);
 
 		disableOverScoll(app_list);
 
-		
 		app_list.setAdapter(mAdapter);
-	
+
 		getSupportActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
 						| ActionBar.DISPLAY_SHOW_HOME);
@@ -118,9 +131,7 @@ public class SearchActivity extends SherlockActivity {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-
 				mAdapter.setActQuery(s.toString().toLowerCase());
-				
 			}
 
 			@Override
@@ -143,7 +154,8 @@ public class SearchActivity extends SherlockActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
 				try {
-					mAdapter.getAtPosition(pos).getIntent();
+					Intent intent = mAdapter.getAtPosition(pos).getIntent();
+					startActivity(intent);
 				} catch (ActivityNotFoundException e) {
 					// e.g. uninstalled while app running - TODO should refresh
 					// list
@@ -159,17 +171,20 @@ public class SearchActivity extends SherlockActivity {
 	/**
 	 * takes the temp apps list as the new all apps index
 	 */
-	private void process_new_index()  {
-		mAdapter.setAllAppsList(pkgAppsListTemp);
+	private void process_new_index() {
+
 		if (!new_index.equals(old_index)) {
+			Log.i("FAST", "processing new app-index");
+
+			mAdapter.setAllAppsList(pkgAppsListTemp);
 			try {
-				FileOutputStream fos=new FileOutputStream( index_file);
+				FileOutputStream fos = new FileOutputStream(index_file);
 				fos.write(new_index.getBytes());
 				fos.close();
 			} catch (FileNotFoundException e) {
-		
+
 			} catch (IOException e) {
-				
+
 			}
 		}
 	}
@@ -186,7 +201,5 @@ public class SearchActivity extends SherlockActivity {
 		getSupportMenuInflater().inflate(R.menu.activity_search, menu);
 		return true;
 	}
-
-	
 
 }

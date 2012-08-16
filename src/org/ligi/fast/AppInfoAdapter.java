@@ -33,7 +33,8 @@ public class AppInfoAdapter extends BaseAdapter {
 	}
 	
 	public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
-		pkgAppsListAll = _pkgAppsListAll;
+		pkgAppsListAll = new ArrayList<AppInfo>();
+		pkgAppsListAll.addAll(_pkgAppsListAll);
 		setActQuery(act_query); // to rebuild the showing list
 	}
 
