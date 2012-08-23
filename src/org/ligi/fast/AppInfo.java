@@ -102,6 +102,10 @@ public class AppInfo {
 		intent.setClassName(package_name, activity_name);
 		return intent;
 	}
+	
+	public String getPackageName() {
+		return package_name;
+	}
 
 	public String getLabel() {
 		return label;

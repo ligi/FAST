@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 
@@ -64,7 +65,9 @@ public class SearchActivity extends SherlockActivity {
 		}
 
 		mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
-
+		
+		pkgAppsListTemp=new ArrayList<AppInfo>();
+		
 		if (pkgAppsListTemp.size() == 0)
 			new BaseAppGatherAsyncTask(this) {
 
@@ -165,7 +168,22 @@ public class SearchActivity extends SherlockActivity {
 			}
 
 		});
+		
+		app_list.setLongClickable(true);
+		
+		
+		app_list.setOnItemLongClickListener(new OnItemLongClickListener() {
+			
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int pos, long arg3) {
+				new AppActionDialogBuilder(SearchActivity.this,mAdapter.getAtPosition(pos)).show();
+				return true;
+			}
+			
+		});
 
+		
 		super.onCreate(savedInstanceState);
 
 	}
