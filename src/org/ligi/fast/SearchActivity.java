@@ -64,59 +64,9 @@ public class SearchActivity extends SherlockActivity {
 
 		}
 
-		mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
+		mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);		
+		// sync was here
 		
-		pkgAppsListTemp=new ArrayList<AppInfo>();
-		
-		if (pkgAppsListTemp.size() == 0)
-			new BaseAppGatherAsyncTask(this) {
-
-				private LoadingDialog mLoadingDialog;
-
-				@Override
-				protected void onPreExecute() {
-					mLoadingDialog = new LoadingDialog(SearchActivity.this);
-					mLoadingDialog.show();
-				}
-
-				@Override
-				protected void onProgressUpdate(AppInfo... values) {
-					super.onProgressUpdate(values);
-
-					mLoadingDialog.setIcon(values[0].getIcon());
-					mLoadingDialog.setText(values[0].getLabel());
-
-					pkgAppsListTemp.add(values[0]);
-					new_index += values[0].toCacheString() + "\n";
-				}
-
-				@Override
-				protected void onPostExecute(Void result) {
-					mLoadingDialog.dismiss();
-					super.onPostExecute(result);
-					process_new_index();
-				}
-
-			}.execute();
-		else { // the second time - we use the old index to be fast but
-				// regenerate in background to be recent
-			new BaseAppGatherAsyncTask(this) {
-
-				@Override
-				protected void onProgressUpdate(AppInfo... values) {
-					super.onProgressUpdate(values);
-					pkgAppsListTemp.add(values[0]);
-					new_index += values[0].toCacheString() + "\n";
-				}
-
-				@Override
-				protected void onPostExecute(Void result) {
-					super.onPostExecute(result);
-					process_new_index();
-				}
-
-			}.execute();
-		}
 		GridView app_list = (GridView) findViewById(R.id.listView);
 
 		disableOverScoll(app_list);
@@ -186,6 +136,63 @@ public class SearchActivity extends SherlockActivity {
 		
 		super.onCreate(savedInstanceState);
 
+	}
+	
+	@Override 
+	public void onResume()  {
+		super.onResume();
+		if (pkgAppsListTemp.size() == 0)
+			new BaseAppGatherAsyncTask(this) {
+	
+				private LoadingDialog mLoadingDialog;
+	
+				@Override
+				protected void onPreExecute() {
+					mLoadingDialog = new LoadingDialog(SearchActivity.this);
+					mLoadingDialog.show();
+				}
+	
+				@Override
+				protected void onProgressUpdate(AppInfo... values) {
+					super.onProgressUpdate(values);
+	
+					mLoadingDialog.setIcon(values[0].getIcon());
+					mLoadingDialog.setText(values[0].getLabel());
+	
+					pkgAppsListTemp.add(values[0]);
+					new_index += values[0].toCacheString() + "\n";
+				}
+	
+				@Override
+				protected void onPostExecute(Void result) {
+					mLoadingDialog.dismiss();
+					super.onPostExecute(result);
+					process_new_index();
+				}
+	
+			}.execute();
+		else { // the second time - we use the old index to be fast but
+				// regenerate in background to be recent
+			
+			pkgAppsListTemp=new ArrayList<AppInfo>();
+			
+			new BaseAppGatherAsyncTask(this) {
+	
+				@Override
+				protected void onProgressUpdate(AppInfo... values) {
+					super.onProgressUpdate(values);
+					pkgAppsListTemp.add(values[0]);
+					new_index += values[0].toCacheString() + "\n";
+				}
+	
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);
+					process_new_index();
+				}
+	
+			}.execute();
+		}
 	}
 
 	/**
