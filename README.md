@@ -1,5 +1,5 @@
-https://raw.github.com/ligi/FAST/master/promo/512x512.png
-https://raw.github.com/ligi/FAST/master/promo/qr_googleplay.png
+<img src="https://raw.github.com/ligi/FAST/master/promo/512x512.png"/>
+<img src="https://raw.github.com/ligi/FAST/master/promo/qr_googleplay.png"/>
 
 Find and Launch Applications fast for free with a small App that needs no permission!
 Just type in a fraction of the name of the App you want to launch - most of the time 3 chars are enough.
