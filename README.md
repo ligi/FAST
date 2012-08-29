@@ -11,6 +11,8 @@ A single click launches the App - a long click gives you 3 Options:
 
 The App is GPLv3 
 
+This app is available <a href="https://play.google.com/store/apps/details?id=org.ligi.fast">here on Google Play</a>. Also find to this app <a href="https://plus.google.com/108684152853280523320"> here on Google Plus</a>
+
 Tags:
 
 opensource launcher search apps free fast small GPL github speed launching applications
