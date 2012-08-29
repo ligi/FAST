@@ -17,12 +17,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -134,6 +138,20 @@ public class SearchActivity extends SherlockActivity {
 						| ActionBar.DISPLAY_SHOW_HOME);
 
 		EditText search_et = new EditText(this);
+		search_et.setSingleLine();
+		search_et.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		search_et.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
+		
+		search_et.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				startItemAtPos(0);
+				return true;
+			}
+			
+		});
 		search_et.setHint("Enter Query here");
 
 		search_et.addTextChangedListener(new TextWatcher() {
@@ -163,10 +181,7 @@ public class SearchActivity extends SherlockActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
 				try {
-					Intent intent = mAdapter.getAtPosition(pos).getIntent();
-					// set flag so that next start the search app comes up and not the last started App
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent);
+					startItemAtPos(pos);
 				} catch (ActivityNotFoundException e) {
 					// e.g. uninstalled while app running - TODO should refresh
 					// list
@@ -192,6 +207,13 @@ public class SearchActivity extends SherlockActivity {
 		
 		super.onCreate(savedInstanceState);
 
+	}
+	
+	public void startItemAtPos(int pos) {
+		Intent intent = mAdapter.getAtPosition(pos).getIntent();
+		// set flag so that next start the search app comes up and not the last started App
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 	
 
