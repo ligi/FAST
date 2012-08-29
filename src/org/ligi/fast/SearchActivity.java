@@ -53,6 +53,7 @@ public class SearchActivity extends SherlockActivity {
 
 		index_file = new File(getCacheDir(), "index2.csv");
 
+		
 		try {
 			old_index = FileHelper.file2String(index_file);
 			String[] lines = old_index.split("\n");
@@ -60,12 +61,67 @@ public class SearchActivity extends SherlockActivity {
 				if (line.length() > 0)
 					pkgAppsListTemp.add(new AppInfo(this, line));
 			}
+			Log.i("FAST" , "act index  " + old_index);
+			
 		} catch (Exception e) {
 
 		}
 
 		mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);		
 		// sync was here
+		
+		if (pkgAppsListTemp.size() == 0)
+			new BaseAppGatherAsyncTask(this) {
+	
+				private LoadingDialog mLoadingDialog;
+	
+				@Override
+				protected void onPreExecute() {
+					mLoadingDialog = new LoadingDialog(SearchActivity.this);
+					mLoadingDialog.show();
+				}
+	
+				@Override
+				protected void onProgressUpdate(AppInfo... values) {
+					super.onProgressUpdate(values);
+	
+					mLoadingDialog.setIcon(values[0].getIcon());
+					mLoadingDialog.setText(values[0].getLabel());
+	
+					pkgAppsListTemp.add(values[0]);
+					new_index += values[0].toCacheString() + "\n";
+				}
+	
+				@Override
+				protected void onPostExecute(Void result) {
+					mLoadingDialog.dismiss();
+					super.onPostExecute(result);
+					process_new_index();
+				}
+	
+			}.execute();
+		else { // the second time - we use the old index to be fast but
+				// regenerate in background to be recent
+			
+			pkgAppsListTemp=new ArrayList<AppInfo>();
+			
+			new BaseAppGatherAsyncTask(this) {
+	
+				@Override
+				protected void onProgressUpdate(AppInfo... values) {
+					super.onProgressUpdate(values);
+					pkgAppsListTemp.add(values[0]);
+					new_index += values[0].toCacheString() + "\n";
+				}
+	
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);
+					process_new_index();
+				}
+	
+			}.execute();
+		}
 		
 		GridView app_list = (GridView) findViewById(R.id.listView);
 
@@ -78,7 +134,7 @@ public class SearchActivity extends SherlockActivity {
 						| ActionBar.DISPLAY_SHOW_HOME);
 
 		EditText search_et = new EditText(this);
-		search_et.setHint("Enter Query");
+		search_et.setHint("Enter Query here");
 
 		search_et.addTextChangedListener(new TextWatcher() {
 
@@ -138,62 +194,6 @@ public class SearchActivity extends SherlockActivity {
 
 	}
 	
-	@Override 
-	public void onResume()  {
-		super.onResume();
-		if (pkgAppsListTemp.size() == 0)
-			new BaseAppGatherAsyncTask(this) {
-	
-				private LoadingDialog mLoadingDialog;
-	
-				@Override
-				protected void onPreExecute() {
-					mLoadingDialog = new LoadingDialog(SearchActivity.this);
-					mLoadingDialog.show();
-				}
-	
-				@Override
-				protected void onProgressUpdate(AppInfo... values) {
-					super.onProgressUpdate(values);
-	
-					mLoadingDialog.setIcon(values[0].getIcon());
-					mLoadingDialog.setText(values[0].getLabel());
-	
-					pkgAppsListTemp.add(values[0]);
-					new_index += values[0].toCacheString() + "\n";
-				}
-	
-				@Override
-				protected void onPostExecute(Void result) {
-					mLoadingDialog.dismiss();
-					super.onPostExecute(result);
-					process_new_index();
-				}
-	
-			}.execute();
-		else { // the second time - we use the old index to be fast but
-				// regenerate in background to be recent
-			
-			pkgAppsListTemp=new ArrayList<AppInfo>();
-			
-			new BaseAppGatherAsyncTask(this) {
-	
-				@Override
-				protected void onProgressUpdate(AppInfo... values) {
-					super.onProgressUpdate(values);
-					pkgAppsListTemp.add(values[0]);
-					new_index += values[0].toCacheString() + "\n";
-				}
-	
-				@Override
-				protected void onPostExecute(Void result) {
-					super.onPostExecute(result);
-					process_new_index();
-				}
-	
-			}.execute();
-		}
-	}
 
 	/**
 	 * takes the temp apps list as the new all apps index
