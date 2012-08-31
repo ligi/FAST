@@ -29,14 +29,13 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
 				this);
 
-		CheckBoxPreference doLegendCheckBoxPref = new CheckBoxPreference(this);
-		doLegendCheckBoxPref.setKey(FASTPrefs.KEY_LAUNCHSINGLE);
-		doLegendCheckBoxPref.setTitle(R.string.launch_single);
-		doLegendCheckBoxPref.setSummary("Auto-Launch if only one App left ");
-		doLegendCheckBoxPref.setDefaultValue(false);
-		// doLegendCheckBoxPref.setOnPreferenceChangeListener(this);
+		CheckBoxPreference doLaunchSingleCheckBox = new CheckBoxPreference(this);
+		doLaunchSingleCheckBox.setKey(FASTPrefs.KEY_LAUNCHSINGLE);
+		doLaunchSingleCheckBox.setTitle(R.string.launch_single);
+		doLaunchSingleCheckBox.setSummary("Auto-Launch if only one App left ");
+		doLaunchSingleCheckBox.setDefaultValue(false);
 
-		root.addPreference(doLegendCheckBoxPref);
+		root.addPreference(doLaunchSingleCheckBox);
 		return root;
 	}
 
