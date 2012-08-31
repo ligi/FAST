@@ -71,7 +71,13 @@ public class AppInfoAdapter extends BaseAdapter {
 
 		int color = (ctx.getResources()
 				.getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
+		
+		/*
+		String aa=ctx.getPackageManager().getInstallerPackageName( pkgAppsListShowing.get(position).getPackageName());
+		label=label+aa; */
+		
 		String hightlight_label = label;
+		
 		if (query_index != -1) {
 			hightlight_label = label.substring(0, query_index)
 					+ "<font color='#"

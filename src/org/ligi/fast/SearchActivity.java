@@ -11,6 +11,7 @@ import org.ligi.fast.util.FileHelper;
 
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -31,6 +33,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * The main Activity for this App
@@ -48,7 +51,9 @@ public class SearchActivity extends SherlockActivity {
 	private File index_file;
 	private String new_index = "";
 	private String old_index = "";
-
+	private String old_search = "";
+	private EditText search_et;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_search);
@@ -137,7 +142,7 @@ public class SearchActivity extends SherlockActivity {
 				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
 						| ActionBar.DISPLAY_SHOW_HOME);
 
-		EditText search_et = new EditText(this);
+		search_et = new EditText(this);
 		search_et.setSingleLine();
 		search_et.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		search_et.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
@@ -158,7 +163,12 @@ public class SearchActivity extends SherlockActivity {
 
 			@Override
 			public void afterTextChanged(Editable s) {
+				boolean was_adding=old_search.length()<s.toString().length();
+				old_search=s.toString().toLowerCase();
 				mAdapter.setActQuery(s.toString().toLowerCase());
+				if ((mAdapter.getCount()==1)&&was_adding&&getPrefs().isLaunchSingleActivated()) {
+					startItemAtPos(0);
+				}
 			}
 
 			@Override
@@ -250,5 +260,43 @@ public class SearchActivity extends SherlockActivity {
 		getSupportMenuInflater().inflate(R.menu.activity_search, menu);
 		return true;
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this,FASTPrefsActivity.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		search_et.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore 
+		
+		search_et.requestFocus();
+		
+		// workaround from http://code.google.com/p/android/issues/detail?id=3612
+		search_et.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				InputMethodManager keyboard = (InputMethodManager)
+				getSystemService(Context.INPUT_METHOD_SERVICE);
+
+				keyboard.showSoftInput(search_et, 0);
+			}
+		},200);
+
+	}
+	
+	public FASTPrefs getPrefs() {
+		return ((ApplicationContext)getApplicationContext()).getPrefs();
+	}
+	
+	
 
 }
