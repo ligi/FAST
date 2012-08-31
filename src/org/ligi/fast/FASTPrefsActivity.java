@@ -6,7 +6,14 @@ import android.preference.PreferenceScreen;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
-
+/**
+ * Activity to Edit the Preferences 
+ *
+ * @author Marcus -ligi- Büschleb
+ * 
+ * License GPLv3
+ *
+ */
 public class FASTPrefsActivity extends SherlockPreferenceActivity {
 
 	@Override

@@ -3,7 +3,14 @@ package org.ligi.fast;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
+/**
+ * Class to handle the Preferences 
+ *
+ * @author Marcus -ligi- Büschleb
+ * 
+ * License GPLv3
+ *
+ */
 public class FASTPrefs {
 
 	private SharedPreferences mSharedPreferences;
