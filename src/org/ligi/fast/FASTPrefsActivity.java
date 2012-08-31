@@ -32,10 +32,18 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		CheckBoxPreference doLaunchSingleCheckBox = new CheckBoxPreference(this);
 		doLaunchSingleCheckBox.setKey(FASTPrefs.KEY_LAUNCHSINGLE);
 		doLaunchSingleCheckBox.setTitle(R.string.launch_single);
-		doLaunchSingleCheckBox.setSummary("Auto-Launch if only one App left ");
+		doLaunchSingleCheckBox.setSummary("Auto-Launch if only one app left");
 		doLaunchSingleCheckBox.setDefaultValue(false);
+		
+		CheckBoxPreference doSearchInPackage = new CheckBoxPreference(this);
+		doSearchInPackage.setKey(FASTPrefs.KEY_SEARCHPKG);
+		doSearchInPackage.setTitle("Search in package");
+		doSearchInPackage.setSummary("also use the package name for searching");
+		doSearchInPackage.setDefaultValue(false);
 
 		root.addPreference(doLaunchSingleCheckBox);
+		root.addPreference(doSearchInPackage);
+		
 		return root;
 	}
 

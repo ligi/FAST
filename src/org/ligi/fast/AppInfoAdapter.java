@@ -78,6 +78,12 @@ public class AppInfoAdapter extends BaseAdapter {
 		
 		String hightlight_label = label;
 		
+		if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
+			label = pkgAppsListShowing.get(position).getPackageName();
+			label=label.replace("com.google.android.apps.", "");
+			query_index = label.toLowerCase().indexOf(act_query);
+		}
+		
 		if (query_index != -1) {
 			hightlight_label = label.substring(0, query_index)
 					+ "<font color='#"
@@ -102,7 +108,9 @@ public class AppInfoAdapter extends BaseAdapter {
 		ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
 		for (AppInfo info : pkgAppsListAll) {
-			if (info.getLabel().toLowerCase().contains(act_query))
+			if (info.getLabel().toLowerCase().contains(act_query)
+				|| (getPrefs().isSearchPackageActivated()&&(info.getPackageName().toLowerCase().contains(act_query))))
+					
 				pkgAppsListFilter.add(info);
 		}
 
@@ -114,4 +122,9 @@ public class AppInfoAdapter extends BaseAdapter {
 	public AppInfo getAtPosition(int pos) {
 		return pkgAppsListShowing.get(pos);
 	}
+	
+	public FASTPrefs getPrefs() {
+		return ((ApplicationContext)ctx.getApplicationContext()).getPrefs();
+	}
+	
 }

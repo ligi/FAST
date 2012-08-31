@@ -16,6 +16,7 @@ public class FASTPrefs {
 	private SharedPreferences mSharedPreferences;
 	
 	public final static String KEY_LAUNCHSINGLE="launch_single";
+	public static final String KEY_SEARCHPKG = "search_pkg";
 	
 	public FASTPrefs(Context ctx) {
 		mSharedPreferences=PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -23,5 +24,9 @@ public class FASTPrefs {
 	
 	public boolean isLaunchSingleActivated() {
 		return mSharedPreferences.getBoolean(KEY_LAUNCHSINGLE,false);
+	}
+	
+	public boolean isSearchPackageActivated() {
+		return mSharedPreferences.getBoolean(KEY_SEARCHPKG,false);
 	}
 }
