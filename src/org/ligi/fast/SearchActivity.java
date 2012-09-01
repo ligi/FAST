@@ -13,6 +13,7 @@ import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -266,6 +267,28 @@ public class SearchActivity extends SherlockActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this,FASTPrefsActivity.class));
+			return true;
+			
+		case R.id.menu_rate:
+			String myUrl ="https://play.google.com/store/apps/details?id=" + this.getPackageName();
+
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myUrl)));
+			return true;
+			
+		case R.id.menu_share:
+			String message = "Launch Android Apps really FAST: https://play.google.com/store/apps/details?id=org.ligi.fast";
+			Intent share = new Intent(Intent.ACTION_SEND);
+			share.setType("text/plain");
+			share.putExtra(Intent.EXTRA_TEXT, message);
+
+			startActivity(Intent.createChooser(share, "Share FAST"));
+			return true;
+			
+		case R.id.menu_connect:
+			String myPlusUrl ="http://plus.google.com/108684152853280523320";
+
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myPlusUrl)));
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

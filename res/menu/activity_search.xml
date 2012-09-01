@@ -1,8 +1,24 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-        
-       <item android:id="@+id/menu_settings"
-        android:title="@string/menu_settings"
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_settings"
         android:orderInCategory="100"
-        android:showAsAction="never" 
-        />
+        android:showAsAction="never"
+        android:title="@string/menu_settings"/>
+    <item
+        android:id="@+id/menu_connect"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/connect"/>
+    <item
+        android:id="@+id/menu_share"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/share"/>
+    <item
+        android:id="@+id/menu_rate"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/rate"/>
+
 </menu>

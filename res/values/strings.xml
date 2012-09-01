@@ -3,4 +3,7 @@
     <string name="icon">Icon</string>
     <string name="launch_single">Launch single</string>
     <string name="menu_settings">settings</string>
+    <string name="connect">connect</string>
+    <string name="share">share</string>
+    <string name="rate">rate</string>
 </resources>
