@@ -6,4 +6,17 @@
     <string name="connect">connect</string>
     <string name="share">share</string>
     <string name="rate">rate</string>
+    <string name="also_use_the_package_name_for_searching">also use the package name for searching</string>
+    <string name="search_in_package">Search in package</string>
+    <string name="auto_launch_if_only_one_app_left">Auto-Launch if only one app left</string>
+    <string name="open_in_play_for_all">Open in Play option for all</string>
+    <string name="even_if_installed_another_way">even if installed another way</string>
+    <string name="application_details">Application Details</string>
+    <string name="open_in_play">Open in Play</string>
+    <string name="open_as_notification">Open as Notification</string>
+    <string name="query_hint">Enter Query here</string>
+    <string name="text_only">Text only</string>
+    <string name="show_no_icons_pure_text">show no Icons - pure text</string>
+    <string name="max_text_lines">Max text-lines</string>
+    <string name="how_much_text_you_want">how much text you want?</string>
 </resources>

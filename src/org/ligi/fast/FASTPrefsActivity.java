@@ -2,6 +2,7 @@ package org.ligi.fast;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.PreferenceScreen;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -32,17 +33,41 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		CheckBoxPreference doLaunchSingleCheckBox = new CheckBoxPreference(this);
 		doLaunchSingleCheckBox.setKey(FASTPrefs.KEY_LAUNCHSINGLE);
 		doLaunchSingleCheckBox.setTitle(R.string.launch_single);
-		doLaunchSingleCheckBox.setSummary("Auto-Launch if only one app left");
+		doLaunchSingleCheckBox.setSummary(R.string.auto_launch_if_only_one_app_left);
 		doLaunchSingleCheckBox.setDefaultValue(false);
 		
 		CheckBoxPreference doSearchInPackage = new CheckBoxPreference(this);
 		doSearchInPackage.setKey(FASTPrefs.KEY_SEARCHPKG);
-		doSearchInPackage.setTitle("Search in package");
-		doSearchInPackage.setSummary("also use the package name for searching");
+		doSearchInPackage.setTitle(R.string.search_in_package);
+		doSearchInPackage.setSummary(R.string.also_use_the_package_name_for_searching);
 		doSearchInPackage.setDefaultValue(false);
+		
+		CheckBoxPreference marketForAllApps = new CheckBoxPreference(this);
+		marketForAllApps.setKey(FASTPrefs.KEY_MARKETFORALL);
+		marketForAllApps.setTitle(R.string.open_in_play_for_all);
+		marketForAllApps.setSummary(R.string.even_if_installed_another_way);
+		marketForAllApps.setDefaultValue(false);
 
+		CheckBoxPreference textOnly = new CheckBoxPreference(this);
+		textOnly.setKey(FASTPrefs.KEY_TEXTONLY);
+		textOnly.setTitle(R.string.text_only);
+		textOnly.setSummary(R.string.show_no_icons_pure_text);
+		textOnly.setDefaultValue(false);
+		
+		ListPreference maxLinesPref = new ListPreference(this);
+		maxLinesPref.setKey(FASTPrefs.KEY_MAXLINES);
+		maxLinesPref.setTitle(R.string.max_text_lines);
+		maxLinesPref.setSummary(R.string.how_much_text_you_want);
+		maxLinesPref.setEntries(new CharSequence[] { "1","2","3"});
+		maxLinesPref.setEntryValues(new CharSequence[] { "1","2","3"});
+		maxLinesPref.setDefaultValue("1");
+		
+		
 		root.addPreference(doLaunchSingleCheckBox);
 		root.addPreference(doSearchInPackage);
+		root.addPreference(marketForAllApps);
+		root.addPreference(textOnly);
+		root.addPreference(maxLinesPref);
 		
 		return root;
 	}

@@ -54,11 +54,14 @@ public class SearchActivity extends SherlockActivity {
 	private String old_index = "";
 	private String old_search = "";
 	private EditText search_et;
+	private GridView mGridView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_search);
-
+		
 		pkgAppsListTemp = new ArrayList<AppInfo>();
 
 		index_file = new File(getCacheDir(), "index2.csv");
@@ -133,11 +136,11 @@ public class SearchActivity extends SherlockActivity {
 			}.execute();
 		}
 		
-		GridView app_list = (GridView) findViewById(R.id.listView);
+		mGridView = (GridView) findViewById(R.id.listView);
 
-		disableOverScoll(app_list);
+		disableOverScoll(mGridView);
 
-		app_list.setAdapter(mAdapter);
+		//mGridView.setAdapter(mAdapter);
 
 		getSupportActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
@@ -158,7 +161,7 @@ public class SearchActivity extends SherlockActivity {
 			}
 			
 		});
-		search_et.setHint("Enter Query here");
+		search_et.setHint(R.string.query_hint);
 
 		search_et.addTextChangedListener(new TextWatcher() {
 
@@ -186,7 +189,7 @@ public class SearchActivity extends SherlockActivity {
 		getSupportActionBar().setCustomView(search_et);
 		// getSupportActionBar().set
 
-		app_list.setOnItemClickListener(new OnItemClickListener() {
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
@@ -201,10 +204,9 @@ public class SearchActivity extends SherlockActivity {
 
 		});
 		
-		app_list.setLongClickable(true);
-		
-		
-		app_list.setOnItemLongClickListener(new OnItemLongClickListener() {
+		mGridView.setLongClickable(true);
+				
+		mGridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -216,12 +218,12 @@ public class SearchActivity extends SherlockActivity {
 		});
 
 		
-		super.onCreate(savedInstanceState);
-
+		
 	}
 	
 	public void startItemAtPos(int pos) {
 		Intent intent = mAdapter.getAtPosition(pos).getIntent();
+		intent.setAction("android.intent.action.MAIN");
 		// set flag so that next start the search app comes up and not the last started App
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
@@ -314,12 +316,12 @@ public class SearchActivity extends SherlockActivity {
 			}
 		},200);
 
+		Log.i("FAST","Resume with " + getPrefs().isTextOnlyActive());
+		mGridView.setAdapter(mAdapter);
 	}
 	
 	public FASTPrefs getPrefs() {
 		return ((ApplicationContext)getApplicationContext()).getPrefs();
 	}
 	
-	
-
 }

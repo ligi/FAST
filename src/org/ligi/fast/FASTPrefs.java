@@ -17,6 +17,9 @@ public class FASTPrefs {
 	
 	public final static String KEY_LAUNCHSINGLE="launch_single";
 	public static final String KEY_SEARCHPKG = "search_pkg";
+	public static final String KEY_MARKETFORALL = "marketforall";
+	public static final String KEY_TEXTONLY ="textonly";
+	public static final String KEY_MAXLINES = "maxlines";
 	
 	public FASTPrefs(Context ctx) {
 		mSharedPreferences=PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -28,5 +31,17 @@ public class FASTPrefs {
 	
 	public boolean isSearchPackageActivated() {
 		return mSharedPreferences.getBoolean(KEY_SEARCHPKG,false);
+	}
+	
+	public boolean isMarketForAllActivated() {
+		return mSharedPreferences.getBoolean(KEY_MARKETFORALL,false);
+	}
+	
+	public boolean isTextOnlyActive() {
+		return mSharedPreferences.getBoolean(KEY_TEXTONLY,false);
+	}
+	
+	public int getMaxLines() {
+		return Integer.parseInt(mSharedPreferences.getString(KEY_MAXLINES, "1"));
 	}
 }

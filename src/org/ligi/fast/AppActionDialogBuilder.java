@@ -21,62 +21,87 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 	private AppInfo app_info;
 	private Context context;
 
+	private boolean isMarketApp() {
+		if (app_info.getPackageName()==null)
+			return false;
+		String installer_pkg=context.getPackageManager().getInstallerPackageName( app_info.getPackageName());
+		return installer_pkg!=null && installer_pkg.startsWith("com.android.vending");
+	}
 	public AppActionDialogBuilder(Context _context, AppInfo _app_info) {
 
 		super(_context);
 		app_info = _app_info;
 		context = _context;
+		
+		CharSequence[] items;
+		
+		if (new FASTPrefs(context).isMarketForAllActivated()
+			|| isMarketApp() )
+			items=new CharSequence[] {
+					context.getString(R.string.application_details),
+					context.getString(R.string.open_in_play),
+					context.getString(R.string.open_as_notification) };
+		else
+			items=new CharSequence[] {
+				context.getString(R.string.application_details),
+				context.getString(R.string.open_as_notification) };
+		
+		setItems(
+				items,
+				new OnClickListener() {
 
-		setItems(new CharSequence[] { "Application Details", "Open in Market",
-				"Open as Notification" }, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+						case 0:
+							showInstalledAppDetails(context,
+									app_info.getPackageName());
+							break;
 
-				switch (which) {
-				case 0:
-					showInstalledAppDetails(context, app_info.getPackageName());
-					break;
+						case 1:
+							try {
+								context.startActivity(new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse("market://details?id="
+												+ app_info.getPackageName())));
+							} catch (android.content.ActivityNotFoundException anfe) {
+								context.startActivity(new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse("http://play.google.com/store/apps/details?id="
+												+ app_info.getPackageName())));
+							}
 
-				case 1:
-					try {
-						context.startActivity(new Intent(Intent.ACTION_VIEW,
-								Uri.parse("market://details?id="
-										+ app_info.getPackageName())));
-					} catch (android.content.ActivityNotFoundException anfe) {
-						context.startActivity(new Intent(
-								Intent.ACTION_VIEW,
-								Uri.parse("http://play.google.com/store/apps/details?id="
-										+ app_info.getPackageName())));
+							break;
+						case 2:
+
+							Intent notifyIntent = app_info.getIntent();
+
+							PendingIntent intent = PendingIntent.getActivity(
+									context, 0, notifyIntent,
+									PendingIntent.FLAG_UPDATE_CURRENT
+											| Notification.FLAG_AUTO_CANCEL);
+
+							final Notification notifyDetails = new NotificationCompat.Builder(
+									context)
+									.setContentTitle(
+											"FAST Launch "
+													+ app_info.getLabel())
+									.setSmallIcon(R.drawable.ic_launcher)
+									.setContentIntent(intent)
+									.setAutoCancel(true).getNotification();
+
+							((NotificationManager) context
+									.getSystemService(Context.NOTIFICATION_SERVICE))
+									.notify((int) (Math.random() * 1000),
+											notifyDetails);
+
+							break;
+
+						}
 					}
 
-					break;
-				case 2:
-
-					Intent notifyIntent = app_info.getIntent();
-
-					PendingIntent intent = PendingIntent.getActivity(context,
-							0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
-									| Notification.FLAG_AUTO_CANCEL);
-					
-					final Notification notifyDetails = new NotificationCompat.Builder(
-							context)
-						.setContentTitle("FAST Launch " + app_info.getLabel())
-						.setSmallIcon(R.drawable.ic_launcher)
-						.setContentIntent(intent)
-						.setAutoCancel(true)
-						.getNotification();
-
-					((NotificationManager) context
-							.getSystemService(Context.NOTIFICATION_SERVICE))
-							.notify((int) (Math.random() * 1000), notifyDetails);
-
-					break;
-
-				}
-			}
-
-		});
+				});
 
 		CheckBox cb = new CheckBox(context);
 		cb.setText("Launch if it is the only one left");

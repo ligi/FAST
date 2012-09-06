@@ -26,7 +26,8 @@ public class AppInfoAdapter extends BaseAdapter {
 	private List<AppInfo> pkgAppsListShowing;
 
 	private String act_query = "";
-
+	private boolean refresh;
+	
 	public AppInfoAdapter(Context _ctx,List<AppInfo> _pkgAppsListAll) {
 		ctx = _ctx;
 		setAllAppsList(_pkgAppsListAll);
@@ -52,29 +53,32 @@ public class AppInfoAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		if (convertView == null) { // if it's not recycled, initialize some
+		if (convertView == null|| (Boolean)convertView.getTag()==getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
+			
 			LayoutInflater mLayoutInflater = (LayoutInflater) ctx
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = mLayoutInflater.inflate(R.layout.item, null);
-
+			if (getPrefs().isTextOnlyActive())
+				convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
+			else
+				convertView = mLayoutInflater.inflate(R.layout.item,null);
+			
+			convertView.setTag(getPrefs().isTextOnlyActive());
 		}
 
 		ImageView imageView = (ImageView) convertView
 				.findViewById(R.id.imageView);
 		TextView labelView = (TextView) convertView.findViewById(R.id.textView);
+		if (imageView!=null)	
+			imageView.setImageDrawable(pkgAppsListShowing.get(position).getIcon());
 
-		imageView.setImageDrawable(pkgAppsListShowing.get(position).getIcon());
-
+		labelView.setMaxLines(getPrefs().getMaxLines());
+		
 		String label = pkgAppsListShowing.get(position).getLabel();
 
 		int query_index = label.toLowerCase().indexOf(act_query);
 
 		int color = (ctx.getResources()
 				.getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
-		
-		/*
-		String aa=ctx.getPackageManager().getInstallerPackageName( pkgAppsListShowing.get(position).getPackageName());
-		label=label+aa; */
 		
 		String hightlight_label = label;
 		
@@ -97,7 +101,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
 		}
 
-		labelView.setText(Html.fromHtml(hightlight_label));
+		labelView.setText(Html.fromHtml(hightlight_label+"<br/><br/>"));
 
 		return convertView;
 	}
