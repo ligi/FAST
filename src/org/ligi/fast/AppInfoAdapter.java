@@ -26,7 +26,6 @@ public class AppInfoAdapter extends BaseAdapter {
 	private List<AppInfo> pkgAppsListShowing;
 
 	private String act_query = "";
-	private boolean refresh;
 	
 	public AppInfoAdapter(Context _ctx,List<AppInfo> _pkgAppsListAll) {
 		ctx = _ctx;
