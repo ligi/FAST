@@ -14,7 +14,7 @@
     <string name="open_in_play">Öffne mit Play</string>
     <string name="open_as_notification">Öffne als Benachrichtigung</string>
     <string name="query_hint">Suche nach</string>
-     <string name="text_only">Nur Test</string>
+    <string name="text_only">Nur Test</string>
     <string name="show_no_icons_pure_text">keine Bilder - purer Text</string>
     <string name="max_text_lines">Maximale Textzeilen</string>
     <string name="how_much_text_you_want">wie viel Text darf es sein?</string>
