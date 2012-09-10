@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -39,11 +41,13 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 			|| isMarketApp() )
 			items=new CharSequence[] {
 					context.getString(R.string.application_details),
-					context.getString(R.string.open_in_play),
-					context.getString(R.string.open_as_notification) };
+					context.getString(R.string.open_as_notification),
+					context.getString(R.string.create_shortcut),
+					context.getString(R.string.open_in_play)};
 		else
 			items=new CharSequence[] {
 				context.getString(R.string.application_details),
+				context.getString(R.string.create_shortcut),
 				context.getString(R.string.open_as_notification) };
 		
 		setItems(
@@ -59,21 +63,8 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 									app_info.getPackageName());
 							break;
 
+						
 						case 1:
-							try {
-								context.startActivity(new Intent(
-										Intent.ACTION_VIEW,
-										Uri.parse("market://details?id="
-												+ app_info.getPackageName())));
-							} catch (android.content.ActivityNotFoundException anfe) {
-								context.startActivity(new Intent(
-										Intent.ACTION_VIEW,
-										Uri.parse("http://play.google.com/store/apps/details?id="
-												+ app_info.getPackageName())));
-							}
-
-							break;
-						case 2:
 
 							Intent notifyIntent = app_info.getIntent();
 
@@ -97,7 +88,39 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 											notifyDetails);
 
 							break;
+						case 2:
+							Intent shortcutIntent = new Intent();
+							shortcutIntent.setClassName(app_info.getPackageName(),app_info.getLabel());
+							shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
+							Intent create_shortcut_intent = new Intent();
+							create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+							// Sets the custom shortcut's title
+							create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
 
+							BitmapDrawable bd=(BitmapDrawable)(app_info.getIcon());
+							Bitmap newbit;
+							newbit=bd.getBitmap();
+							create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newbit);
+
+							create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+							context.sendBroadcast(create_shortcut_intent);
+							break;
+						case 3:
+							try {
+								context.startActivity(new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse("market://details?id="
+												+ app_info.getPackageName())));
+							} catch (android.content.ActivityNotFoundException anfe) {
+								context.startActivity(new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse("http://play.google.com/store/apps/details?id="
+												+ app_info.getPackageName())));
+							}
+
+							break;
 						}
 					}
 

@@ -19,4 +19,5 @@
     <string name="show_no_icons_pure_text">show no Icons - pure text</string>
     <string name="max_text_lines">Max text-lines</string>
     <string name="how_much_text_you_want">how much text you want?</string>
+    <string name="create_shortcut">create shortcut</string>
 </resources>

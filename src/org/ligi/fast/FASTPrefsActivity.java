@@ -18,15 +18,16 @@ import com.actionbarsherlock.view.MenuItem;
 public class FASTPrefsActivity extends SherlockPreferenceActivity {
 
 	@Override
+	@SuppressWarnings("deprecation")
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		setPreferenceScreen(createPreferenceHierarchy());
+		PreferenceScreen prefs_screen=createPreferenceHierarchy();
+		setPreferenceScreen(prefs_screen);
 	}
 
 	private PreferenceScreen createPreferenceHierarchy() {
+		@SuppressWarnings("deprecation")
 		PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
 				this);
 
@@ -61,8 +62,7 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		maxLinesPref.setEntries(new CharSequence[] { "1","2","3"});
 		maxLinesPref.setEntryValues(new CharSequence[] { "1","2","3"});
 		maxLinesPref.setDefaultValue("1");
-		
-		
+				
 		root.addPreference(doLaunchSingleCheckBox);
 		root.addPreference(doSearchInPackage);
 		root.addPreference(marketForAllApps);
@@ -78,7 +78,6 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		case android.R.id.home:
 			finish();
 			return true;
-
 		}
 		return false;
 	}

@@ -1,12 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ligi.fast"
-    android:versionCode="18"
-    android:versionName="1.8" >
+    android:versionCode="19"
+    android:versionName="1.9" >
 
     <uses-sdk
         android:minSdkVersion="5"
         android:targetSdkVersion="15" />
   	
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    
   	<supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
