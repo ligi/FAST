@@ -44,7 +44,7 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		
 		CheckBoxPreference marketForAllApps = new CheckBoxPreference(this);
 		marketForAllApps.setKey(FASTPrefs.KEY_MARKETFORALL);
-		marketForAllApps.setTitle(R.string.open_in_play_for_all);
+		marketForAllApps.setTitle(""+ String.format(getResources().getString(R.string.open_in_for_all), ApplicationContext.STORE_NAME));
 		marketForAllApps.setSummary(R.string.even_if_installed_another_way);
 		marketForAllApps.setDefaultValue(false);
 

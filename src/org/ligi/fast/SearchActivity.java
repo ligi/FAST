@@ -272,13 +272,13 @@ public class SearchActivity extends SherlockActivity {
 			return true;
 			
 		case R.id.menu_rate:
-			String myUrl ="https://play.google.com/store/apps/details?id=" + this.getPackageName();
+			String myUrl =ApplicationContext.getStoreURL4PackageName( this.getPackageName());
 
 			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myUrl)));
 			return true;
 			
 		case R.id.menu_share:
-			String message = "Launch Android Apps really FAST: https://play.google.com/store/apps/details?id=org.ligi.fast";
+			String message = "Launch Android Apps really FAST: " + ApplicationContext.getStoreURL4PackageName("id=org.ligi.fast");
 			Intent share = new Intent(Intent.ACTION_SEND);
 			share.setType("text/plain");
 			share.putExtra(Intent.EXTRA_TEXT, message);
