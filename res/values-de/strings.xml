@@ -8,10 +8,10 @@
     <string name="also_use_the_package_name_for_searching">auch im Paket-Namen suchen</string>
     <string name="search_in_package">Suche in Paket-Name</string>
     <string name="auto_launch_if_only_one_app_left">Automatische ausführung bei einem Ergebnis</string>
-    <string name="open_in_play_for_all">Öffne in Google Play für alle</string>
+    <string name="open_in_for_all">Öffne in %s für alle</string>
     <string name="even_if_installed_another_way">auch wenn auf anderem Wege installiert</string>
     <string name="application_details">Anwendungs-Details</string>
-    <string name="open_in_play">Öffne mit Play</string>
+    <string name="open_in">Öffne mit</string>
     <string name="open_as_notification">Öffne als Benachrichtigung</string>
     <string name="query_hint">Suche nach</string>
     <string name="text_only">Nur Test</string>

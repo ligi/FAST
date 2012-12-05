@@ -27,7 +27,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 		if (app_info.getPackageName()==null)
 			return false;
 		String installer_pkg=context.getPackageManager().getInstallerPackageName( app_info.getPackageName());
-		return installer_pkg!=null && installer_pkg.startsWith("com.android.vending");
+		return installer_pkg!=null && installer_pkg.startsWith(ApplicationContext.STORE_PNAME);
 	}
 	public AppActionDialogBuilder(Context _context, AppInfo _app_info) {
 
@@ -41,9 +41,10 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 			|| isMarketApp() )
 			items=new CharSequence[] {
 					context.getString(R.string.application_details),
+					context.getString(R.string.create_shortcut),					
 					context.getString(R.string.open_as_notification),
-					context.getString(R.string.create_shortcut),
-					context.getString(R.string.open_in_play)};
+					context.getString(R.string.open_in)+" " + ApplicationContext.STORE_NAME,
+					 };
 		else
 			items=new CharSequence[] {
 				context.getString(R.string.application_details),
@@ -63,7 +64,6 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 									app_info.getPackageName());
 							break;
 
-						
 						case 1:
 
 							Intent notifyIntent = app_info.getIntent();
@@ -120,6 +120,21 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 												+ app_info.getPackageName())));
 							}
 
+<<<<<<< HEAD
+=======
+						case 2:
+							try {
+								context.startActivity(new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse("market://details?id="
+												+ app_info.getPackageName())));
+							} catch (android.content.ActivityNotFoundException anfe) {
+								context.startActivity(new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse(ApplicationContext.getStoreURL4PackageName(app_info.getPackageName()))));
+							}
+
+>>>>>>> master
 							break;
 						}
 					}

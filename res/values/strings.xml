@@ -9,10 +9,10 @@
     <string name="also_use_the_package_name_for_searching">also use the package name for searching</string>
     <string name="search_in_package">Search in package</string>
     <string name="auto_launch_if_only_one_app_left">Auto-Launch if only one app left</string>
-    <string name="open_in_play_for_all">Open in Play option for all</string>
+    <string name="open_in_for_all">Open in %s option for all</string>
     <string name="even_if_installed_another_way">even if installed another way</string>
     <string name="application_details">Application Details</string>
-    <string name="open_in_play">Open in Play</string>
+    <string name="open_in">Open in</string>
     <string name="open_as_notification">Open as Notification</string>
     <string name="query_hint">Enter Query here</string>
     <string name="text_only">Text only</string>
