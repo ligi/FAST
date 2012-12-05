@@ -1,0 +1,16 @@
+<resources>
+    <string name="long">Find and Launch Applications fast and for free with a small App that needs not a single permission!
+Just type in a fraction of the name of the App you want to launch - most of the time 3 chars are enough.
+
+A single click launches the App - a long click gives you 3 Options:
+ #1 Go to the App details
+ #2 Open the App in Google Play
+ #3 Open the App as a Notification for FAST access at a later time
+
+The App is GPLv3 - you can find the source on GitHub: https://github.com/ligi/FAST
+
+Tags:
+
+opensource launcher search apps free fast small GPL github speed launching applications notification</string>
+    <string name="short">Launch Applications fast and for free with a small App that needs no permission!</string>
+</resources>
