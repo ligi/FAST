@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -36,7 +35,8 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 		context = _context;
 		
 		CharSequence[] items;
-		
+
+
 		if (new FASTPrefs(context).isMarketForAllActivated()
 			|| isMarketApp() )
 			items=new CharSequence[] {
@@ -50,7 +50,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 				context.getString(R.string.application_details),
 				context.getString(R.string.create_shortcut),
 				context.getString(R.string.open_as_notification) };
-		
+
 		setItems(
 				items,
 				new OnClickListener() {
@@ -120,21 +120,6 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 												+ app_info.getPackageName())));
 							}
 
-<<<<<<< HEAD
-=======
-						case 2:
-							try {
-								context.startActivity(new Intent(
-										Intent.ACTION_VIEW,
-										Uri.parse("market://details?id="
-												+ app_info.getPackageName())));
-							} catch (android.content.ActivityNotFoundException anfe) {
-								context.startActivity(new Intent(
-										Intent.ACTION_VIEW,
-										Uri.parse(ApplicationContext.getStoreURL4PackageName(app_info.getPackageName()))));
-							}
-
->>>>>>> master
 							break;
 						}
 					}

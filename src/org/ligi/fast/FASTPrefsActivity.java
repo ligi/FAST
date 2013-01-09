@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceScreen;
-
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 /**
@@ -18,12 +17,13 @@ import com.actionbarsherlock.view.MenuItem;
 public class FASTPrefsActivity extends SherlockPreferenceActivity {
 
 	@Override
-	@SuppressWarnings("deprecation")
 	protected void onCreate(Bundle savedInstanceState) {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.onCreate(  savedInstanceState );
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		PreferenceScreen prefs_screen=createPreferenceHierarchy();
 		setPreferenceScreen(prefs_screen);
+
 	}
 
 	private PreferenceScreen createPreferenceHierarchy() {
