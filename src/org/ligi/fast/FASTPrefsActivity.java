@@ -19,7 +19,7 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(  savedInstanceState );
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		PreferenceScreen prefs_screen=createPreferenceHierarchy();
 		setPreferenceScreen(prefs_screen);
