@@ -19,7 +19,8 @@ public class FASTPrefs {
 	public static final String KEY_SEARCHPKG = "search_pkg";
 	public static final String KEY_MARKETFORALL = "marketforall";
 	public static final String KEY_TEXTONLY ="textonly";
-	public static final String KEY_MAXLINES = "maxlines";
+    public static final String KEY_MAXLINES = "maxlines";
+    public static final String KEY_ICONSIZE = "iconsize";
 	
 	public FASTPrefs(Context ctx) {
 		mSharedPreferences=PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -44,4 +45,8 @@ public class FASTPrefs {
 	public int getMaxLines() {
 		return Integer.parseInt(mSharedPreferences.getString(KEY_MAXLINES, "1"));
 	}
+
+    public String getIconSize() {
+        return mSharedPreferences.getString(KEY_ICONSIZE, "medium");
+    }
 }

@@ -62,12 +62,21 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 		maxLinesPref.setEntries(new CharSequence[] { "1","2","3"});
 		maxLinesPref.setEntryValues(new CharSequence[] { "1","2","3"});
 		maxLinesPref.setDefaultValue("1");
-				
+
+        ListPreference iconSizePref = new ListPreference(this);
+        iconSizePref.setKey(FASTPrefs.KEY_ICONSIZE);
+        iconSizePref.setTitle("Icon size");
+        iconSizePref.setSummary("how big should the icons be?");
+        iconSizePref.setEntries(new CharSequence[] { "small","medium","large"});
+        iconSizePref.setEntryValues(new CharSequence[] { "small","medium","large"});
+        iconSizePref.setDefaultValue("medium");
+
 		root.addPreference(doLaunchSingleCheckBox);
 		root.addPreference(doSearchInPackage);
 		root.addPreference(marketForAllApps);
 		root.addPreference(textOnly);
-		root.addPreference(maxLinesPref);
+        root.addPreference(maxLinesPref);
+        root.addPreference(iconSizePref);
 		
 		return root;
 	}
