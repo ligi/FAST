@@ -18,152 +18,173 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import java.util.ArrayList;
+
 public class AppActionDialogBuilder extends AlertDialog.Builder {
-	private AppInfo app_info;
-	private Context context;
+    private static final String SCHEME = "package";
+    private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
+    private static final String APP_PKG_NAME_22 = "pkg";
+    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
+    private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
+    private AppInfo app_info;
+    private Context context;
 
-	private boolean isMarketApp() {
-		if (app_info.getPackageName()==null)
-			return false;
-		String installer_pkg=context.getPackageManager().getInstallerPackageName( app_info.getPackageName());
-		return installer_pkg!=null && installer_pkg.startsWith(ApplicationContext.STORE_PNAME);
-	}
-	public AppActionDialogBuilder(Context _context, AppInfo _app_info) {
+    public AppActionDialogBuilder(Context _context, AppInfo _app_info) {
 
-		super(_context);
-		app_info = _app_info;
-		context = _context;
-		
-		CharSequence[] items;
+        super(_context);
+        app_info = _app_info;
+        context = _context;
+
+        ArrayList<LabelAndCode> fkt_map = new ArrayList<LabelAndCode>();
+
+        fkt_map.add(new LabelAndCode(context.getString(R.string.application_details), new Runnable() {
+            @Override
+            public void run() {
+                showInstalledAppDetails(context, app_info.getPackageName());
+            }
+        }));
+
+        fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new Runnable() {
+            @Override
+            public void run() {
+                Intent notifyIntent = app_info.getIntent();
+
+                PendingIntent intent = PendingIntent.getActivity(
+                        context, 0, notifyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                                | Notification.FLAG_AUTO_CANCEL);
+
+                final Notification notifyDetails = new NotificationCompat.Builder(
+                        context)
+                        .setContentTitle(
+                                "FAST Launch "
+                                        + app_info.getLabel())
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentIntent(intent)
+                        .setAutoCancel(true).getNotification();
+
+                ((NotificationManager) context
+                        .getSystemService(Context.NOTIFICATION_SERVICE))
+                        .notify((int) (Math.random() * 1000),
+                                notifyDetails);
+            }
+        }));
+
+        if (new FASTPrefs(context).isMarketForAllActivated()
+                || isMarketApp())
+            fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + ApplicationContext.STORE_NAME, new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        context.startActivity(new Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(ApplicationContext.STORE_URL
+                                        + app_info.getPackageName())));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+
+                    }
+                }
+            }));
+
+        /*
+        fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new Runnable() {
+            @Override
+            public void run () {
+                Intent shortcutIntent = new Intent();
+                shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
+                shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
+                Intent create_shortcut_intent = new Intent();
+                create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+                // Sets the custom shortcut's title
+                create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
+
+                BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
+                Bitmap newbit;
+                newbit = bd.getBitmap();
+                create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newbit);
+
+                create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                context.sendBroadcast(create_shortcut_intent);
+            }
+        }));
+        */
 
 
-		if (new FASTPrefs(context).isMarketForAllActivated()
-			|| isMarketApp() )
-			items=new CharSequence[] {
-					context.getString(R.string.application_details),
-					context.getString(R.string.create_shortcut),					
-					context.getString(R.string.open_as_notification),
-					context.getString(R.string.open_in)+" " + ApplicationContext.STORE_NAME,
-					 };
-		else
-			items=new CharSequence[] {
-				context.getString(R.string.application_details),
-				context.getString(R.string.create_shortcut),
-				context.getString(R.string.open_as_notification) };
+        CharSequence[] items = new CharSequence[fkt_map.size()];
+        final Runnable[] item_code = new Runnable[fkt_map.size()];
 
-		setItems(
-				items,
-				new OnClickListener() {
+        for (int i = 0; i < fkt_map.size(); i++) {
+            items[i] = fkt_map.get(i).label;
+            item_code[i] = fkt_map.get(i).code;
+        }
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
 
-						switch (which) {
-						case 0:
-							showInstalledAppDetails(context,
-									app_info.getPackageName());
-							break;
+        setItems(
+                items,
+                new
 
-						case 1:
+                        OnClickListener() {
 
-							Intent notifyIntent = app_info.getIntent();
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                item_code[which].run();
 
-							PendingIntent intent = PendingIntent.getActivity(
-									context, 0, notifyIntent,
-									PendingIntent.FLAG_UPDATE_CURRENT
-											| Notification.FLAG_AUTO_CANCEL);
+                            }
 
-							final Notification notifyDetails = new NotificationCompat.Builder(
-									context)
-									.setContentTitle(
-											"FAST Launch "
-													+ app_info.getLabel())
-									.setSmallIcon(R.drawable.ic_launcher)
-									.setContentIntent(intent)
-									.setAutoCancel(true).getNotification();
+                        });
 
-							((NotificationManager) context
-									.getSystemService(Context.NOTIFICATION_SERVICE))
-									.notify((int) (Math.random() * 1000),
-											notifyDetails);
+        CheckBox cb = new CheckBox(context);
+        cb.setText("Launch if it is the only one left");
+        cb.setOnCheckedChangeListener(new
 
-							break;
-						case 2:
-							Intent shortcutIntent = new Intent();
-							shortcutIntent.setClassName(app_info.getPackageName(),app_info.getLabel());
-							shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
-							Intent create_shortcut_intent = new Intent();
-							create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-							// Sets the custom shortcut's title
-							create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
+                                              OnCheckedChangeListener() {
 
-							BitmapDrawable bd=(BitmapDrawable)(app_info.getIcon());
-							Bitmap newbit;
-							newbit=bd.getBitmap();
-							create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newbit);
+                                                  @Override
+                                                  public void onCheckedChanged(CompoundButton buttonView,
+                                                                               boolean isChecked) {
+                                                  }
 
-							create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-							context.sendBroadcast(create_shortcut_intent);
-							break;
-						case 3:
-							try {
-								context.startActivity(new Intent(
-										Intent.ACTION_VIEW,
-										Uri.parse("market://details?id="
-												+ app_info.getPackageName())));
-							} catch (android.content.ActivityNotFoundException anfe) {
-								context.startActivity(new Intent(
-										Intent.ACTION_VIEW,
-										Uri.parse("http://play.google.com/store/apps/details?id="
-												+ app_info.getPackageName())));
-							}
+                                              });
+    }
 
-							break;
-						}
-					}
+    public static void showInstalledAppDetails(Context context,
 
-				});
+                                               String packageName) {
+        Intent intent = new Intent();
+        final int apiLevel = Build.VERSION.SDK_INT;
+        if (apiLevel >= 9) { // above 2.3
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts(SCHEME, packageName, null);
+            intent.setData(uri);
+        } else { // below 2.3
+            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22
+                    : APP_PKG_NAME_21);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
+                    APP_DETAILS_CLASS_NAME);
+            intent.putExtra(appPkgName, packageName);
+        }
+        context.startActivity(intent);
+    }
 
-		CheckBox cb = new CheckBox(context);
-		cb.setText("Launch if it is the only one left");
-		cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+    private boolean isMarketApp() {
+        if (app_info.getPackageName() == null)
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-			}
+            return false;
+        String installer_pkg = context.getPackageManager().getInstallerPackageName(app_info.getPackageName());
+        return installer_pkg != null && installer_pkg.startsWith(ApplicationContext.STORE_PNAME);
+    }
 
-		});
-	}
+    private class LabelAndCode {
+        public String label;
+        public Runnable code;
 
-	private static final String SCHEME = "package";
+        public LabelAndCode(String label, Runnable code) {
+            this.code = code;
+            this.label = label;
+        }
 
-	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
-
-	private static final String APP_PKG_NAME_22 = "pkg";
-
-	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
-
-	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
-
-	public static void showInstalledAppDetails(Context context,
-			String packageName) {
-		Intent intent = new Intent();
-		final int apiLevel = Build.VERSION.SDK_INT;
-		if (apiLevel >= 9) { // above 2.3
-			intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-			Uri uri = Uri.fromParts(SCHEME, packageName, null);
-			intent.setData(uri);
-		} else { // below 2.3
-			final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22
-					: APP_PKG_NAME_21);
-			intent.setAction(Intent.ACTION_VIEW);
-			intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-					APP_DETAILS_CLASS_NAME);
-			intent.putExtra(appPkgName, packageName);
-		}
-		context.startActivity(intent);
-	}
+    }
 }
