@@ -138,7 +138,8 @@ public class SearchActivity extends SherlockActivity {
 
 		disableOverScoll(mGridView);
 
-		//mGridView.setAdapter(mAdapter);
+
+        //mGridView.setAdapter(mAdapter);
 
 		getSupportActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
@@ -316,7 +317,15 @@ public class SearchActivity extends SherlockActivity {
 
 		Log.i("FAST","Resume with " + getPrefs().isTextOnlyActive());
 		mGridView.setAdapter(mAdapter);
-	}
+
+        if (new FASTPrefs(this).getIconSize().equals("small"))
+            mGridView.setColumnWidth((int)this.getResources().getDimension(R.dimen.cell_size_small));
+        else if (new FASTPrefs(this).getIconSize().equals("large"))
+            mGridView.setColumnWidth((int)this.getResources().getDimension(R.dimen.cell_size_large));
+        else
+            mGridView.setColumnWidth((int)this.getResources().getDimension(R.dimen.cell_size));
+
+    }
 	
 	public FASTPrefs getPrefs() {
 		return ((ApplicationContext)getApplicationContext()).getPrefs();
