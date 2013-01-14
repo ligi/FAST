@@ -65,9 +65,9 @@ public class FASTPrefsActivity extends SherlockPreferenceActivity {
 
         ListPreference iconSizePref = new ListPreference(this);
         iconSizePref.setKey(FASTPrefs.KEY_ICONSIZE);
-        iconSizePref.setTitle("Icon size");
-        iconSizePref.setSummary("how big should the icons be?");
-        iconSizePref.setEntries(new CharSequence[] { "small","medium","large"});
+        iconSizePref.setTitle(R.string.icon_size);
+        iconSizePref.setSummary(R.string.how_big_icons);
+        iconSizePref.setEntries(R.array.sizes);
         iconSizePref.setEntryValues(new CharSequence[] { "small","medium","large"});
         iconSizePref.setDefaultValue("medium");
 
