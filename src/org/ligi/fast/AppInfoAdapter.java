@@ -18,7 +18,8 @@ import java.util.List;
  * Adapter to provide the AppInfo to the user - also care for the filtering of the query
  *
  * @author Marcus -ligi- Büschleb
- *         <p/>
+ *         jfreax
+ *
  *         License GPLv3
  */
 public class AppInfoAdapter extends BaseAdapter {
@@ -99,7 +100,7 @@ public class AppInfoAdapter extends BaseAdapter {
         		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
         		holder.image.setImageDrawable(drawable);
         	} else {
-        		new IconTask(position, holder).execute(this);
+        		new IconTask(position, holder).execute();
         	}
         }
 
@@ -145,18 +146,16 @@ public class AppInfoAdapter extends BaseAdapter {
         public ImageView image;
     }
     
-    private static class IconTask extends AsyncTask<AppInfoAdapter, Void, Drawable> {
+    private static class IconTask extends AsyncTask<Void, Void, Drawable> {
         private int mPosition;
         private ViewHolder mHolder;
-        private AppInfoAdapter mAdapter;
 
         public IconTask(int position, ViewHolder holder) {
             mPosition = position;
             mHolder = holder;
         }
 
-        protected Drawable doInBackground(AppInfoAdapter... params) {
-        	mAdapter = params[0];
+        protected Drawable doInBackground(Void... params) {
 			return pkgAppsListShowing.get(mPosition).getIcon();
         }
 
