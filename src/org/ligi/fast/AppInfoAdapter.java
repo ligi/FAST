@@ -23,9 +23,11 @@ import java.util.List;
  */
 public class AppInfoAdapter extends BaseAdapter {
 
+    private static List<AppInfo> pkgAppsListShowing;
+    private static int firstTimeLoading = 0;
+	
     private Context ctx;
     private List<AppInfo> pkgAppsListAll;
-    private static List<AppInfo> pkgAppsListShowing;
     private String act_query = "";
     private String colorString = "";
 
@@ -90,7 +92,15 @@ public class AppInfoAdapter extends BaseAdapter {
         ImageView imageView = holder.image;
         TextView labelView = holder.text;
         if (imageView != null) {
-        	new IconTask(position, holder).execute(this);
+        	if (position == 1)
+    			firstTimeLoading += 1;
+        	if (firstTimeLoading < 3) {
+        		
+        		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
+        		holder.image.setImageDrawable(drawable);
+        	} else {
+        		new IconTask(position, holder).execute(this);
+        	}
         }
 
         labelView.setMaxLines(getPrefs().getMaxLines());
@@ -145,13 +155,11 @@ public class AppInfoAdapter extends BaseAdapter {
             mHolder = holder;
         }
 
-     
         protected Drawable doInBackground(AppInfoAdapter... params) {
         	mAdapter = params[0];
 			return pkgAppsListShowing.get(mPosition).getIcon();
         }
 
-       
         protected void onPostExecute(Drawable drawable) {
             if (mHolder.position == mPosition) {
             	mHolder.image.setImageDrawable(drawable);
