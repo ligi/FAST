@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -86,7 +87,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                 }
             }));
 
-        /*
+        if (hasShortCutPermission())
         fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new Runnable() {
             @Override
             public void run () {
@@ -109,8 +110,6 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                 context.sendBroadcast(create_shortcut_intent);
             }
         }));
-        */
-
 
         CharSequence[] items = new CharSequence[fkt_map.size()];
         final Runnable[] item_code = new Runnable[fkt_map.size()];
@@ -167,6 +166,12 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             intent.putExtra(appPkgName, packageName);
         }
         context.startActivity(intent);
+    }
+
+    private boolean hasShortCutPermission() {
+        String permission = "com.android.launcher.permission.INSTALL_SHORTCUT";
+        int res = getContext().checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
     }
 
     private boolean isMarketApp() {

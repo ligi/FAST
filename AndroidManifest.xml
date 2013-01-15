@@ -9,6 +9,8 @@
 
     <!--
     from experiments with shortcut - but dropped this feature for the feature of no needed permission
+    just add this permission and you will have the function - there is code checking for the existence of
+    this permission and adding the function if it is there
 
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     -->
