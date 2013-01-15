@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.internal.view.menu.ActionMenuView.LayoutParams;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.ligi.fast.util.FileHelper;
@@ -163,7 +164,10 @@ public class SearchActivity extends SherlockActivity {
 				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
 						| ActionBar.DISPLAY_SHOW_HOME);
 
+		final LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
 		search_et = new EditText(this);
+		
+		search_et.setLayoutParams(lparams);
 		search_et.setSingleLine();
 		search_et.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		search_et.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
