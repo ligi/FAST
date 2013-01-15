@@ -14,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -81,6 +83,7 @@ public class SearchActivity extends SherlockActivity {
 		mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);		
 		// sync was here
 		
+		
 		if (pkgAppsListTemp.size() == 0)
 			new BaseAppGatherAsyncTask(this) {
 	
@@ -137,6 +140,21 @@ public class SearchActivity extends SherlockActivity {
 		mGridView = (GridView) findViewById(R.id.listView);
 
 		disableOverScoll(mGridView);
+		mGridView.setOnScrollListener(new OnScrollListener(){
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				if(scrollState == OnScrollListener.SCROLL_STATE_IDLE) { // Scrolling stopped
+					mAdapter.setScrolling(false);
+				} else {
+					mAdapter.setScrolling(true);
+				}
+			}
+
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 
         //mGridView.setAdapter(mAdapter);
