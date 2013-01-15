@@ -8,6 +8,8 @@
             android:targetSdkVersion="17"/>
 
     <!--
+    from experiments with shortcut - but dropped this feature for the feature of no needed permission
+
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     -->
 
