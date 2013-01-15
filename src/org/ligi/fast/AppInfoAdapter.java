@@ -50,8 +50,9 @@ public class AppInfoAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+    	ViewHolder holder;
 
-        if (convertView == null || (Boolean) convertView.getTag() == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
+        if (convertView == null || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
 
             LayoutInflater mLayoutInflater = (LayoutInflater) ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -68,12 +69,17 @@ public class AppInfoAdapter extends BaseAdapter {
                     convertView = mLayoutInflater.inflate(R.layout.item, null);
 
             }
-            convertView.setTag(getPrefs().isTextOnlyActive());
+            holder = new ViewHolder();
+            holder.isTextOnlyActive = getPrefs().isTextOnlyActive();
+            holder.text = (TextView) convertView.findViewById(R.id.textView);
+            holder.image = (ImageView) convertView.findViewById(R.id.imageView);
+            convertView.setTag(holder);
         }
 
-        ImageView imageView = (ImageView) convertView
-                .findViewById(R.id.imageView);
-        TextView labelView = (TextView) convertView.findViewById(R.id.textView);
+        holder = (ViewHolder) convertView.getTag();
+        
+        ImageView imageView = holder.image;
+        TextView labelView = holder.text;
         if (imageView != null)
             imageView.setImageDrawable(pkgAppsListShowing.get(position).getIcon());
 
@@ -110,6 +116,12 @@ public class AppInfoAdapter extends BaseAdapter {
         labelView.setText(Html.fromHtml(hightlight_label + "<br/><br/>"));
 
         return convertView;
+    }
+    
+    private static class ViewHolder {
+    	public boolean isTextOnlyActive;
+        public TextView text;
+        public ImageView image;
     }
 
     public void setActQuery(String act_query) {
