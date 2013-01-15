@@ -115,7 +115,7 @@ public class AppInfoAdapter extends BaseAdapter {
         int query_index = label.toLowerCase().indexOf(act_query);
 
         if (act_query.length() == 0) {
-        	labelView.setText(Html.fromHtml(label + "<br/><br/>"));
+        	labelView.setText(label);
         	return convertView;
         }
         
@@ -137,7 +137,7 @@ public class AppInfoAdapter extends BaseAdapter {
                     label.length());
         }
         
-        labelView.setText(Html.fromHtml(hightlight_label + "<br/><br/>"));
+        labelView.setText(Html.fromHtml(hightlight_label));
         return convertView;
     }
     
