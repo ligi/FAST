@@ -25,6 +25,7 @@ public class AppInfoAdapter extends BaseAdapter {
     private List<AppInfo> pkgAppsListAll;
     private List<AppInfo> pkgAppsListShowing;
     private String act_query = "";
+    private String colorString = "";
 
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
         ctx = _ctx;
@@ -35,6 +36,11 @@ public class AppInfoAdapter extends BaseAdapter {
         pkgAppsListAll = new ArrayList<AppInfo>();
         pkgAppsListAll.addAll(_pkgAppsListAll);
         setActQuery(act_query); // to rebuild the showing list
+        
+        int color = (ctx.getResources()
+                .getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
+        
+        colorString = Integer.toHexString(color).toUpperCase().substring(2);
     }
 
     public int getCount() {
@@ -86,35 +92,34 @@ public class AppInfoAdapter extends BaseAdapter {
         labelView.setMaxLines(getPrefs().getMaxLines());
 
         String label = pkgAppsListShowing.get(position).getLabel();
-
+        String hightlight_label = label;
+        
         int query_index = label.toLowerCase().indexOf(act_query);
 
-        int color = (ctx.getResources()
-                .getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
-
-        String hightlight_label = label;
-
+        if (act_query.length() == 0) {
+        	labelView.setText(label);
+        	return convertView;
+        }
+        
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = pkgAppsListShowing.get(position).getPackageName();
             label = label.replace("com.google.android.apps.", "");
             query_index = label.toLowerCase().indexOf(act_query);
-        }
-
-        if (query_index != -1) {
+        } 
+        
+        if (query_index != -1 ) {
             hightlight_label = label.substring(0, query_index)
                     + "<font color='#"
-                    + Integer.toHexString(color).toUpperCase().substring(2)
+                    + colorString
                     + "'>"
                     + label.substring(query_index,
                     query_index + act_query.length())
                     + "</font>"
                     + label.substring(query_index + act_query.length(),
                     label.length());
-
         }
-
+        
         labelView.setText(Html.fromHtml(hightlight_label + "<br/><br/>"));
-
         return convertView;
     }
     
