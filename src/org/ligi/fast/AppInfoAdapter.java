@@ -31,10 +31,13 @@ public class AppInfoAdapter extends BaseAdapter {
     private List<AppInfo> pkgAppsListAll;
     private String act_query = "";
     private String colorString = "";
+    
+    private boolean isScrolling = false;
 
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
         ctx = _ctx;
         setAllAppsList(_pkgAppsListAll);
+        
     }
 
     public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
@@ -95,7 +98,7 @@ public class AppInfoAdapter extends BaseAdapter {
         if (imageView != null) {
         	if (position == 1)
     			firstTimeLoading += 1;
-        	if (firstTimeLoading < 3) {
+        	if ( !isScrolling || firstTimeLoading < 3) {
         		
         		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
         		holder.image.setImageDrawable(drawable);
@@ -188,6 +191,10 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public FASTPrefs getPrefs() {
         return ((ApplicationContext) ctx.getApplicationContext()).getPrefs();
+    }
+    
+    public void setScrolling(boolean _scrolling) {
+    	isScrolling = _scrolling;
     }
 
 }
