@@ -1,6 +1,8 @@
 package org.ligi.fast;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
     private Context ctx;
     private List<AppInfo> pkgAppsListAll;
-    private List<AppInfo> pkgAppsListShowing;
+    private static List<AppInfo> pkgAppsListShowing;
     private String act_query = "";
     private String colorString = "";
 
@@ -83,11 +85,13 @@ public class AppInfoAdapter extends BaseAdapter {
         }
 
         holder = (ViewHolder) convertView.getTag();
+        holder.position = position;
         
         ImageView imageView = holder.image;
         TextView labelView = holder.text;
-        if (imageView != null)
-            imageView.setImageDrawable(pkgAppsListShowing.get(position).getIcon());
+        if (imageView != null) {
+        	new IconTask(position, holder).execute(this);
+        }
 
         labelView.setMaxLines(getPrefs().getMaxLines());
 
@@ -97,7 +101,7 @@ public class AppInfoAdapter extends BaseAdapter {
         int query_index = label.toLowerCase().indexOf(act_query);
 
         if (act_query.length() == 0) {
-        	labelView.setText(label);
+        	labelView.setText(Html.fromHtml(label + "<br/><br/>"));
         	return convertView;
         }
         
@@ -124,9 +128,35 @@ public class AppInfoAdapter extends BaseAdapter {
     }
     
     private static class ViewHolder {
+    	int position;
+    	
     	public boolean isTextOnlyActive;
         public TextView text;
         public ImageView image;
+    }
+    
+    private static class IconTask extends AsyncTask<AppInfoAdapter, Void, Drawable> {
+        private int mPosition;
+        private ViewHolder mHolder;
+        private AppInfoAdapter mAdapter;
+
+        public IconTask(int position, ViewHolder holder) {
+            mPosition = position;
+            mHolder = holder;
+        }
+
+     
+        protected Drawable doInBackground(AppInfoAdapter... params) {
+        	mAdapter = params[0];
+			return pkgAppsListShowing.get(mPosition).getIcon();
+        }
+
+       
+        protected void onPostExecute(Drawable drawable) {
+            if (mHolder.position == mPosition) {
+            	mHolder.image.setImageDrawable(drawable);
+            }
+        }
     }
 
     public void setActQuery(String act_query) {
