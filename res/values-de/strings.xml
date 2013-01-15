@@ -18,4 +18,12 @@
     <string name="show_no_icons_pure_text">Keine Bilder - purer Text</string>
     <string name="max_text_lines">Maximale Textzeilen</string>
     <string name="how_much_text_you_want">Wie viel Text darf es sein?</string>
+    <string name="create_shortcut">create shortcut</string>
+    <string name="icon_size">Icongröße</string>
+    <string name="how_big_icons">Wie groß sollen die Icons sein?</string>
+    <string-array name="sizes">
+        <item >klein</item>
+        <item >mittel</item>
+        <item >groß</item>
+    </string-array>
 </resources>
