@@ -20,4 +20,11 @@
     <string name="max_text_lines">Max text-lines</string>
     <string name="how_much_text_you_want">how much text you want?</string>
     <string name="create_shortcut">create shortcut</string>
+    <string name="icon_size">Icon size</string>
+    <string name="how_big_icons">how big should the icons be?</string>
+    <string-array name="sizes">
+        <item >small</item>
+        <item >medium</item>
+        <item >large</item>
+    </string-array>
 </resources>
