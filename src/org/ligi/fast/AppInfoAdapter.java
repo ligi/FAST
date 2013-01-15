@@ -1,6 +1,8 @@
 package org.ligi.fast;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +23,13 @@ import java.util.List;
  */
 public class AppInfoAdapter extends BaseAdapter {
 
+    private static List<AppInfo> pkgAppsListShowing;
+    private static int firstTimeLoading = 0;
+	
     private Context ctx;
     private List<AppInfo> pkgAppsListAll;
-    private List<AppInfo> pkgAppsListShowing;
     private String act_query = "";
+    private String colorString = "";
 
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
         ctx = _ctx;
@@ -35,6 +40,11 @@ public class AppInfoAdapter extends BaseAdapter {
         pkgAppsListAll = new ArrayList<AppInfo>();
         pkgAppsListAll.addAll(_pkgAppsListAll);
         setActQuery(act_query); // to rebuild the showing list
+        
+        int color = (ctx.getResources()
+                .getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
+        
+        colorString = Integer.toHexString(color).toUpperCase().substring(2);
     }
 
     public int getCount() {
@@ -50,8 +60,9 @@ public class AppInfoAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+    	ViewHolder holder;
 
-        if (convertView == null || (Boolean) convertView.getTag() == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
+        if (convertView == null || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
 
             LayoutInflater mLayoutInflater = (LayoutInflater) ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -68,48 +79,92 @@ public class AppInfoAdapter extends BaseAdapter {
                     convertView = mLayoutInflater.inflate(R.layout.item, null);
 
             }
-            convertView.setTag(getPrefs().isTextOnlyActive());
+            holder = new ViewHolder();
+            holder.isTextOnlyActive = getPrefs().isTextOnlyActive();
+            holder.text = (TextView) convertView.findViewById(R.id.textView);
+            holder.image = (ImageView) convertView.findViewById(R.id.imageView);
+            convertView.setTag(holder);
         }
 
-        ImageView imageView = (ImageView) convertView
-                .findViewById(R.id.imageView);
-        TextView labelView = (TextView) convertView.findViewById(R.id.textView);
-        if (imageView != null)
-            imageView.setImageDrawable(pkgAppsListShowing.get(position).getIcon());
+        holder = (ViewHolder) convertView.getTag();
+        holder.position = position;
+        
+        ImageView imageView = holder.image;
+        TextView labelView = holder.text;
+        if (imageView != null) {
+        	if (position == 1)
+    			firstTimeLoading += 1;
+        	if (firstTimeLoading < 3) {
+        		
+        		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
+        		holder.image.setImageDrawable(drawable);
+        	} else {
+        		new IconTask(position, holder).execute(this);
+        	}
+        }
 
         labelView.setMaxLines(getPrefs().getMaxLines());
 
         String label = pkgAppsListShowing.get(position).getLabel();
-
+        String hightlight_label = label;
+        
         int query_index = label.toLowerCase().indexOf(act_query);
 
-        int color = (ctx.getResources()
-                .getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
-
-        String hightlight_label = label;
-
+        if (act_query.length() == 0) {
+        	labelView.setText(Html.fromHtml(label + "<br/><br/>"));
+        	return convertView;
+        }
+        
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = pkgAppsListShowing.get(position).getPackageName();
             label = label.replace("com.google.android.apps.", "");
             query_index = label.toLowerCase().indexOf(act_query);
-        }
-
-        if (query_index != -1) {
+        } 
+        
+        if (query_index != -1 ) {
             hightlight_label = label.substring(0, query_index)
                     + "<font color='#"
-                    + Integer.toHexString(color).toUpperCase().substring(2)
+                    + colorString
                     + "'>"
                     + label.substring(query_index,
                     query_index + act_query.length())
                     + "</font>"
                     + label.substring(query_index + act_query.length(),
                     label.length());
+        }
+        
+        labelView.setText(Html.fromHtml(hightlight_label + "<br/><br/>"));
+        return convertView;
+    }
+    
+    private static class ViewHolder {
+    	int position;
+    	
+    	public boolean isTextOnlyActive;
+        public TextView text;
+        public ImageView image;
+    }
+    
+    private static class IconTask extends AsyncTask<AppInfoAdapter, Void, Drawable> {
+        private int mPosition;
+        private ViewHolder mHolder;
+        private AppInfoAdapter mAdapter;
 
+        public IconTask(int position, ViewHolder holder) {
+            mPosition = position;
+            mHolder = holder;
         }
 
-        labelView.setText(Html.fromHtml(hightlight_label + "<br/><br/>"));
+        protected Drawable doInBackground(AppInfoAdapter... params) {
+        	mAdapter = params[0];
+			return pkgAppsListShowing.get(mPosition).getIcon();
+        }
 
-        return convertView;
+        protected void onPostExecute(Drawable drawable) {
+            if (mHolder.position == mPosition) {
+            	mHolder.image.setImageDrawable(drawable);
+            }
+        }
     }
 
     public void setActQuery(String act_query) {
