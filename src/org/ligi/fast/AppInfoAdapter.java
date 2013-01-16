@@ -25,24 +25,25 @@ import java.util.List;
 public class AppInfoAdapter extends BaseAdapter {
 
     private static List<AppInfo> pkgAppsListShowing;
-    private static int firstTimeLoading = 0;
 	
     private Context ctx;
-    private List<AppInfo> pkgAppsListAll;
+    private static List<AppInfo> pkgAppsListAll;
     private String act_query = "";
     private String colorString = "";
+        
     
-    private boolean isScrolling = false;
-
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
         ctx = _ctx;
         setAllAppsList(_pkgAppsListAll);
-        
     }
 
-    public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
+    @SuppressWarnings("unchecked")
+	public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
         pkgAppsListAll = new ArrayList<AppInfo>();
         pkgAppsListAll.addAll(_pkgAppsListAll);
+        
+        new IconCacheTask().execute(pkgAppsListAll);
+        
         setActQuery(act_query); // to rebuild the showing list
         
         int color = (ctx.getResources()
@@ -66,7 +67,7 @@ public class AppInfoAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
     	ViewHolder holder;
 
-        if (convertView == null || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
+        if (convertView == null) { // || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
 
             LayoutInflater mLayoutInflater = (LayoutInflater) ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -84,27 +85,17 @@ public class AppInfoAdapter extends BaseAdapter {
 
             }
             holder = new ViewHolder();
-            holder.isTextOnlyActive = getPrefs().isTextOnlyActive();
             holder.text = (TextView) convertView.findViewById(R.id.textView);
             holder.image = (ImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(holder);
         }
 
-        holder = (ViewHolder) convertView.getTag();
-        holder.position = position;
-        
+        holder = (ViewHolder) convertView.getTag();        
         ImageView imageView = holder.image;
         TextView labelView = holder.text;
         if (imageView != null) {
-        	if (position == 1)
-    			firstTimeLoading += 1;
-        	if ( !isScrolling || firstTimeLoading < 3) {
-        		
-        		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
-        		holder.image.setImageDrawable(drawable);
-        	} else {
-        		new IconTask(position, holder).execute();
-        	}
+       		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
+       		holder.image.setImageDrawable(drawable);
         }
 
         labelView.setMaxLines(getPrefs().getMaxLines());
@@ -115,7 +106,7 @@ public class AppInfoAdapter extends BaseAdapter {
         int query_index = label.toLowerCase().indexOf(act_query);
 
         if (act_query.length() == 0) {
-        	labelView.setText(Html.fromHtml(label + "<br/><br/>"));
+        	labelView.setText(label);
         	return convertView;
         }
         
@@ -137,35 +128,22 @@ public class AppInfoAdapter extends BaseAdapter {
                     label.length());
         }
         
-        labelView.setText(Html.fromHtml(hightlight_label + "<br/><br/>"));
+        labelView.setText(Html.fromHtml(hightlight_label));
         return convertView;
     }
     
     private static class ViewHolder {
-    	int position;
-    	
-    	public boolean isTextOnlyActive;
         public TextView text;
         public ImageView image;
     }
     
-    private static class IconTask extends AsyncTask<Void, Void, Drawable> {
-        private int mPosition;
-        private ViewHolder mHolder;
-
-        public IconTask(int position, ViewHolder holder) {
-            mPosition = position;
-            mHolder = holder;
-        }
-
-        protected Drawable doInBackground(Void... params) {
-			return pkgAppsListShowing.get(mPosition).getIcon();
-        }
-
-        protected void onPostExecute(Drawable drawable) {
-            if (mHolder.position == mPosition) {
-            	mHolder.image.setImageDrawable(drawable);
+    private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
+        protected Void doInBackground(List<AppInfo>... params) {
+        	List<AppInfo> all = params[0];
+            for( int i = 0; i < all.size(); i++ ) {
+            	all.get(i).getIcon();
             }
+			return null;
         }
     }
 
@@ -191,10 +169,6 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public FASTPrefs getPrefs() {
         return ((ApplicationContext) ctx.getApplicationContext()).getPrefs();
-    }
-    
-    public void setScrolling(boolean _scrolling) {
-    	isScrolling = _scrolling;
     }
 
 }
