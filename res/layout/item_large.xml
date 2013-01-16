@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:maxLines="2" 
-        android:text="a"/>
+        android:paddingBottom="20dp" />
 
 </LinearLayout>
