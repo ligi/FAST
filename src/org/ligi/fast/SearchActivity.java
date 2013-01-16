@@ -189,7 +189,6 @@ public class SearchActivity extends SherlockActivity {
 
 		});
 		getSupportActionBar().setCustomView(search_et);
-		// getSupportActionBar().set
 
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 
