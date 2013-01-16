@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FAST Die Anwendungssuche</string>
+    <string name="app_name">FAST</string>
     <string name="launch_single">Automatische Ausführung</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="connect">Informationen</string>
