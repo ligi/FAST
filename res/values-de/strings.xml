@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FAST</string>
     <string name="launch_single">Automatische Ausführung</string>
-    <string name="menu_settings">Einstellungen</string>
+    <string name="settings">Einstellungen</string>
     <string name="connect">Informationen</string>
     <string name="share">Teilen</string>
     <string name="rate">Bewerten</string>
@@ -25,5 +25,11 @@
         <item >klein</item>
         <item >mittel</item>
         <item >groß</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item >dunkel</item>
+        <item >hell</item>
+        <item >transparent</item>
     </string-array>
 </resources>

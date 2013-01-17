@@ -13,4 +13,6 @@
     <dimen name="cell_size_large">128dp</dimen>
     <dimen name="icon_size_large">94dp</dimen>
 
+    <dimen name="actionbar_height">60dp</dimen>
+    <dimen name="actionbar_icon_size">48dp</dimen>
 </resources>

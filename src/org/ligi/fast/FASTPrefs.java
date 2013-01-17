@@ -21,6 +21,7 @@ public class FASTPrefs {
 	public static final String KEY_TEXTONLY ="textonly";
     public static final String KEY_MAXLINES = "maxlines";
     public static final String KEY_ICONSIZE = "iconsize";
+    public static final String KEY_THEME = "theme";
 	
 	public FASTPrefs(Context ctx) {
 		mSharedPreferences=PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -49,4 +50,9 @@ public class FASTPrefs {
     public String getIconSize() {
         return mSharedPreferences.getString(KEY_ICONSIZE, "medium");
     }
+
+    public String getTheme() {
+        return mSharedPreferences.getString(KEY_THEME, "dark");
+    }
+
 }

@@ -1,5 +1,6 @@
 package org.ligi.fast;
 
+import android.app.Activity;
 import android.app.Application;
 
 public class ApplicationContext extends Application {
@@ -28,5 +29,18 @@ public class ApplicationContext extends Application {
 			mPrefs=new FASTPrefs(this);
 		return mPrefs;
 	}
+
+
+    public void applyTheme(Activity activity) {
+        // dark is default
+        // so we only need to check for light
+        if (getPrefs().getTheme().equals("light"))
+            activity.setTheme(R.style.light);
+
+        // and transparent
+        else if (getPrefs().getTheme().equals("transparent"))
+            activity.setTheme(R.style.transparent);
+
+    }
 		
 }

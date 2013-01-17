@@ -45,10 +45,8 @@ public class AppInfoAdapter extends BaseAdapter {
         new IconCacheTask().execute(pkgAppsListAll);
         
         setActQuery(act_query); // to rebuild the showing list
-        
-        int color = (ctx.getResources()
-                .getColor(com.actionbarsherlock.R.color.abs__holo_blue_light));
-        
+
+        int color = (ctx.getResources().getColor(R.color.divider_color));
         colorString = Integer.toHexString(color).toUpperCase().substring(2);
     }
 

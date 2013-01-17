@@ -2,7 +2,7 @@
     <string name="app_name">FAST App Search Tool</string>
     <string name="icon">Icon</string>
     <string name="launch_single">Launch single</string>
-    <string name="menu_settings">settings</string>
+    <string name="settings">settings</string>
     <string name="connect">connect</string>
     <string name="share">share</string>
     <string name="rate">rate</string>
@@ -22,9 +22,17 @@
     <string name="create_shortcut">create shortcut</string>
     <string name="icon_size">Icon size</string>
     <string name="how_big_icons">how big should the icons be?</string>
+    <string name="theme">Theme</string>
+    <string name="choose_your_look">choose your look</string>
     <string-array name="sizes">
         <item >small</item>
         <item >medium</item>
         <item >large</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item >dark</item>
+        <item >light</item>
+        <item >transparent</item>
     </string-array>
 </resources>
