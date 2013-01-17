@@ -150,7 +150,7 @@ public class SearchActivity extends SherlockActivity {
 		
 		search_et.setLayoutParams(lparams);
 		search_et.setSingleLine();
-		search_et.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		search_et.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 		search_et.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
 		
 		search_et.setOnEditorActionListener(new OnEditorActionListener() {
