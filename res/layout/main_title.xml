@@ -16,7 +16,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:clickable="true"
                 >
             <ImageView
                     android:id="@+id/imageView"
@@ -25,12 +24,14 @@
                     android:layout_gravity="center"
                     android:scaleType="fitEnd"
                     android:src="@drawable/ic_launcher"
+                    android:clickable="false"
 
                     />
 
         </LinearLayout>
         <EditText
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:id="@+id/searchEditText"
@@ -38,6 +39,16 @@
                 android:hint="@string/query_hint"
                 android:paddingLeft="@dimen/padding_large"
 
+                />
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_preferences"
+                android:background="@drawable/hightlight"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="settingsClicked"
                 />
 
     </LinearLayout>

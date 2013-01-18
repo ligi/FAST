@@ -1,12 +1,13 @@
 package org.ligi.fast;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 
 /**
@@ -88,27 +89,17 @@ public class FASTPrefsActivity extends PreferenceActivity {
         themePref.setEntryValues(new CharSequence[]{"dark", "light", "transparent"});
         themePref.setDefaultValue("dark");
 
+        root.addPreference(themePref);
+        root.addPreference(maxLinesPref);
+        root.addPreference(iconSizePref);
         root.addPreference(doLaunchSingleCheckBox);
         root.addPreference(doSearchInPackage);
         root.addPreference(marketForAllApps);
         root.addPreference(textOnly);
-        root.addPreference(maxLinesPref);
-        root.addPreference(iconSizePref);
-        root.addPreference(themePref);
+
+
 
         return root;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // this workaround is needed to apply the theme
-                finish();
-                startActivity(new Intent(this, SearchActivity.class));
-                return true;
-        }
-        return false;
     }
 
     @Override
@@ -118,5 +109,27 @@ public class FASTPrefsActivity extends PreferenceActivity {
         startActivity(new Intent(this, SearchActivity.class));
     }
 
+    public void homePressed(View v) {
+        onBackPressed();
+    }
 
+    public void shareClicked(View v) {
+        String message = "Launch Android Apps really FAST: " + ApplicationContext.getStoreURL4PackageName("id=org.ligi.fast");
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(Intent.createChooser(share, "Share FAST"));
+    }
+
+
+    public void agendaClicked(View v) {
+        String myPlusUrl = "http://plus.google.com/108684152853280523320";
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myPlusUrl)));
+    }
+
+    public void rateClicked(View v) {
+        String myUrl = ApplicationContext.getStoreURL4PackageName(this.getPackageName());
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myUrl)));
+    }
 }

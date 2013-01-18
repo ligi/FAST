@@ -32,4 +32,8 @@
         <item >hell</item>
         <item >transparent</item>
     </string-array>
+
+    <string name="theme">Aussehen</string>
+    <string name="choose_your_look">Wie soll FAST aussehen?</string>
+
 </resources>

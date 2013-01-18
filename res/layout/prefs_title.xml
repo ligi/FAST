@@ -15,8 +15,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clickable="true"
-                android:paddingLeft="@dimen/padding_medium"
+                android:focusable="true"
+                android:background="@drawable/hightlight"
+                android:onClick="homePressed"
                 >
+
+            <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/back"
+
+                    />
             <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="@dimen/actionbar_icon_size"
@@ -24,13 +36,14 @@
                     android:layout_gravity="center"
                     android:scaleType="fitEnd"
                     android:src="@drawable/ic_launcher"
-                    android:paddingLeft="@dimen/padding_medium"
+
                     />
 
         </LinearLayout>
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:textSize="24sp"
                 android:text="@string/settings"
@@ -38,6 +51,37 @@
                 android:paddingLeft="@dimen/padding_large"
                 />
 
+
+        <ImageView
+                android:layout_width="@dimen/actionbar_height"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_share"
+                android:background="@drawable/hightlight"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="shareClicked"
+                />
+
+        <ImageView
+                android:layout_width="@dimen/actionbar_height"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_agenda"
+                android:background="@drawable/hightlight"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="agendaClicked"
+                />
+
+
+        <ImageView
+                android:layout_width="@dimen/actionbar_height"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView1" android:src="@android:drawable/btn_star_big_off"
+                android:background="@drawable/hightlight"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="rateClicked"
+                />
     </LinearLayout>
 
 

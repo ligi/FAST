@@ -1,5 +1,7 @@
 <resources>
     <color name="divider_color">#ff33b6ea</color>
+    <color name="highlight_color">#6633b5e5</color>
     <color name="semitransparent">#CC000000</color>
+
 </resources>
 

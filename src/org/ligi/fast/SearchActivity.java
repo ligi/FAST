@@ -253,47 +253,6 @@ public class SearchActivity extends Activity {
             gridView.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_search, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                finish();
-                startActivity(new Intent(this, FASTPrefsActivity.class));
-                return true;
-
-            case R.id.menu_rate:
-                String myUrl = ApplicationContext.getStoreURL4PackageName(this.getPackageName());
-
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myUrl)));
-                return true;
-
-            case R.id.menu_share:
-                String message = "Launch Android Apps really FAST: " + ApplicationContext.getStoreURL4PackageName("id=org.ligi.fast");
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, message);
-
-                startActivity(Intent.createChooser(share, "Share FAST"));
-                return true;
-
-            case R.id.menu_connect:
-                String myPlusUrl = "http://plus.google.com/108684152853280523320";
-
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myPlusUrl)));
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -332,5 +291,11 @@ public class SearchActivity extends Activity {
     public FASTPrefs getPrefs() {
         return ((ApplicationContext) getApplicationContext()).getPrefs();
     }
+
+    public void settingsClicked(View v) {
+        finish();
+        startActivity(new Intent(this, FASTPrefsActivity.class));
+    }
+
 
 }
