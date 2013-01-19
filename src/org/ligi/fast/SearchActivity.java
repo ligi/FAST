@@ -137,7 +137,6 @@ public class SearchActivity extends Activity {
         }
 
         mGridView = (GridView) findViewById(R.id.listView);
-        disableOverScoll(mGridView);
 
         /*getSupportActionBar().setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
@@ -244,13 +243,6 @@ public class SearchActivity extends Activity {
 
             }
         }
-    }
-
-    @TargetApi(9)
-    // we do a check for SDK Version here - all good
-    private void disableOverScoll(GridView gridView) {
-        if (Build.VERSION.SDK_INT >= 9)
-            gridView.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override
