@@ -293,8 +293,8 @@ public class SearchActivity extends Activity {
     }
 
     public void settingsClicked(View v) {
-        finish();
         startActivity(new Intent(this, FASTPrefsActivity.class));
+        finish();
     }
 
 
