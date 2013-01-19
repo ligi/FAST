@@ -15,4 +15,5 @@
 
     <dimen name="actionbar_height">60dp</dimen>
     <dimen name="actionbar_icon_size">48dp</dimen>
+    <dimen name="actionbar_icon_padding">5dp</dimen>
 </resources>

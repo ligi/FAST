@@ -60,6 +60,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="shareClicked"
+                android:padding="@dimen/actionbar_icon_padding"
                 />
 
         <ImageView
@@ -70,6 +71,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="agendaClicked"
+                android:padding="@dimen/actionbar_icon_padding"
                 />
 
 
@@ -81,6 +83,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="rateClicked"
+                android:padding="@dimen/actionbar_icon_padding"
                 />
     </LinearLayout>
 

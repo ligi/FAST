@@ -48,6 +48,7 @@
                 android:background="@drawable/hightlight"
                 android:clickable="true"
                 android:focusable="true"
+                android:padding="@dimen/actionbar_icon_padding"
                 android:onClick="settingsClicked"
                 />
 
