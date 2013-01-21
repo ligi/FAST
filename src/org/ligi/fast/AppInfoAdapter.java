@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,31 +20,37 @@ import java.util.List;
  *
  * @author Marcus -ligi- Büschleb
  *         jfreax
- *
+ *         <p/>
  *         License GPLv3
  */
 public class AppInfoAdapter extends BaseAdapter {
 
     private static List<AppInfo> pkgAppsListShowing;
-	
-    private Context ctx;
     private static List<AppInfo> pkgAppsListAll;
+    private Context ctx;
     private String act_query = "";
     private String colorString = "";
-        
-    
+    private SortMode sort_mode = SortMode.UNSORTED;
+
+    private enum SortMode {
+        UNSORTED, ALPHABETICAL
+    }
+
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
         ctx = _ctx;
         setAllAppsList(_pkgAppsListAll);
     }
 
     @SuppressWarnings("unchecked")
-	public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
+    public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
         pkgAppsListAll = new ArrayList<AppInfo>();
         pkgAppsListAll.addAll(_pkgAppsListAll);
-        
+
+        if (sort_mode == SortMode.ALPHABETICAL)
+            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
+
         new IconCacheTask().execute(pkgAppsListAll);
-        
+
         setActQuery(act_query); // to rebuild the showing list
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
@@ -63,7 +70,7 @@ public class AppInfoAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-    	ViewHolder holder;
+        ViewHolder holder;
 
         if (convertView == null) { // || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
 
@@ -88,33 +95,33 @@ public class AppInfoAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
 
-        holder = (ViewHolder) convertView.getTag();        
+        holder = (ViewHolder) convertView.getTag();
         ImageView imageView = holder.image;
         TextView labelView = holder.text;
         if (imageView != null) {
-       		Drawable drawable = pkgAppsListShowing.get(position).getIcon();
-       		holder.image.setImageDrawable(drawable);
+            Drawable drawable = pkgAppsListShowing.get(position).getIcon();
+            holder.image.setImageDrawable(drawable);
         }
 
         labelView.setMaxLines(getPrefs().getMaxLines());
 
         String label = pkgAppsListShowing.get(position).getLabel();
         String hightlight_label = label;
-        
+
         int query_index = label.toLowerCase().indexOf(act_query);
 
         if (act_query.length() == 0) {
-        	labelView.setText(label);
-        	return convertView;
+            labelView.setText(label);
+            return convertView;
         }
-        
+
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = pkgAppsListShowing.get(position).getPackageName();
             label = label.replace("com.google.android.apps.", "");
             query_index = label.toLowerCase().indexOf(act_query);
-        } 
-        
-        if (query_index != -1 ) {
+        }
+
+        if (query_index != -1) {
             hightlight_label = label.substring(0, query_index)
                     + "<font color='#"
                     + colorString
@@ -125,24 +132,9 @@ public class AppInfoAdapter extends BaseAdapter {
                     + label.substring(query_index + act_query.length(),
                     label.length());
         }
-        
+
         labelView.setText(Html.fromHtml(hightlight_label));
         return convertView;
-    }
-    
-    private static class ViewHolder {
-        public TextView text;
-        public ImageView image;
-    }
-    
-    private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
-        protected Void doInBackground(List<AppInfo>... params) {
-        	List<AppInfo> all = params[0];
-            for( int i = 0; i < all.size(); i++ ) {
-            	all.get(i).getIcon();
-            }
-			return null;
-        }
     }
 
     public void setActQuery(String act_query) {
@@ -167,6 +159,34 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public FASTPrefs getPrefs() {
         return ((ApplicationContext) ctx.getApplicationContext()).getPrefs();
+    }
+
+    private static class ViewHolder {
+        public TextView text;
+        public ImageView image;
+    }
+
+    private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
+        protected Void doInBackground(List<AppInfo>... params) {
+            List<AppInfo> all = params[0];
+            for (int i = 0; i < all.size(); i++) {
+                all.get(i).getIcon();
+            }
+            return null;
+        }
+    }
+
+    class AppInfoSortComperator implements Comparator<AppInfo> {
+
+        @Override
+        public int compare(AppInfo lhs, AppInfo rhs) {
+            return lhs.getLabel().compareTo(rhs.getLabel());
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return false;  //To change body of implemented methods use File | Settings | File Templates.
+        }
     }
 
 }
