@@ -32,7 +32,7 @@ public class AppInfoAdapter extends BaseAdapter {
     private String colorString = "";
     private SortMode sort_mode = SortMode.UNSORTED;
 
-    private enum SortMode {
+    public enum SortMode {
         UNSORTED, ALPHABETICAL
     }
 
@@ -46,15 +46,18 @@ public class AppInfoAdapter extends BaseAdapter {
         pkgAppsListAll = new ArrayList<AppInfo>();
         pkgAppsListAll.addAll(_pkgAppsListAll);
 
-        if (sort_mode == SortMode.ALPHABETICAL)
-            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
-
         new IconCacheTask().execute(pkgAppsListAll);
 
         setActQuery(act_query); // to rebuild the showing list
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
         colorString = Integer.toHexString(color).toUpperCase().substring(2);
+    }
+
+    public void setSortMode(SortMode mode) {
+        sort_mode = mode;
+        if (sort_mode.equals(SortMode.ALPHABETICAL))
+            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
     }
 
     public int getCount() {

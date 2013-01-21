@@ -1,18 +1,16 @@
 package org.ligi.fast;
 
-import android.annotation.TargetApi;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -80,8 +78,11 @@ public class SearchActivity extends Activity {
         }
 
         mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
-        // sync was here
 
+        if (getPrefs().getSortOrder().startsWith("alpha"))
+            mAdapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
+
+        // sync was here
 
         if (pkgAppsListTemp.size() == 0)
             new BaseAppGatherAsyncTask(this) {
@@ -183,7 +184,7 @@ public class SearchActivity extends Activity {
             }
 
         });
-       // getSupportActionBar().setCustomView(search_et);
+        // getSupportActionBar().setCustomView(search_et);
 
         mGridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -248,7 +249,6 @@ public class SearchActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
 
 
         search_et.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore

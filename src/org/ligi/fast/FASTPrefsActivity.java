@@ -81,6 +81,14 @@ public class FASTPrefsActivity extends PreferenceActivity {
         iconSizePref.setEntryValues(new CharSequence[]{"small", "medium", "large"});
         iconSizePref.setDefaultValue("medium");
 
+        ListPreference sortPref = new ListPreference(this);
+        sortPref.setKey(FASTPrefs.KEY_SORT);
+        sortPref.setTitle(getString(R.string.sort));
+        sortPref.setSummary(getString(R.string.sort_decr));
+        sortPref.setEntries(R.array.sort_orders);
+        sortPref.setEntryValues(new CharSequence[]{"unsorted", "alpha"});
+        sortPref.setDefaultValue("unsorted");
+
         ListPreference themePref = new ListPreference(this);
         themePref.setKey(FASTPrefs.KEY_THEME);
         themePref.setTitle(R.string.theme);
@@ -90,14 +98,13 @@ public class FASTPrefsActivity extends PreferenceActivity {
         themePref.setDefaultValue("dark");
 
         root.addPreference(themePref);
-        root.addPreference(maxLinesPref);
         root.addPreference(iconSizePref);
+        root.addPreference(maxLinesPref);
         root.addPreference(doLaunchSingleCheckBox);
         root.addPreference(doSearchInPackage);
         root.addPreference(marketForAllApps);
         root.addPreference(textOnly);
-
-
+        root.addPreference(sortPref);
 
         return root;
     }

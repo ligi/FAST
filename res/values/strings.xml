@@ -24,15 +24,22 @@
     <string name="how_big_icons">how big should the icons be?</string>
     <string name="theme">Theme</string>
     <string name="choose_your_look">choose your look</string>
+    <string name="sort">Sort</string>
+    <string name="sort_decr">how should the apps be sorted?</string>
     <string-array name="sizes">
-        <item >small</item>
-        <item >medium</item>
-        <item >large</item>
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
     </string-array>
 
     <string-array name="themes">
-        <item >dark</item>
-        <item >light</item>
-        <item >transparent</item>
+        <item>dark</item>
+        <item>light</item>
+        <item>transparent</item>
+    </string-array>
+
+    <string-array name="sort_orders">
+        <item>unsorted</item>
+        <item>alphabetical</item>
     </string-array>
 </resources>
