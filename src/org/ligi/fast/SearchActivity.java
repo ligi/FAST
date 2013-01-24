@@ -49,10 +49,10 @@ public class SearchActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ((ApplicationContext) getApplicationContext()).applyTheme(this);
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
-        ((ApplicationContext) getApplicationContext()).applyTheme(this);
 
         setContentView(R.layout.activity_search);
 
@@ -71,7 +71,7 @@ public class SearchActivity extends Activity {
                 if (line.length() > 0)
                     pkgAppsListTemp.add(new AppInfo(this, line));
             }
-            Log.i("FAST", "act index  " + old_index);
+            Log.i("FAST", "act index " + old_index);
 
         } catch (Exception e) {
 
