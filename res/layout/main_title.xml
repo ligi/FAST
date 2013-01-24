@@ -39,6 +39,7 @@
                 android:hint="@string/query_hint"
                 android:paddingLeft="@dimen/padding_large"
 
+                android:textColor="?android:textColor"
                 />
 
         <ImageView
