@@ -94,7 +94,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         themePref.setTitle(R.string.theme);
         themePref.setSummary(R.string.choose_your_look);
         themePref.setEntries(R.array.themes);
-        themePref.setEntryValues(new CharSequence[]{"dark", "light", "transparent"});
+        themePref.setEntryValues(new CharSequence[]{"dark", "light", "transparent", "transparent_light"});
         themePref.setDefaultValue("dark");
 
         root.addPreference(themePref);

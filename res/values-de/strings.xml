@@ -30,7 +30,8 @@
     <string-array name="themes">
         <item>dunkel</item>
         <item>hell</item>
-        <item>transparent</item>
+        <item>transparent hell</item>
+        <item>transparent dunkel</item>
     </string-array>
 
     <string name="theme">Aussehen</string>
