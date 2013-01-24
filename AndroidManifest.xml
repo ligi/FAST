@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.ligi.fast"
-          android:versionCode="30"
-          android:versionName="3.0">
+          android:versionCode="31"
+          android:versionName="3.1">
 
     <uses-sdk
             android:minSdkVersion="5"
@@ -51,9 +51,9 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.HOME"/>
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
     </application>
