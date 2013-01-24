@@ -20,11 +20,19 @@
     </style>
 
     <style
-            name="transparent"
+            name="transparent_dark"
             parent="@android:style/Theme.Wallpaper">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style
+            name="transparent_light"
+            parent="@android:style/Theme.Wallpaper">
+        <item name="android:windowTitleSize">@dimen/actionbar_height</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="WindowTitleBackground">
