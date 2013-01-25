@@ -7,7 +7,7 @@
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
 
 
-        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
 
         <item name="android:windowActionBar">false</item>
     </style>
@@ -18,7 +18,7 @@
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
 
-        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
         <item name="android:windowActionBar">false</item>
     </style>
 
@@ -27,7 +27,7 @@
             parent="@android:style/Theme.Wallpaper">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
-        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:windowActionBar">false</item>
     </style>
 
@@ -37,7 +37,7 @@
             parent="@android:style/Theme.Wallpaper">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
-        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
         <item name="android:windowActionBar">false</item>
     </style>
 </resources>
