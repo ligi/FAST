@@ -51,38 +51,14 @@
                 android:paddingLeft="@dimen/padding_large"
                 />
 
-
         <ImageView
                 android:layout_width="@dimen/actionbar_height"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_share"
+                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_help"
                 android:background="@drawable/hightlight"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="shareClicked"
-                android:padding="@dimen/actionbar_icon_padding"
-                />
-
-        <ImageView
-                android:layout_width="@dimen/actionbar_height"
-                android:layout_height="fill_parent"
-                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_agenda"
-                android:background="@drawable/hightlight"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="agendaClicked"
-                android:padding="@dimen/actionbar_icon_padding"
-                />
-
-
-        <ImageView
-                android:layout_width="@dimen/actionbar_height"
-                android:layout_height="fill_parent"
-                android:id="@+id/imageView1" android:src="@android:drawable/btn_star_big_off"
-                android:background="@drawable/hightlight"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="rateClicked"
+                android:onClick="helpClicked"
                 android:padding="@dimen/actionbar_icon_padding"
                 />
     </LinearLayout>

@@ -290,4 +290,8 @@ public class SearchActivity extends Activity {
     }
 
 
+    public void helpClicked(View v) {
+        HelpDialog.show(this);
+    }
+
 }

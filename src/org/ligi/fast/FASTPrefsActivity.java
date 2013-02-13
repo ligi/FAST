@@ -1,7 +1,6 @@
 package org.ligi.fast;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -129,14 +128,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         startActivity(Intent.createChooser(share, "Share FAST"));
     }
 
-
-    public void agendaClicked(View v) {
-        String myPlusUrl = "http://plus.google.com/108684152853280523320";
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myPlusUrl)));
-    }
-
-    public void rateClicked(View v) {
-        String myUrl = ApplicationContext.getStoreURL4PackageName(this.getPackageName());
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myUrl)));
+    public void helpClicked(View v) {
+        HelpDialog.show(this);
     }
 }

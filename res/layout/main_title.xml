@@ -53,6 +53,17 @@
                 android:onClick="settingsClicked"
                 />
 
+        <ImageView
+                android:layout_width="@dimen/actionbar_height"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_help"
+                android:background="@drawable/hightlight"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/actionbar_icon_padding"
+                android:onClick="helpClicked"
+                />
+
     </LinearLayout>
 
 
