@@ -87,29 +87,45 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                 }
             }));
 
-        if (hasShortCutPermission())
-        fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new Runnable() {
+        fkt_map.add(new LabelAndCode(context.getString(R.string.share), new Runnable() {
             @Override
-            public void run () {
-                Intent shortcutIntent = new Intent();
-                shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
-                shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
-                Intent create_shortcut_intent = new Intent();
-                create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                // Sets the custom shortcut's title
-                create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
+            public void run() {
+                try {
+                    String message = "check out this app: " + ApplicationContext.getStoreURL4PackageName(app_info.getPackageName());
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("text/plain");
+                    share.putExtra(Intent.EXTRA_TEXT, message);
 
-                BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
-                Bitmap newbit;
-                newbit = bd.getBitmap();
-                create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newbit);
+                    context.startActivity(Intent.createChooser(share, "Share FAST"));
+                } catch (android.content.ActivityNotFoundException anfe) {
 
-                create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                context.sendBroadcast(create_shortcut_intent);
+                }
             }
         }));
+
+        if (hasShortCutPermission())
+            fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new Runnable() {
+                @Override
+                public void run() {
+                    Intent shortcutIntent = new Intent();
+                    shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
+                    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
+                    Intent create_shortcut_intent = new Intent();
+                    create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+                    // Sets the custom shortcut's title
+                    create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
+
+                    BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
+                    Bitmap newbit;
+                    newbit = bd.getBitmap();
+                    create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newbit);
+
+                    create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                    context.sendBroadcast(create_shortcut_intent);
+                }
+            }));
 
         CharSequence[] items = new CharSequence[fkt_map.size()];
         final Runnable[] item_code = new Runnable[fkt_map.size()];

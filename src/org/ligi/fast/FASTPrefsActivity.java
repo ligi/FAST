@@ -119,15 +119,6 @@ public class FASTPrefsActivity extends PreferenceActivity {
         onBackPressed();
     }
 
-    public void shareClicked(View v) {
-        String message = "Launch Android Apps really FAST: " + ApplicationContext.getStoreURL4PackageName("id=org.ligi.fast");
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_TEXT, message);
-
-        startActivity(Intent.createChooser(share, "Share FAST"));
-    }
-
     public void helpClicked(View v) {
         HelpDialog.show(this);
     }
