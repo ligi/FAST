@@ -46,6 +46,7 @@ public class SearchActivity extends Activity {
     private String old_search = "";
     private EditText search_et;
     private GridView mGridView;
+    private String not_load_reason;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,6 @@ public class SearchActivity extends Activity {
 
         index_file = new File(getCacheDir(), "index2.csv");
 
-
         try {
             old_index = FileHelper.file2String(index_file);
             String[] lines = old_index.split("\n");
@@ -74,7 +74,7 @@ public class SearchActivity extends Activity {
             Log.i("FAST", "act index " + old_index);
 
         } catch (Exception e) {
-
+            not_load_reason=e.toString();
         }
 
         mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
@@ -92,6 +92,7 @@ public class SearchActivity extends Activity {
                 @Override
                 protected void onPreExecute() {
                     mLoadingDialog = new LoadingDialog(SearchActivity.this);
+                    mLoadingDialog.setTitle("Nolo" + not_load_reason);
                     mLoadingDialog.show();
                 }
 
