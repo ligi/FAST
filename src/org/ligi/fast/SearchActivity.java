@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import org.ligi.fast.util.FileHelper;
+import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,6 +52,7 @@ public class SearchActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ((ApplicationContext) getApplicationContext()).applyTheme(this);
+
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -215,6 +217,7 @@ public class SearchActivity extends Activity {
 
         });
 
+        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de",this);
 
     }
 

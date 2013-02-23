@@ -2,6 +2,7 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.app.Application;
+import org.ligi.tracedroid.TraceDroid;
 
 public class ApplicationContext extends Application {
 
@@ -30,6 +31,12 @@ public class ApplicationContext extends Application {
         return mPrefs;
     }
 
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        TraceDroid.init(this);
+    }
 
     public void applyTheme(Activity activity) {
         // dark is default
