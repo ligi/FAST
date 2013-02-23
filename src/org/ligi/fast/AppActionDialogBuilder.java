@@ -185,17 +185,24 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
     }
 
     private boolean hasShortCutPermission() {
-        String permission = "com.android.launcher.permission.INSTALL_SHORTCUT";
-        int res = getContext().checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
+        try {
+            String permission = "com.android.launcher.permission.INSTALL_SHORTCUT";
+            int res = getContext().checkCallingOrSelfPermission(permission);
+            return (res == PackageManager.PERMISSION_GRANTED);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isMarketApp() {
-        if (app_info.getPackageName() == null)
-
+        try {
+            if (app_info.getPackageName() == null)
+                return false;
+            String installer_pkg = context.getPackageManager().getInstallerPackageName(app_info.getPackageName());
+            return installer_pkg != null && installer_pkg.startsWith(ApplicationContext.STORE_PNAME);
+        } catch (Exception e) {
             return false;
-        String installer_pkg = context.getPackageManager().getInstallerPackageName(app_info.getPackageName());
-        return installer_pkg != null && installer_pkg.startsWith(ApplicationContext.STORE_PNAME);
+        }
     }
 
     private class LabelAndCode {
