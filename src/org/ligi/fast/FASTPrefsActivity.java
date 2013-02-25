@@ -103,8 +103,8 @@ public class FASTPrefsActivity extends PreferenceActivity {
 
         CheckBoxPreference convertUmlauts = new CheckBoxPreference(this);
         convertUmlauts.setKey(FASTPrefs.KEY_UMLAUTCONVERT);
-        convertUmlauts.setTitle("Convert umlauts");
-        convertUmlauts.setSummary("ae to ä; oe to ö; ss to ß; ue to ü");
+        convertUmlauts.setTitle(getString(R.string.convert_umlauts));
+        convertUmlauts.setSummary(getString(R.string.convert_umlauts_descr));
         convertUmlauts.setDefaultValue(false);
 
 

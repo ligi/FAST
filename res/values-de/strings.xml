@@ -38,6 +38,8 @@
     <string name="choose_your_look">Wie soll FAST aussehen?</string>
     <string name="sort">Sortierung</string>
     <string name="sort_decr">wie sollen die Anwendungen sortiert sein?</string>
+    <string name="convert_umlauts">Umlaute wandeln</string>
+    <string name="convert_umlauts_descr">ae zu ä; oe zu ö; ss zu ß; ue zu ü</string>
 
     <string-array name="sort_orders">
         <item>unsortiert</item>

@@ -40,6 +40,8 @@
         If you like the App you could think about sharing it. Just type in FAST - long click and select share. Also <a href="https://play.google.com/store/apps/details?id=org.ligi.fast%3Dfast%26utm_medium%3Dplay">rating this App</a> would be nice.
         ]]>
     </string>
+    <string name="convert_umlauts">Convert umlauts</string>
+    <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
     <string-array name="sizes">
         <item>small</item>
         <item>medium</item>
