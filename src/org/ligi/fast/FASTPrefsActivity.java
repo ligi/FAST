@@ -2,10 +2,7 @@ package org.ligi.fast;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
+import android.preference.*;
 import android.view.View;
 import android.view.Window;
 
@@ -95,6 +92,14 @@ public class FASTPrefsActivity extends PreferenceActivity {
         themePref.setEntries(R.array.themes);
         themePref.setEntryValues(new CharSequence[]{"dark", "light", "transparent", "transparent_light"});
         themePref.setDefaultValue("dark");
+        themePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                finish();
+                startActivity(getIntent());
+                return true;
+            }
+        });
 
         CheckBoxPreference convertUmlauts = new CheckBoxPreference(this);
         convertUmlauts.setKey(FASTPrefs.KEY_UMLAUTCONVERT);
