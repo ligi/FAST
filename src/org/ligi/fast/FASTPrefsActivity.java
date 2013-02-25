@@ -96,6 +96,13 @@ public class FASTPrefsActivity extends PreferenceActivity {
         themePref.setEntryValues(new CharSequence[]{"dark", "light", "transparent", "transparent_light"});
         themePref.setDefaultValue("dark");
 
+        CheckBoxPreference convertUmlauts = new CheckBoxPreference(this);
+        convertUmlauts.setKey(FASTPrefs.KEY_UMLAUTCONVERT);
+        convertUmlauts.setTitle("Convert umlauts");
+        convertUmlauts.setSummary("ae to ä; oe to ö; ss to ß; ue to ü");
+        convertUmlauts.setDefaultValue(false);
+
+
         root.addPreference(themePref);
         root.addPreference(iconSizePref);
         root.addPreference(maxLinesPref);
@@ -104,6 +111,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         root.addPreference(marketForAllApps);
         root.addPreference(textOnly);
         root.addPreference(sortPref);
+        root.addPreference(convertUmlauts);
 
         return root;
     }

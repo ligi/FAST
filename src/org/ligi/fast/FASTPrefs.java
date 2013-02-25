@@ -22,6 +22,7 @@ public class FASTPrefs {
     public static final String KEY_TEXTONLY = "textonly";
     public static final String KEY_MAXLINES = "maxlines";
     public static final String KEY_ICONSIZE = "iconsize";
+    public static final String KEY_UMLAUTCONVERT = "convert_umlauts";
     public static final String KEY_THEME = "theme";
     public static final String KEY_SORT = "sort";
 
@@ -35,6 +36,10 @@ public class FASTPrefs {
 
     public boolean isSearchPackageActivated() {
         return mSharedPreferences.getBoolean(KEY_SEARCHPKG, false);
+    }
+
+    public boolean isUmlautConvertActivated() {
+        return mSharedPreferences.getBoolean(KEY_UMLAUTCONVERT, false);
     }
 
     public boolean isMarketForAllActivated() {

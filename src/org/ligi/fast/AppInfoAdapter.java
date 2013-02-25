@@ -141,6 +141,9 @@ public class AppInfoAdapter extends BaseAdapter {
     }
 
     public void setActQuery(String act_query) {
+        if (getPrefs().isUmlautConvertActivated())
+            act_query = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
+
         this.act_query = act_query;
 
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
