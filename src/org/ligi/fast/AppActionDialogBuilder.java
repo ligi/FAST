@@ -15,9 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import java.util.ArrayList;
 
@@ -150,18 +147,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
                         });
 
-        CheckBox cb = new CheckBox(context);
-        cb.setText("Launch if it is the only one left");
-        cb.setOnCheckedChangeListener(new
 
-                                              OnCheckedChangeListener() {
-
-                                                  @Override
-                                                  public void onCheckedChanged(CompoundButton buttonView,
-                                                                               boolean isChecked) {
-                                                  }
-
-                                              });
     }
 
     public static void showInstalledAppDetails(Context context,
