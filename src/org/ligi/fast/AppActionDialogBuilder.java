@@ -133,20 +133,12 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         }
 
 
-        setItems(
-                items,
-                new
-
-                        OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                item_code[which].run();
-
-                            }
-
-                        });
-
+        setItems(items, new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                item_code[which].run();
+            }
+        });
 
     }
 
