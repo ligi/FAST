@@ -165,7 +165,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
     private boolean hasShortCutPermission() {
         try {
             String permission = "com.android.launcher.permission.INSTALL_SHORTCUT";
-            int res = getContext().checkCallingOrSelfPermission(permission);
+            int res = context.checkCallingOrSelfPermission(permission);
             return (res == PackageManager.PERMISSION_GRANTED);
         } catch (Exception e) {
             return false;
