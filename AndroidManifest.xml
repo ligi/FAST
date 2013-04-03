@@ -30,7 +30,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
             android:name=".ApplicationContext"
-            android:theme="@style/dark">
+            android:theme="@style/transparent_dark">
 
         <activity
                 android:name=".FASTPrefsActivity"/>
