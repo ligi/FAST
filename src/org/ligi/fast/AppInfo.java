@@ -51,7 +51,7 @@ public class AppInfo {
 		this(_ctx);
 		
 		// init attributes
-		label = ri.loadLabel(ctx.getPackageManager()).toString();
+		label = ri.loadLabel(ctx.getPackageManager()).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
 		package_name = ri.activityInfo.packageName;
 		activity_name = ri.activityInfo.name;
 		call_count = 0;
