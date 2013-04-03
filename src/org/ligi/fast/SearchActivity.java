@@ -48,7 +48,8 @@ public class SearchActivity extends Activity {
     private EditText search_et;
     private GridView mGridView;
     private String not_load_reason;
-
+    private boolean retry=true;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ((ApplicationContext) getApplicationContext()).applyTheme(this);
@@ -129,12 +130,13 @@ public class SearchActivity extends Activity {
                     super.onProgressUpdate(values);
                     pkgAppsListTemp.add(values[0]);
                     new_index += values[0].toCacheString() + "\n";
+                    retry=false;
                 }
 
                 @Override
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
-                    process_new_index();
+                    if (retry==false) process_new_index();
                 }
 
             }.execute();
