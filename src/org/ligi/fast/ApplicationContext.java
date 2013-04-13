@@ -42,7 +42,7 @@ public class ApplicationContext extends Application {
 
         if (getPrefs().getTheme().equals("light"))
             activity.setTheme(R.style.light);
-	else if (getPrefs().getTheme().equals("dark"))
+        else if (getPrefs().getTheme().equals("dark"))
             activity.setTheme(R.style.dark);
             // and transparent dark/light
         else if (getPrefs().getTheme().equals("transparent"))

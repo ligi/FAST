@@ -8,117 +8,122 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 /**
  * Class to Retrieve / Store Application Infos needed by this App
- * 
+ *
  * @author Marcus -ligi- Büschleb
- * 
- * License GPLv3
+ *         <p/>
+ *         License GPLv3
  */
 public class AppInfo {
-	private String label;
-	private String package_name;
-	private String activity_name;
-	private String hash;
-	private int call_count;
-	private Context ctx;
-	private BitmapDrawable icon; // caching the Icon
-	
-	private AppInfo(Context _ctx) {
-		ctx = _ctx;
-	}
+    private String label;
+    private String package_name;
+    private String activity_name;
+    private String hash;
+    private int call_count;
+    private Context ctx;
+    private BitmapDrawable icon; // caching the Icon
 
-	public AppInfo(Context _ctx, String cache_str) {
-		this(_ctx);
+    private AppInfo(Context _ctx) {
+        ctx = _ctx;
+    }
 
-		String[] app_info_str_split = cache_str.split(";;");
+    public AppInfo(Context _ctx, String cache_str) {
+        this(_ctx);
 
-		hash= app_info_str_split[0];
-		label = app_info_str_split[1];
-		package_name = app_info_str_split[2];
-		activity_name = app_info_str_split[3];
-		call_count = Integer.parseInt(app_info_str_split[4]);
-	}
+        String[] app_info_str_split = cache_str.split(";;");
 
-	public String toCacheString() {
-		return hash+";;"+label+";;" +package_name+";;"+activity_name+";;"+call_count;
-	}
-	
-	public AppInfo(Context _ctx, ResolveInfo ri) {
-		this(_ctx);
-		
-		// init attributes
-		label = ri.loadLabel(ctx.getPackageManager()).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
-		package_name = ri.activityInfo.packageName;
-		activity_name = ri.activityInfo.name;
-		call_count = 0;
-		
-		// calculate the hash
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(package_name.getBytes());
-			md.update(activity_name.getBytes());
-			byte[] messageDigest = md.digest();
+        hash = app_info_str_split[0];
+        label = app_info_str_split[1];
+        package_name = app_info_str_split[2];
+        activity_name = app_info_str_split[3];
+        call_count = Integer.parseInt(app_info_str_split[4]);
+    }
 
-			StringBuffer hexString = new StringBuffer();
-			for (int i = 0; i < messageDigest.length; i++)
-				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-			hash = hexString.toString();
+    public String toCacheString() {
+        return hash + ";;" + label + ";;" + package_name + ";;" + activity_name + ";;" + call_count;
+    }
 
-		} catch (NoSuchAlgorithmException e) {
-			Log.w("FastAppSearchTool",
-					"MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
-			hash = package_name; // fallback
-		}
+    public AppInfo(Context _ctx, ResolveInfo ri) {
+        this(_ctx);
 
-		// cache the Icon
-		if (!getIconCacheFile().exists()) {
-			BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx
-					.getPackageManager());
-			try {
-				getIconCacheFile().createNewFile();
-				FileOutputStream fos = new FileOutputStream(getIconCacheFile());
-				icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-				fos.close();
-			} catch (IOException e) {
-				Log.w("FastAppSearchTool", " Could not cache the Icon");
-			}
-		}
-	}
+        // init attributes
+        label = ri.loadLabel(ctx.getPackageManager()).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
+        package_name = ri.activityInfo.packageName;
+        activity_name = ri.activityInfo.name;
+        call_count = 0;
 
-	private File getIconCacheFile() {
-		return new File(ctx.getCacheDir() + "/" + hash + ".png");
-	}
+        // calculate the hash
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(package_name.getBytes());
+            md.update(activity_name.getBytes());
+            byte[] messageDigest = md.digest();
 
-	public Intent getIntent() {
-		Intent intent = new Intent();
-		intent.setClassName(package_name, activity_name);
-		return intent;
-	}
-	
-	public String getPackageName() {
-		return package_name;
-	}
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            hash = hexString.toString();
 
-	public String getLabel() {
-		return label;
-	}
+        } catch (NoSuchAlgorithmException e) {
+            Log.w("FastAppSearchTool",
+                    "MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
+            hash = package_name; // fallback
+        }
 
-	public int getCallCount() {
-		return call_count;
-	}
+        // cache the Icon
+        if (!getIconCacheFile().exists()) {
+            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx
+                    .getPackageManager());
+            try {
+                getIconCacheFile().createNewFile();
+                FileOutputStream fos = new FileOutputStream(getIconCacheFile());
+                icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+            } catch (IOException e) {
+                Log.w("FastAppSearchTool", " Could not cache the Icon");
+            }
+        }
+    }
 
-	public Drawable getIcon() {
-		if (icon==null) {
-			try {
-				icon=new BitmapDrawable(ctx.getResources(), new FileInputStream(getIconCacheFile()));
-			} catch (FileNotFoundException e) {
-				Log.w("FastAppSearchTool", "Could not load the cached Icon" + getIconCacheFile().getAbsolutePath());
-			}
-		}
-		return icon;
-	}
+    private File getIconCacheFile() {
+        return new File(ctx.getCacheDir() + "/" + hash + ".png");
+    }
+
+    public Intent getIntent() {
+        Intent intent = new Intent();
+        intent.setClassName(package_name, activity_name);
+        return intent;
+    }
+
+    public String getPackageName() {
+        return package_name;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public int getCallCount() {
+        return call_count;
+    }
+
+    public Drawable getIcon() {
+        if (icon == null) {
+            try {
+                icon = new BitmapDrawable(ctx.getResources(), new FileInputStream(getIconCacheFile()));
+            } catch (FileNotFoundException e) {
+                Log.w("FastAppSearchTool", "Could not load the cached Icon" + getIconCacheFile().getAbsolutePath());
+            }
+        }
+        return icon;
+    }
 }

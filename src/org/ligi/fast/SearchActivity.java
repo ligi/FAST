@@ -24,7 +24,6 @@ import org.ligi.tracedroid.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +47,8 @@ public class SearchActivity extends Activity {
     private EditText search_et;
     private GridView mGridView;
     private String not_load_reason;
-    private boolean retry=true;
-    
+    private boolean retry = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ((ApplicationContext) getApplicationContext()).applyTheme(this);
@@ -131,13 +130,13 @@ public class SearchActivity extends Activity {
                     super.onProgressUpdate(values);
                     pkgAppsListTemp.add(values[0]);
                     new_index += values[0].toCacheString() + "\n";
-                    retry=false;
+                    retry = false;
                 }
 
                 @Override
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
-                    if (retry==false) process_new_index();
+                    if (retry == false) process_new_index();
                 }
 
             }.execute();
@@ -245,8 +244,6 @@ public class SearchActivity extends Activity {
                 FileOutputStream fos = new FileOutputStream(index_file);
                 fos.write(new_index.getBytes());
                 fos.close();
-            } catch (FileNotFoundException e) {
-
             } catch (IOException e) {
 
             }
@@ -295,7 +292,6 @@ public class SearchActivity extends Activity {
         startActivity(new Intent(this, FASTPrefsActivity.class));
         finish();
     }
-
 
     public void helpClicked(View v) {
         HelpDialog.show(this);
