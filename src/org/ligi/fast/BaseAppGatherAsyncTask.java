@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
+import org.ligi.tracedroid.Log;
 
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
@@ -14,7 +15,6 @@ import android.os.AsyncTask;
  */
 public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private Context ctx;
-    private static final String TAG = "org.ligi.fast.SearchActivity";
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this.ctx = ctx;
@@ -30,7 +30,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                 publishProgress(act_appinfo);
             }
         } catch (Exception e) {
-            Log.d(TAG, "Exception occured when getting activities skipping....!");
+            Log.d("Exception occured when getting activities skipping....!");
 
         }
 
