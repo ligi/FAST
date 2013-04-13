@@ -40,11 +40,11 @@ public class SearchActivity extends Activity {
 
     private List<AppInfo> pkgAppsListTemp;
     private AppInfoAdapter mAdapter;
-    private File index_file;
-    private String new_index = "";
-    private String old_index = "";
-    private String old_search = "";
-    private EditText search_et;
+    private File mIndexFile;
+    private String mNewIndex = "";
+    private String mOldInde = "";
+    private String mOldSearch = "";
+    private EditText mSearchEditText;
     private GridView mGridView;
     private String not_load_reason;
     private boolean retry = true;
@@ -64,16 +64,16 @@ public class SearchActivity extends Activity {
 
         pkgAppsListTemp = new ArrayList<AppInfo>();
 
-        index_file = new File(getCacheDir(), "index2.csv");
+        mIndexFile = new File(getCacheDir(), "index2.csv");
 
         try {
-            old_index = FileHelper.file2String(index_file);
-            String[] lines = old_index.split("\n");
+            mOldInde = FileHelper.file2String(mIndexFile);
+            String[] lines = mOldInde.split("\n");
             for (String line : lines) {
                 if (line.length() > 0)
                     pkgAppsListTemp.add(new AppInfo(this, line));
             }
-            Log.i("act index " + old_index);
+            Log.i("act index " + mOldInde);
 
         } catch (Exception e) {
             not_load_reason = e.toString();
@@ -107,7 +107,7 @@ public class SearchActivity extends Activity {
                     mLoadingDialog.setText(values[0].getLabel());
 
                     pkgAppsListTemp.add(values[0]);
-                    new_index += values[0].toCacheString() + "\n";
+                    mNewIndex += values[0].toCacheString() + "\n";
                 }
 
                 @Override
@@ -129,7 +129,7 @@ public class SearchActivity extends Activity {
                 protected void onProgressUpdate(AppInfo... values) {
                     super.onProgressUpdate(values);
                     pkgAppsListTemp.add(values[0]);
-                    new_index += values[0].toCacheString() + "\n";
+                    mNewIndex += values[0].toCacheString() + "\n";
                     retry = false;
                 }
 
@@ -149,12 +149,12 @@ public class SearchActivity extends Activity {
                         | ActionBar.DISPLAY_SHOW_HOME);
           */
 
-        search_et = (EditText) findViewById(R.id.searchEditText);
-        search_et.setSingleLine();
-        search_et.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        search_et.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
+        mSearchEditText = (EditText) findViewById(R.id.searchEditText);
+        mSearchEditText.setSingleLine();
+        mSearchEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        mSearchEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
 
-        search_et.setOnEditorActionListener(new OnEditorActionListener() {
+        mSearchEditText.setOnEditorActionListener(new OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -164,14 +164,14 @@ public class SearchActivity extends Activity {
             }
 
         });
-        search_et.setHint(R.string.query_hint);
+        mSearchEditText.setHint(R.string.query_hint);
 
-        search_et.addTextChangedListener(new TextWatcher() {
+        mSearchEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
-                boolean was_adding = old_search.length() < s.toString().length();
-                old_search = s.toString().toLowerCase();
+                boolean was_adding = mOldSearch.length() < s.toString().length();
+                mOldSearch = s.toString().toLowerCase();
                 mAdapter.setActQuery(s.toString().toLowerCase());
                 if ((mAdapter.getCount() == 1) && was_adding && getPrefs().isLaunchSingleActivated()) {
                     startItemAtPos(0);
@@ -236,13 +236,13 @@ public class SearchActivity extends Activity {
      */
     private void process_new_index() {
 
-        if (!new_index.equals(old_index)) {
+        if (!mNewIndex.equals(mOldInde)) {
             Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
             mAdapter.setAllAppsList(pkgAppsListTemp);
             try {
-                FileOutputStream fos = new FileOutputStream(index_file);
-                fos.write(new_index.getBytes());
+                FileOutputStream fos = new FileOutputStream(mIndexFile);
+                fos.write(mNewIndex.getBytes());
                 fos.close();
             } catch (IOException e) {
 
@@ -255,12 +255,12 @@ public class SearchActivity extends Activity {
         super.onResume();
 
 
-        search_et.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
+        mSearchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
-        search_et.requestFocus();
+        mSearchEditText.requestFocus();
 
         // workaround from http://code.google.com/p/android/issues/detail?id=3612
-        search_et.postDelayed(new Runnable() {
+        mSearchEditText.postDelayed(new Runnable() {
 
             @Override
             public void run() {
@@ -268,7 +268,7 @@ public class SearchActivity extends Activity {
                 InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                keyboard.showSoftInput(search_et, 0);
+                keyboard.showSoftInput(mSearchEditText, 0);
             }
         }, 200);
 
