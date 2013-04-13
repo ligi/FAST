@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +20,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import org.ligi.fast.util.FileHelper;
+import org.ligi.tracedroid.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.io.File;
@@ -73,10 +73,11 @@ public class SearchActivity extends Activity {
                 if (line.length() > 0)
                     pkgAppsListTemp.add(new AppInfo(this, line));
             }
-            Log.i("FAST", "act index " + old_index);
+            Log.i("act index " + old_index);
 
         } catch (Exception e) {
-            not_load_reason=e.toString();
+            not_load_reason = e.toString();
+            Log.w("could not load new Index: " + not_load_reason);
         }
 
         mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
@@ -217,7 +218,7 @@ public class SearchActivity extends Activity {
 
         });
 
-        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de",this);
+        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
     }
 
@@ -235,7 +236,7 @@ public class SearchActivity extends Activity {
     private void process_new_index() {
 
         if (!new_index.equals(old_index)) {
-            Log.i("FastAppSearchTool", "processing new app-index");
+            Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
             mAdapter.setAllAppsList(pkgAppsListTemp);
             try {
@@ -272,7 +273,7 @@ public class SearchActivity extends Activity {
             }
         }, 200);
 
-        Log.i("FAST", "Resume with " + getPrefs().isTextOnlyActive());
+        Log.i("Resume with " + getPrefs().isTextOnlyActive());
         mGridView.setAdapter(mAdapter);
 
         if (new FASTPrefs(this).getIconSize().equals("small"))
