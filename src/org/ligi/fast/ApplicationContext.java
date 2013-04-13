@@ -39,11 +39,11 @@ public class ApplicationContext extends Application {
     }
 
     public void applyTheme(Activity activity) {
-        // dark is default
-        // so we only need to check for light
+
         if (getPrefs().getTheme().equals("light"))
             activity.setTheme(R.style.light);
-
+	else if (getPrefs().getTheme().equals("dark"))
+            activity.setTheme(R.style.dark);
             // and transparent dark/light
         else if (getPrefs().getTheme().equals("transparent"))
             activity.setTheme(R.style.transparent_dark);
