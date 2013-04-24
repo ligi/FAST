@@ -42,7 +42,7 @@ public class SearchActivity extends Activity {
     private AppInfoAdapter mAdapter;
     private File mIndexFile;
     private String mNewIndex = "";
-    private String mOldInde = "";
+    private String mOldIndex = "";
     private String mOldSearch = "";
     private EditText mSearchEditText;
     private GridView mGridView;
@@ -67,17 +67,17 @@ public class SearchActivity extends Activity {
         mIndexFile = new File(getCacheDir(), "index2.csv");
 
         try {
-            mOldInde = FileHelper.file2String(mIndexFile);
-            String[] lines = mOldInde.split("\n");
+            mOldIndex = FileHelper.file2String(mIndexFile);
+            String[] lines = mOldIndex.split("\n");
             for (String line : lines) {
                 if (line.length() > 0)
                     pkgAppsListTemp.add(new AppInfo(this, line));
             }
-            Log.i("act index " + mOldInde);
+            Log.i("act index " + mOldIndex);
 
         } catch (Exception e) {
             not_load_reason = e.toString();
-            Log.w("could not load new Index: " + not_load_reason);
+            Log.w("could not load new Index:" + not_load_reason);
         }
 
         mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
@@ -236,7 +236,7 @@ public class SearchActivity extends Activity {
      */
     private void process_new_index() {
 
-        if (!mNewIndex.equals(mOldInde)) {
+        if (!mNewIndex.equals(mOldIndex)) {
             Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
             mAdapter.setAllAppsList(pkgAppsListTemp);
