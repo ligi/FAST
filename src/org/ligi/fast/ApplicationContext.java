@@ -13,6 +13,10 @@ public class ApplicationContext extends Application {
     public final static String STORE_PNAME = "com.android.vending";
 
 	/*
+
+	this will be much nicer with gradle and flavours ;-)
+	TODO: prepare by putting this in a value xml
+
     // for amazon
 	public final static String STORE_URL="http://www.amazon.com/gp/mas/dl/android?p=";
 	public final static String STORE_NAME="Amazon Store";
