@@ -140,19 +140,39 @@ public class AppInfoAdapter extends BaseAdapter {
         return convertView;
     }
 
+
+    private boolean appInfoMatchesQuery(AppInfo info, String query) {
+        if (info.getLabel().toLowerCase().contains(act_query)) {
+            return true;
+        }
+
+        // also search in package name when activated
+        if (getPrefs().isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(act_query))) {
+            return true;
+        }
+
+        return false; // no match till here - we must be false
+    }
+
     public void setActQuery(String act_query) {
-        if (getPrefs().isUmlautConvertActivated())
-            act_query = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
+        // note the alternate query approach is not exact - doesn't match all permutations of replacements, but
+        // is FASTer than exact and totally enough for most cases
+        String actAlternateQuery;
+
+        if (getPrefs().isUmlautConvertActivated()) {
+            actAlternateQuery = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
+        } else {
+            actAlternateQuery = null;
+        }
 
         this.act_query = act_query;
 
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
         for (AppInfo info : pkgAppsListAll) {
-            if (info.getLabel().toLowerCase().contains(act_query)
-                    || (getPrefs().isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(act_query))))
-
+            if (appInfoMatchesQuery(info, act_query) || appInfoMatchesQuery(info, actAlternateQuery)) {
                 pkgAppsListFilter.add(info);
+            }
         }
 
         pkgAppsListShowing = pkgAppsListFilter;
