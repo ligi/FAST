@@ -15,6 +15,7 @@ import org.ligi.tracedroid.Log;
  */
 public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private Context ctx;
+    protected int appCount;
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this.ctx = ctx;
@@ -24,6 +25,8 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     protected Void doInBackground(Void... params) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        appCount = ctx.getPackageManager().queryIntentActivities(mainIntent, 0).size();
+
         try {
             for (ResolveInfo info : ctx.getPackageManager().queryIntentActivities(mainIntent, 0)) {
                 AppInfo act_appinfo = new AppInfo(ctx, info);

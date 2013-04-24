@@ -87,21 +87,26 @@ public class SearchActivity extends Activity {
 
         // sync was here
 
-        if (pkgAppsListTemp.size() == 0)
+        if (pkgAppsListTemp.size() == 0 || true)
             new BaseAppGatherAsyncTask(this) {
 
                 private LoadingDialog mLoadingDialog;
+                private int actAppIndex = 0;
 
                 @Override
                 protected void onPreExecute() {
                     mLoadingDialog = new LoadingDialog(SearchActivity.this);
-                    mLoadingDialog.setTitle("Nolo" + not_load_reason);
+                    mLoadingDialog.setTitle("Caching to serve FAST.");
                     mLoadingDialog.show();
                 }
 
                 @Override
                 protected void onProgressUpdate(AppInfo... values) {
                     super.onProgressUpdate(values);
+
+                    actAppIndex++;
+                    mLoadingDialog.getProgess().setMax(appCount);
+                    mLoadingDialog.getProgess().setProgress(actAppIndex);
 
                     mLoadingDialog.setIcon(values[0].getIcon());
                     mLoadingDialog.setText(values[0].getLabel());
