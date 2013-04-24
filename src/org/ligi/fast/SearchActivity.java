@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The main Activity for this App
+ * The main Activity for this App - most things come together here
  *
  * @author Marcus -ligi- Büschleb
  *         <p/>
@@ -87,7 +87,7 @@ public class SearchActivity extends Activity {
 
         // sync was here
 
-        if (pkgAppsListTemp.size() == 0 || true)
+        if (pkgAppsListTemp.size() == 0)
             new BaseAppGatherAsyncTask(this) {
 
                 private LoadingDialog mLoadingDialog;
