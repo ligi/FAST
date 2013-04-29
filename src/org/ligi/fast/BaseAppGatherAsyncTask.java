@@ -25,7 +25,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     protected Void doInBackground(Void... params) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        appCount = ctx.getPackageManager().queryIntentActivities(mainIntent, 0).size();
+        
 
         try {
             for (ResolveInfo info : ctx.getPackageManager().queryIntentActivities(mainIntent, 0)) {
