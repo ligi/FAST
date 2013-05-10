@@ -32,7 +32,7 @@ public class LoadingDialog extends Activity {
         icon_iv = (ImageView) findViewById(R.id.imageView);
         label_tv = (TextView) findViewById(R.id.textView);
         progressBar = (ProgressBar) findViewById(R.id.progress);
-        setTitle("Caching to serve FAST");
+        setTitle(getString(R.string.loadingDialogTitle));
 
         newIndex = "";
 

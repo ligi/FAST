@@ -42,6 +42,7 @@
     </string>
     <string name="convert_umlauts">Convert umlauts</string>
     <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
+    <string name="loadingDialogTitle">Caching to serve FAST</string>
     <string-array name="sizes">
         <item>small</item>
         <item>medium</item>
