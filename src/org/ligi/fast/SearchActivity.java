@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import org.ligi.fast.util.FileHelper;
+import org.ligi.fast.util.PackageListSerializer;
 import org.ligi.tracedroid.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
@@ -62,90 +63,24 @@ public class SearchActivity extends Activity {
 
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
-        pkgAppsListTemp = new ArrayList<AppInfo>();
-
         mIndexFile = new File(getCacheDir(), "index2.csv");
 
         try {
             mOldIndex = FileHelper.file2String(mIndexFile);
-            String[] lines = mOldIndex.split("\n");
-            for (String line : lines) {
-                if (line.length() > 0)
-                    pkgAppsListTemp.add(new AppInfo(this, line));
-            }
-            Log.i("act index " + mOldIndex);
-
-        } catch (Exception e) {
+        } catch (Exception e) { // IO ^^
             not_load_reason = e.toString();
             Log.w("could not load new Index:" + not_load_reason);
         }
 
+        pkgAppsListTemp = PackageListSerializer.fromString(this, mOldIndex);
+
         mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
 
-        if (getPrefs().getSortOrder().startsWith("alpha"))
+        if (getPrefs().getSortOrder().startsWith("alpha")) {
             mAdapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
+        }
 
         // sync was here
-
-        if (pkgAppsListTemp.size() == 0)
-            new BaseAppGatherAsyncTask(this) {
-
-                private LoadingDialog mLoadingDialog;
-                private int actAppIndex = 0;
-
-                @Override
-                protected void onPreExecute() {
-                    mLoadingDialog = new LoadingDialog(SearchActivity.this);
-                    mLoadingDialog.setTitle("Caching to serve FAST.");
-                    mLoadingDialog.show();
-                }
-
-                @Override
-                protected void onProgressUpdate(AppInfo... values) {
-                    super.onProgressUpdate(values);
-
-                    actAppIndex++;
-                    mLoadingDialog.getProgess().setMax(appCount);
-                    mLoadingDialog.getProgess().setProgress(actAppIndex);
-
-                    mLoadingDialog.setIcon(values[0].getIcon());
-                    mLoadingDialog.setText(values[0].getLabel());
-
-                    pkgAppsListTemp.add(values[0]);
-                    mNewIndex += values[0].toCacheString() + "\n";
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    mLoadingDialog.dismiss();
-                    super.onPostExecute(result);
-                    process_new_index();
-                }
-
-            }.execute();
-        else { // the second time - we use the old index to be fast but
-            // regenerate in background to be recent
-
-            pkgAppsListTemp = new ArrayList<AppInfo>();
-
-            new BaseAppGatherAsyncTask(this) {
-
-                @Override
-                protected void onProgressUpdate(AppInfo... values) {
-                    super.onProgressUpdate(values);
-                    pkgAppsListTemp.add(values[0]);
-                    mNewIndex += values[0].toCacheString() + "\n";
-                    retry = false;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    super.onPostExecute(result);
-                    if (retry == false) process_new_index();
-                }
-
-            }.execute();
-        }
 
         mGridView = (GridView) findViewById(R.id.listView);
 
@@ -228,6 +163,31 @@ public class SearchActivity extends Activity {
 
         TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
+        if (pkgAppsListTemp.size() == 0) {
+            startActivityForResult(new Intent(this, LoadingDialog.class), R.id.activityResultLoadingDialog);
+        } else { // the second time - we use the old index to be fast but
+            // regenerate in background to be recent
+
+            pkgAppsListTemp = new ArrayList<AppInfo>();
+
+            new BaseAppGatherAsyncTask(this) {
+
+                @Override
+                protected void onProgressUpdate(AppInfo... values) {
+                    super.onProgressUpdate(values);
+                    pkgAppsListTemp.add(values[0]);
+                    mNewIndex += values[0].toCacheString() + "\n";
+                    retry = false;
+                }
+
+                @Override
+                protected void onPostExecute(Void result) {
+                    super.onPostExecute(result);
+                    if (retry == false) process_new_index();
+                }
+
+            }.execute();
+        }
     }
 
     public void startItemAtPos(int pos) {
@@ -247,6 +207,7 @@ public class SearchActivity extends Activity {
             Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
             mAdapter.setAllAppsList(pkgAppsListTemp);
+
             try {
                 FileOutputStream fos = new FileOutputStream(mIndexFile);
                 fos.write(mNewIndex.getBytes());
@@ -258,9 +219,23 @@ public class SearchActivity extends Activity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case R.id.activityResultLoadingDialog:
+                if (data != null) {
+                    mNewIndex = data.getStringExtra("newIndex");
+                    pkgAppsListTemp = PackageListSerializer.fromString(this, mNewIndex);
+                    process_new_index();
+                }
+                break;
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-
 
         mSearchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
