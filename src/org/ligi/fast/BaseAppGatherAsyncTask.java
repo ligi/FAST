@@ -6,6 +6,8 @@ import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import org.ligi.tracedroid.Log;
 
+import java.util.List;
+
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
  *
@@ -25,10 +27,11 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     protected Void doInBackground(Void... params) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        appCount = ctx.getPackageManager().queryIntentActivities(mainIntent, 0).size();
 
         try {
-            for (ResolveInfo info : ctx.getPackageManager().queryIntentActivities(mainIntent, 0)) {
+            List<ResolveInfo> resolveInfos = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
+            appCount = resolveInfos.size();
+            for (ResolveInfo info : resolveInfos) {
                 AppInfo act_appinfo = new AppInfo(ctx, info);
                 publishProgress(act_appinfo);
             }
