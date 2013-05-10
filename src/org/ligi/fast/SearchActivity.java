@@ -164,7 +164,9 @@ public class SearchActivity extends Activity {
             @Override
             public boolean onEditorAction(TextView v, int actionId,
                                           KeyEvent event) {
-                startItemAtPos(0);
+                if (mAdapter.getCount() > 0) {
+                    startItemAtPos(0);
+                }
                 return true;
             }
 
