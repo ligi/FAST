@@ -36,7 +36,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                 publishProgress(act_appinfo);
             }
         } catch (Exception e) {
-            Log.d("Exception occured when getting activities skipping....!");
+            Log.d("Exception occurred when getting activities skipping...!");
 
         }
 
