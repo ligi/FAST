@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import org.ligi.androidhelper.AndroidHelper;
 
 /**
  * Dialog to make the waiting time for the initial index building nicer for the user
@@ -67,6 +68,7 @@ public class LoadingDialog extends Activity {
         }.execute();
 
         setWindowWidth();
+        AndroidHelper.at(this).disableRotation();
     }
 
     private void setWindowWidth() {
@@ -89,6 +91,5 @@ public class LoadingDialog extends Activity {
     public ProgressBar getProgessBar() {
         return progressBar;
     }
-
 
 }
