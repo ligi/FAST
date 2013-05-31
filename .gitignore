@@ -1,3 +1,9 @@
+*.iml
+.gradletasknamecache
+.gradle
+.idea/
+build/
+proguard_logs/
 .classpath
 .project
 bin/
