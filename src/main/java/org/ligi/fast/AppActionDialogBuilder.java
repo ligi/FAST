@@ -70,13 +70,13 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
         if (new FASTPrefs(context).isMarketForAllActivated()
                 || isMarketApp())
-            fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + ApplicationContext.STORE_NAME, new Runnable() {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
                 @Override
                 public void run() {
                     try {
                         context.startActivity(new Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse(ApplicationContext.STORE_URL
+                                Uri.parse(TargetStore.STORE_URL
                                         + app_info.getPackageName())));
                     } catch (android.content.ActivityNotFoundException anfe) {
 
@@ -177,7 +177,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             if (app_info.getPackageName() == null)
                 return false;
             String installer_pkg = context.getPackageManager().getInstallerPackageName(app_info.getPackageName());
-            return installer_pkg != null && installer_pkg.startsWith(ApplicationContext.STORE_PNAME);
+            return installer_pkg != null && installer_pkg.startsWith(TargetStore.STORE_PNAME);
         } catch (Exception e) {
             return false;
         }

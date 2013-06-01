@@ -2,7 +2,11 @@ package org.ligi.fast;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 import android.view.View;
 import android.view.Window;
 
@@ -51,7 +55,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
 
         CheckBoxPreference marketForAllApps = new CheckBoxPreference(this);
         marketForAllApps.setKey(FASTPrefs.KEY_MARKETFORALL);
-        marketForAllApps.setTitle("" + String.format(getResources().getString(R.string.open_in_for_all), ApplicationContext.STORE_NAME));
+        marketForAllApps.setTitle("" + String.format(getResources().getString(R.string.open_in_for_all), TargetStore.STORE_NAME));
         marketForAllApps.setSummary(R.string.even_if_installed_another_way);
         marketForAllApps.setDefaultValue(false);
 

@@ -2,29 +2,13 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.app.Application;
+
 import org.ligi.tracedroid.TraceDroid;
 
 public class ApplicationContext extends Application {
 
-    // for google-play
-
-    public final static String STORE_URL = "http://play.google.com/store/apps/details?id=";
-    public final static String STORE_NAME = "Google Play";
-    public final static String STORE_PNAME = "com.android.vending";
-
-	/*
-
-	this will be much nicer with gradle and flavours ;-)
-	TODO: prepare by putting this in a value xml
-
-    // for amazon
-	public final static String STORE_URL="http://www.amazon.com/gp/mas/dl/android?p=";
-	public final static String STORE_NAME="Amazon Store";
-	public final static String STORE_PNAME="com.amazon.venezia";
-	*/
-
     public final static String getStoreURL4PackageName(String pname) {
-        return STORE_URL + pname;
+        return TargetStore.STORE_URL + pname;
     }
 
     private FASTPrefs mPrefs;

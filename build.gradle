@@ -13,6 +13,38 @@ android {
     compileSdkVersion 17
     buildToolsVersion "17.0.0"
 
+    buildTypes {
+        release {
+            runProguard true
+            proguardFile 'proguard-project.txt'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("/home/ligi/.android/debug.keystore")
+        }
+
+        release {
+            storeFile file("/home/ligi/.android/fast.keystore")
+            keyAlias "ligi"
+        }
+    }
+
+    flavorGroups "market"
+    productFlavors {
+        // no google-play services & google-analytics
+        forGooglePlay {
+            flavorGroup "market"
+        }
+
+        forAmazon {
+            flavorGroup "market"
+        }
+
+    }
+
+
     dependencies {
         compile fileTree(dir: 'libs', include: '*.jar')
     }
