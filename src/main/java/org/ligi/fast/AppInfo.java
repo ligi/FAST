@@ -100,6 +100,10 @@ public class AppInfo {
         return intent;
     }
 
+    public String getActivityName() {
+        return activity_name;
+    }
+
     public String getPackageName() {
         return package_name;
     }

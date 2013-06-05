@@ -78,6 +78,8 @@ public class SearchActivity extends Activity {
 
         if (getPrefs().getSortOrder().startsWith("alpha")) {
             mAdapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
+        } else if (getPrefs().getSortOrder().equals("most_used")) {
+            mAdapter.setSortMode(AppInfoAdapter.SortMode.MOST_USED);
         }
 
         // sync was here
@@ -191,7 +193,9 @@ public class SearchActivity extends Activity {
     }
 
     public void startItemAtPos(int pos) {
-        Intent intent = mAdapter.getAtPosition(pos).getIntent();
+        AppInfo info = mAdapter.getAtPosition(pos);
+        LaunchHistory.getInstance(this).launch(info);
+        Intent intent = info.getIntent();
         intent.setAction("android.intent.action.MAIN");
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

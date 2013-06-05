@@ -33,7 +33,7 @@ public class AppInfoAdapter extends BaseAdapter {
     private SortMode sort_mode = SortMode.UNSORTED;
 
     public enum SortMode {
-        UNSORTED, ALPHABETICAL
+        UNSORTED, ALPHABETICAL, MOST_USED
     }
 
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
@@ -57,7 +57,9 @@ public class AppInfoAdapter extends BaseAdapter {
     public void setSortMode(SortMode mode) {
         sort_mode = mode;
         if (sort_mode.equals(SortMode.ALPHABETICAL))
-            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
+            java.util.Collections.sort(pkgAppsListAll, new AlphabeticalComparator());
+        else if (sort_mode.equals(SortMode.MOST_USED))
+            java.util.Collections.sort(pkgAppsListAll, new MostUsedComparator(ctx));
     }
 
     public int getCount() {
@@ -202,16 +204,49 @@ public class AppInfoAdapter extends BaseAdapter {
         }
     }
 
-    class AppInfoSortComperator implements Comparator<AppInfo> {
+    class AlphabeticalComparator implements Comparator<AppInfo> {
 
         @Override
         public int compare(AppInfo lhs, AppInfo rhs) {
-            return lhs.getLabel().compareTo(rhs.getLabel());
+            return lhs.getLabel().toLowerCase().compareTo(rhs.getLabel().toLowerCase());
         }
 
         @Override
         public boolean equals(Object object) {
             return false;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+    }
+
+    class MostUsedComparator implements Comparator<AppInfo> {
+
+        private final AlphabeticalComparator alpha = new AlphabeticalComparator();
+        private final LaunchHistory history;
+
+        public MostUsedComparator(Context context) {
+            history = LaunchHistory.getInstance(context);
+        }
+
+        @Override
+        public int compare(AppInfo lhs, AppInfo rhs) {
+            int lhsCount = history.getCount(lhs);
+            int rhsCount = history.getCount(rhs);
+
+            int result = 0;
+
+            if (lhsCount == rhsCount) {
+                result = alpha.compare(lhs, rhs);
+            } else if (lhsCount < rhsCount) {
+                result = 1;
+            } else if (lhsCount > rhsCount) {
+                result = -1;
+            }
+
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return false;
         }
     }
 
