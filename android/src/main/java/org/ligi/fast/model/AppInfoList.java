@@ -6,6 +6,7 @@ import org.ligi.fast.settings.FASTSettings;
 import org.ligi.fast.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class AppInfoList {
@@ -14,9 +15,10 @@ public class AppInfoList {
     private List<AppInfo> pkgAppsListAll;
     private String currentQuery = "";
     private final FASTSettings settings;
+    private Comparator<AppInfo> sorter = null;
 
     public enum SortMode {
-        UNSORTED, ALPHABETICAL
+        UNSORTED, ALPHABETICAL, MOST_USED
     }
 
     @SuppressWarnings("unchecked")
@@ -36,10 +38,18 @@ public class AppInfoList {
 
     public void setSortMode(SortMode mode) {
         if (mode.equals(SortMode.ALPHABETICAL)) {
-            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortByLabelComparator());
+            this.sorter = new AppInfoSortByLabelComparator();
+        } else if (mode.equals(SortMode.MOST_USED)) {
+            this.sorter = new AppInfoSortByMostUsedComparator();
         }
-
+        sort();
         setQuery(currentQuery); // refresh showing
+    }
+
+    private void sort() {
+        if (this.sorter != null) {
+            java.util.Collections.sort(pkgAppsListAll, this.sorter);
+        }
     }
 
     public int getCount() {
@@ -131,6 +141,10 @@ public class AppInfoList {
             }
         }
         return false;
+    }
+
+    public List<AppInfo> getAll() {
+        return pkgAppsListAll;
     }
 
 }

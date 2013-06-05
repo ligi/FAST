@@ -66,5 +66,6 @@
     <string-array name="sort_orders">
         <item>Unsorted</item>
         <item>Alphabetical</item>
+        <item>By usage</item>
     </string-array>
 </resources>

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -139,9 +140,10 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         } else { // the second time - we use the old index to be fast but
             // regenerate in background to be recent
 
+            // Use the pkgAppsListTemp in order to update data from the saved file with recent
+            // call count information (seeing as we may not have saved it recently).
+            new BackgroundGatherAsyncTask(this, pkgAppsListTemp).execute();
             pkgAppsListTemp = new ArrayList<AppInfo>();
-
-            new BackgroundGatherAsyncTask(this).execute();
         }
     }
 
@@ -154,16 +156,20 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     private void configureAdapter() {
         if (App.getSettings().getSortOrder().startsWith("alpha")) {
             adapter.getList().setSortMode(AppInfoList.SortMode.ALPHABETICAL);
+        } else if (App.getSettings().getSortOrder().equals("most_used")) {
+            adapter.getList().setSortMode(AppInfoList.SortMode.MOST_USED);
         }
     }
 
     public void startItemAtPos(int pos) {
-        Intent intent = adapter.getList().get(pos).getIntent();
+		AppInfo app = adapter.getList().get(pos);
+		app.incrementCallCount();
+        Intent intent = app.getIntent();
         intent.setAction("android.intent.action.MAIN");
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
         startActivity(intent);
-
         if (App.getSettings().isFinishOnLaunchEnabled()) {
             finish();
         }
@@ -177,7 +183,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         switch (requestCode) {
             case R.id.activityResultLoadingDialog:
-                onPackageChange();
+                onPackageChange(packageListStore.load());
                 break;
         }
     }
@@ -192,6 +198,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         dealWithUserPreferencesRegardingSoftKeyboard();
 
+        configureAdapter();
         gridView.setAdapter(adapter);
 
         String iconSize = App.getSettings().getIconSize();
@@ -279,14 +286,16 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     @Override
-    public void onPackageChange() {
+    public void onPackageChange(List<AppInfo> appInfoList) {
         // TODO we should also do a cleanup of cached icons here
         // we might not come from UI Thread
+
+        final List<AppInfo> list = appInfoList;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                adapter = new AppInfoAdapter(SearchActivity.this, packageListStore.load());
+                adapter = new AppInfoAdapter(SearchActivity.this, list);
                 configureAdapter();
                 adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase());
                 gridView.setAdapter(adapter);
@@ -298,6 +307,14 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     protected void onPause() {
         App.packageChangedListener = null;
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        // Need to persist the call count values, or else the sort by "most used"
+        // will not work next time we open this activity.
+        packageListStore.save(adapter);
+        super.onStop();
     }
 
 }

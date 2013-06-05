@@ -6,12 +6,19 @@ import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.util.PackageListStore;
 
+import java.util.List;
+
 public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
 
     private Context context;
 
     public BackgroundGatherAsyncTask(Context context) {
         super(context);
+        this.context = context;
+    }
+
+    public BackgroundGatherAsyncTask(Context context, List<AppInfo> oldAppInfoList) {
+        super(context, oldAppInfoList);
         this.context = context;
     }
 
@@ -25,7 +32,7 @@ public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
         super.onPostExecute(result);
         new PackageListStore(context).save(appInfoList);
         if (App.packageChangedListener != null) {
-            App.packageChangedListener.onPackageChange();
+            App.packageChangedListener.onPackageChange(appInfoList);
         }
     }
 
