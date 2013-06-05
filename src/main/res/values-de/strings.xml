@@ -22,6 +22,7 @@
     <string name="icon_size">Icongröße</string>
     <string name="how_big_icons">Wie groß sollen die Icons sein?</string>
     <string-array name="sizes">
+        <item>winzig</item>
         <item>klein</item>
         <item>mittel</item>
         <item>groß</item>
