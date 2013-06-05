@@ -59,6 +59,6 @@
     <string-array name="sort_orders">
         <item>unsorted</item>
         <item>alphabetical</item>
-        <item>most popular</item>
+        <item>by usage</item>
     </string-array>
 </resources>
