@@ -44,6 +44,7 @@
     <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>
     <string-array name="sizes">
+        <item>tiny</item>
         <item>small</item>
         <item>medium</item>
         <item>large</item>
