@@ -1,31 +1,31 @@
 <resources>
     <string name="app_name">FAST App Search Tool</string>
     <string name="icon">Icon</string>
-    <string name="launch_single">Launch single</string>
-    <string name="settings">settings</string>
-    <string name="connect">connect</string>
+    <string name="launch_single">Auto launch</string>
+    <string name="settings">Settings</string>
+    <string name="connect">Connect</string>
     <string name="share">Share</string>
-    <string name="rate">rate</string>
-    <string name="also_use_the_package_name_for_searching">also use the package name for searching</string>
-    <string name="search_in_package">Search in package</string>
-    <string name="auto_launch_if_only_one_app_left">Auto-Launch if only one app left</string>
-    <string name="open_in_for_all">Open in %s option for all</string>
-    <string name="even_if_installed_another_way">even if installed another way</string>
+    <string name="rate">Rate</string>
+    <string name="also_use_the_package_name_for_searching">Search package name as well as app name</string>
+    <string name="search_in_package">Search packages</string>
+    <string name="auto_launch_if_only_one_app_left">Auto-launch if only one search result</string>
+    <string name="open_in_for_all">Always show "Open in %s"</string>
+    <string name="even_if_installed_another_way">Even if installed from somewhere else</string>
     <string name="application_details">Application Details</string>
     <string name="open_in">Open in</string>
     <string name="open_as_notification">Open as Notification</string>
     <string name="query_hint">Enter Query here</string>
-    <string name="text_only">Text only</string>
-    <string name="show_no_icons_pure_text">show no Icons - pure text</string>
-    <string name="max_text_lines">Max text-lines</string>
-    <string name="how_much_text_you_want">how much text you want?</string>
-    <string name="create_shortcut">create shortcut</string>
+    <string name="text_only">Only show app names</string>
+    <string name="show_no_icons_pure_text">Only show app names, not the icons</string>
+    <string name="max_text_lines">Lines of text</string>
+    <string name="how_much_text_you_want">Max number of lines used to display app name</string>
+    <string name="create_shortcut">Create shortcut</string>
     <string name="icon_size">Icon size</string>
-    <string name="how_big_icons">how big should the icons be?</string>
+    <string name="how_big_icons">How big should the app icons be?</string>
     <string name="theme">Theme</string>
-    <string name="choose_your_look">choose your look</string>
+    <string name="choose_your_look">Choose the look of FAST App Search</string>
     <string name="sort">Sort</string>
-    <string name="sort_decr">how should the apps be sorted?</string>
+    <string name="sort_decr">How should the apps be sorted?</string>
 
 
     <string name="help_label">Help</string>
@@ -44,20 +44,20 @@
     <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>
     <string-array name="sizes">
-        <item>small</item>
-        <item>medium</item>
-        <item>large</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
 
     <string-array name="themes">
-        <item>dark</item>
-        <item>light</item>
-        <item>transparent dark</item>
-        <item>transparent light</item>
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Transparent dark</item>
+        <item>Transparent light</item>
     </string-array>
 
     <string-array name="sort_orders">
-        <item>unsorted</item>
-        <item>alphabetical</item>
+        <item>Unsorted</item>
+        <item>Alphabetical</item>
     </string-array>
 </resources>
