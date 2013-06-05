@@ -7,6 +7,9 @@
     <dimen name="cell_size">92dp</dimen>
     <dimen name="icon_size">64dp</dimen>
 
+    <dimen name="cell_size_tiny">52dp</dimen>
+    <dimen name="icon_size_tiny">32dp</dimen>
+
     <dimen name="cell_size_small">64dp</dimen>
     <dimen name="icon_size_small">48dp</dimen>
 
