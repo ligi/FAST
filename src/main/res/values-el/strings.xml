@@ -6,9 +6,12 @@
     <string name="connect">Σύνδεση</string>
     <string name="share">Κοινοποίηση</string>
     <string name="rate">Βαθμολογία</string>
-    <string name="also_use_the_package_name_for_searching">Συμπεριέλαβε και το όνομα του πακέτου στην αναζήτηση</string>
+    <string name="also_use_the_package_name_for_searching">Συμπεριέλαβε και το όνομα του πακέτου
+        στην αναζήτηση
+    </string>
     <string name="search_in_package">Αναζήτηση στο πακέτο</string>
-    <string name="auto_launch_if_only_one_app_left">Αυτόματη εκκίνηση εάν υπάρχει ένα πακέτο</string>
+    <string name="auto_launch_if_only_one_app_left">Αυτόματη εκκίνηση εάν υπάρχει ένα πακέτο
+    </string>
     <string name="open_in_for_all">Άνοιγμα με το %s για όλα</string>
     <string name="even_if_installed_another_way">ακόμα και αν έχει εγκατασταθεί διαφορετικά</string>
     <string name="application_details">Πληροφορίες εφαρμογής</string>

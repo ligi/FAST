@@ -21,6 +21,7 @@
                 android:padding="6dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_action_search"/>
+
         <TextView
 
                 android:id="@+id/textView"
@@ -31,6 +32,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     </LinearLayout>
+
     <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

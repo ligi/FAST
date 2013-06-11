@@ -11,8 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.ligi.tracedroid.Log;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

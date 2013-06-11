@@ -1,6 +1,7 @@
 package org.ligi.fast.util;
 
 import android.content.Context;
+
 import org.ligi.fast.AppInfo;
 
 import java.util.ArrayList;

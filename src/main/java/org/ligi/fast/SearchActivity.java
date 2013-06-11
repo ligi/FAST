@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
 import org.ligi.fast.util.FileHelper;
 import org.ligi.fast.util.PackageListSerializer;
 import org.ligi.tracedroid.Log;
@@ -53,7 +54,7 @@ public class SearchActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         StringBuilder sb = new StringBuilder(mOldIndex.length() + 10);
-        for(int i = 0; i < mAdapter.getCount(); i ++) {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
             AppInfo info = mAdapter.getAtPosition(i);
             sb.append(info.toCacheString()).append('\n');
         }
@@ -227,7 +228,7 @@ public class SearchActivity extends Activity {
     }
 
     private void write_index(String index) {
-        Log.d( "Writing index..." );
+        Log.d("Writing index...");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mIndexFile);
@@ -238,7 +239,8 @@ public class SearchActivity extends Activity {
             if (fos != null) {
                 try {
                     fos.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
         }
     }
@@ -280,7 +282,7 @@ public class SearchActivity extends Activity {
         }, 200);
 
         Log.i("Resume with " + getPrefs().isTextOnlyActive());
-         mGridView.setAdapter(mAdapter);
+        mGridView.setAdapter(mAdapter);
 
         if (new FASTPrefs(this).getIconSize().equals("small"))
             mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));

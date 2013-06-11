@@ -6,7 +6,8 @@
     <string name="connect">Connect</string>
     <string name="share">Share</string>
     <string name="rate">Rate</string>
-    <string name="also_use_the_package_name_for_searching">Search package name as well as app name</string>
+    <string name="also_use_the_package_name_for_searching">Search package name as well as app name
+    </string>
     <string name="search_in_package">Search packages</string>
     <string name="auto_launch_if_only_one_app_left">Auto-launch if only one search result</string>
     <string name="open_in_for_all">Always show "Open in %s"</string>

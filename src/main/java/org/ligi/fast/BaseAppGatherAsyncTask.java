@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
+
 import org.ligi.tracedroid.Log;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
             for (ResolveInfo info : resolveInfos) {
                 AppInfo act_appinfo = new AppInfo(ctx, info);
                 if (oldAppList != null) {
-                    for(AppInfo oldInfo : oldAppList) {
+                    for (AppInfo oldInfo : oldAppList) {
                         if (oldInfo.getActivityName().equals(act_appinfo.getActivityName())) {
                             act_appinfo.setCallCount(oldInfo.getCallCount());
                             break;
