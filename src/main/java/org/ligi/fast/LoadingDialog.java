@@ -52,7 +52,7 @@ public class LoadingDialog extends Activity {
                 setIcon(values[0].getIcon());
                 setText(values[0].getLabel());
 
-                newIndex += values[0].toCacheString() + "\n";
+                newIndex += values[0].toCacheString().append('\n');
             }
 
             @Override

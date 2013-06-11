@@ -44,8 +44,14 @@ public class AppInfo {
         call_count = Integer.parseInt(app_info_str_split[4]);
     }
 
-    public String toCacheString() {
-        return hash + ";;" + label + ";;" + package_name + ";;" + activity_name + ";;" + call_count;
+    public StringBuilder toCacheString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(hash).append(";;");
+        sb.append(label).append(";;");
+        sb.append(package_name).append(";;");
+        sb.append(activity_name).append(";;");
+        sb.append(call_count);
+        return sb;
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
@@ -125,5 +131,9 @@ public class AppInfo {
             }
         }
         return icon;
+    }
+
+    public void setCallCount(int value) {
+        call_count = value;
     }
 }
