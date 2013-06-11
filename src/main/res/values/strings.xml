@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FAST App Search Tool</string>
     <string name="icon">Icon</string>
-    <string name="launch_single">Auto launch</string>
+    <string name="launch_single">Auto launch single</string>
     <string name="settings">Settings</string>
     <string name="connect">Connect</string>
     <string name="share">Share</string>
@@ -45,6 +45,7 @@
     <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>
     <string-array name="sizes">
+        <item>Tiny</item>
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>

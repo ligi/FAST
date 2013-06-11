@@ -78,7 +78,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         iconSizePref.setTitle(R.string.icon_size);
         iconSizePref.setSummary(R.string.how_big_icons);
         iconSizePref.setEntries(R.array.sizes);
-        iconSizePref.setEntryValues(new CharSequence[]{"small", "medium", "large"});
+        iconSizePref.setEntryValues(new CharSequence[]{"tiny", "small", "medium", "large"});
         iconSizePref.setDefaultValue("medium");
 
         ListPreference sortPref = new ListPreference(this);

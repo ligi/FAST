@@ -7,9 +7,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
+import org.ligi.tracedroid.Log;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -96,14 +95,32 @@ public class AppInfoAdapter extends BaseAdapter {
                 convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
             else {
                 String size = (new FASTPrefs(ctx).getIconSize());
+                int cellSize;
+                int iconSize;
 
-                if (size.equals("small"))
-                    convertView = mLayoutInflater.inflate(R.layout.item_small, null);
-                else if (size.equals("large"))
-                    convertView = mLayoutInflater.inflate(R.layout.item_large, null);
-                else
-                    convertView = mLayoutInflater.inflate(R.layout.item, null);
+                if (size.equals("tiny")) {
+                    cellSize = R.dimen.cell_size_tiny;
+                    iconSize = R.dimen.icon_size_tiny;
+                } else if (size.equals("small")) {
+                    cellSize = R.dimen.cell_size_small;
+                    iconSize = R.dimen.icon_size_small;
+                } else if (size.equals("large")) {
+                    cellSize = R.dimen.cell_size_large;
+                    iconSize = R.dimen.icon_size_large;
+                } else {
+                    cellSize = R.dimen.cell_size;
+                    iconSize = R.dimen.icon_size;
+                }
 
+                cellSize = parent.getContext().getResources().getDimensionPixelSize(cellSize);
+                iconSize = parent.getContext().getResources().getDimensionPixelSize(iconSize);
+
+                convertView = mLayoutInflater.inflate(R.layout.item_icon, null);
+                convertView.setLayoutParams(new AbsListView.LayoutParams(cellSize, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
+                imageView.getLayoutParams().height = iconSize;
+                imageView.getLayoutParams().width  = iconSize;
             }
             holder = new ViewHolder();
             holder.text = (TextView) convertView.findViewById(R.id.textView);
