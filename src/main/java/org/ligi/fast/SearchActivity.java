@@ -51,6 +51,17 @@ public class SearchActivity extends Activity {
     private boolean retry = true;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        StringBuilder sb = new StringBuilder(mOldIndex.length() + 10);
+        for(int i = 0; i < mAdapter.getCount(); i ++) {
+            AppInfo info = mAdapter.getAtPosition(i);
+            sb.append(info.toCacheString()).append('\n');
+        }
+        mNewIndex = sb.toString();
+        write_index(mNewIndex);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         ((ApplicationContext) getApplicationContext()).applyTheme(this);
 
@@ -78,8 +89,9 @@ public class SearchActivity extends Activity {
 
         if (getPrefs().getSortOrder().startsWith("alpha")) {
             mAdapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
+        } else if (getPrefs().getSortOrder().equals("most_used")) {
+            mAdapter.setSortMode(AppInfoAdapter.SortMode.MOST_USED);
         }
-
         // sync was here
 
         mGridView = (GridView) findViewById(R.id.listView);
@@ -168,9 +180,10 @@ public class SearchActivity extends Activity {
         } else { // the second time - we use the old index to be fast but
             // regenerate in background to be recent
 
+            List<AppInfo> oldAppList = pkgAppsListTemp;
             pkgAppsListTemp = new ArrayList<AppInfo>();
 
-            new BaseAppGatherAsyncTask(this) {
+            new BaseAppGatherAsyncTask(this, oldAppList) {
 
                 @Override
                 protected void onProgressUpdate(AppInfo... values) {
@@ -191,7 +204,9 @@ public class SearchActivity extends Activity {
     }
 
     public void startItemAtPos(int pos) {
-        Intent intent = mAdapter.getAtPosition(pos).getIntent();
+        AppInfo info = mAdapter.getAtPosition(pos);
+        info.setCallCount(info.getCallCount() + 1);
+        Intent intent = info.getIntent();
         intent.setAction("android.intent.action.MAIN");
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -207,13 +222,23 @@ public class SearchActivity extends Activity {
             Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
             mAdapter.setAllAppsList(pkgAppsListTemp);
+            write_index(mNewIndex);
+        }
+    }
 
-            try {
-                FileOutputStream fos = new FileOutputStream(mIndexFile);
-                fos.write(mNewIndex.getBytes());
-                fos.close();
-            } catch (IOException e) {
-
+    private void write_index(String index) {
+        Log.d( "Writing index..." );
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mIndexFile);
+            fos.write(index.getBytes());
+        } catch (IOException e) {
+            Log.e("Could not write index: " + e);
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {}
             }
         }
     }
@@ -255,7 +280,7 @@ public class SearchActivity extends Activity {
         }, 200);
 
         Log.i("Resume with " + getPrefs().isTextOnlyActive());
-        mGridView.setAdapter(mAdapter);
+         mGridView.setAdapter(mAdapter);
 
         if (new FASTPrefs(this).getIconSize().equals("small"))
             mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));

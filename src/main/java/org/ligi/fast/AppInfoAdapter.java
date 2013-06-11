@@ -11,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.ligi.tracedroid.Log;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -31,9 +33,10 @@ public class AppInfoAdapter extends BaseAdapter {
     private String act_query = "";
     private String colorString = "";
     private SortMode sort_mode = SortMode.UNSORTED;
+    private Comparator<AppInfo> sorter = null;
 
     public enum SortMode {
-        UNSORTED, ALPHABETICAL
+        UNSORTED, ALPHABETICAL, MOST_USED
     }
 
     public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
@@ -45,6 +48,7 @@ public class AppInfoAdapter extends BaseAdapter {
     public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
         pkgAppsListAll = new ArrayList<AppInfo>();
         pkgAppsListAll.addAll(_pkgAppsListAll);
+        sort();
 
         new IconCacheTask().execute(pkgAppsListAll);
 
@@ -57,7 +61,18 @@ public class AppInfoAdapter extends BaseAdapter {
     public void setSortMode(SortMode mode) {
         sort_mode = mode;
         if (sort_mode.equals(SortMode.ALPHABETICAL))
-            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
+            this.sorter = new AlphabeticalComparator();
+        else if (sort_mode.equals(SortMode.MOST_USED))
+            this.sorter = new MostUsedComparator();
+        else
+            this.sorter = null;
+        sort();
+    }
+
+    private void sort() {
+        if (this.sorter != null) {
+            java.util.Collections.sort(pkgAppsListAll, this.sorter);
+        }
     }
 
     public int getCount() {
@@ -202,16 +217,41 @@ public class AppInfoAdapter extends BaseAdapter {
         }
     }
 
-    class AppInfoSortComperator implements Comparator<AppInfo> {
+    class AlphabeticalComparator implements Comparator<AppInfo> {
 
         @Override
         public int compare(AppInfo lhs, AppInfo rhs) {
-            return lhs.getLabel().compareTo(rhs.getLabel());
+            return lhs.getLabel().toLowerCase().compareTo(rhs.getLabel().toLowerCase());
         }
 
         @Override
         public boolean equals(Object object) {
             return false;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+    }
+
+    class MostUsedComparator implements Comparator<AppInfo> {
+
+        private final AlphabeticalComparator alpha = new AlphabeticalComparator();
+
+        @Override
+        public int compare(AppInfo lhs, AppInfo rhs) {
+            int result = 0;
+
+            if (lhs.getCallCount() == rhs.getCallCount()) {
+                result = alpha.compare(lhs, rhs);
+            } else if (lhs.getCallCount() < rhs.getCallCount()) {
+                result = 1;
+            } else if (lhs.getCallCount() > rhs.getCallCount()) {
+                result = -1;
+            }
+
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return false;
         }
     }
 
