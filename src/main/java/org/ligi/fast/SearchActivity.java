@@ -53,13 +53,17 @@ public class SearchActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        mNewIndex = createNewIndex();
+        write_index(mNewIndex);
+    }
+
+    private String createNewIndex() {
         StringBuilder sb = new StringBuilder(mOldIndex.length() + 10);
         for (int i = 0; i < mAdapter.getCount(); i++) {
             AppInfo info = mAdapter.getAtPosition(i);
             sb.append(info.toCacheString()).append('\n');
         }
-        mNewIndex = sb.toString();
-        write_index(mNewIndex);
+        return sb.toString();
     }
 
     @Override
