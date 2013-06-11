@@ -85,7 +85,7 @@ public class SearchActivity extends Activity {
             mOldIndex = FileHelper.file2String(mIndexFile);
         } catch (Exception e) { // IO ^^
             not_load_reason = e.toString();
-            Log.w("could not load new Index:" + not_load_reason);
+            Log.w("could not load old Index:" + not_load_reason);
         }
 
         pkgAppsListTemp = PackageListSerializer.fromString(this, mOldIndex);
