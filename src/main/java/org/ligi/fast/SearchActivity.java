@@ -257,7 +257,9 @@ public class SearchActivity extends Activity {
         Log.i("Resume with " + getPrefs().isTextOnlyActive());
         mGridView.setAdapter(mAdapter);
 
-        if (new FASTPrefs(this).getIconSize().equals("small"))
+        if (new FASTPrefs(this).getIconSize().equals("tiny"))
+            mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
+        else if (new FASTPrefs(this).getIconSize().equals("small"))
             mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
         else if (new FASTPrefs(this).getIconSize().equals("large"))
             mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
