@@ -27,6 +27,7 @@ public class AppInfo {
     private int call_count;
     private Context ctx;
     private BitmapDrawable icon; // caching the Icon
+    private boolean isValid=true; //
 
     private AppInfo(Context _ctx) {
         ctx = _ctx;
@@ -35,7 +36,13 @@ public class AppInfo {
     public AppInfo(Context _ctx, String cache_str) {
         this(_ctx);
 
+        Log.i("FAST","trying to parse line: "  + cache_str );
         String[] app_info_str_split = cache_str.split(";;");
+
+        if (app_info_str_split.length<5) {
+            isValid=false;
+            return;
+        }
 
         hash = app_info_str_split[0];
         label = app_info_str_split[1];
@@ -121,5 +128,9 @@ public class AppInfo {
             }
         }
         return icon;
+    }
+
+    public boolean isValid() {
+        return isValid;
     }
 }

@@ -17,8 +17,14 @@ public class PackageListSerializer {
 
         String[] lines = inString.split("\n");
         for (String line : lines) {
-            if (line.length() > 0)
-                res.add(new AppInfo(ctx, line));
+            if (line.length() > 0) {
+                AppInfo appInfo = new AppInfo(ctx, line);
+
+                if (appInfo.isValid()) {
+                    res.add(appInfo);
+                }
+            }
+
         }
 
         return res;
