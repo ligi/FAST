@@ -71,12 +71,10 @@ public class LoadingDialog extends Activity {
         AndroidHelper.at(this).disableRotation();
     }
 
+    @SuppressWarnings("deprecation") // we cannot use the new getSize function - or we would get a NoSuchMethod error on newer devices
     private void setWindowWidth() {
-        Point screenSize = new Point();
-        getWindowManager().getDefaultDisplay().getSize(screenSize);
-
         WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.width = 3 * screenSize.x / 4;
+        params.width = 3 * getWindowManager().getDefaultDisplay().getWidth() / 4;
         getWindow().setAttributes(params);
     }
 
