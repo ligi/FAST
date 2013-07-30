@@ -8,7 +8,6 @@ proguard_logs/
 .project
 bin/
 gen/
-proguard-project.txt
 proguard/
 project.properties
 
