@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.4+'
+        classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
 apply plugin: 'android'
@@ -17,17 +17,6 @@ android {
         release {
             runProguard true
             proguardFile 'proguard-project.txt'
-        }
-    }
-
-    signingConfigs {
-        debug {
-            storeFile file("/home/ligi/.android/debug.keystore")
-        }
-
-        release {
-            storeFile file("/home/ligi/.android/fast.keystore")
-            keyAlias "ligi"
         }
     }
 
