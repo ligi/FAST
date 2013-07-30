@@ -1,3 +1,5 @@
+[![Build Status](https://ligi.ci.cloudbees.com/job/FAST%20Build/badge/icon)](https://ligi.ci.cloudbees.com/job/FAST%20Build/)
+
 Intro
 =====
 
