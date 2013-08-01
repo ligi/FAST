@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
+import org.ligi.androidhelper.simplifications.SimpleTextWatcher;
 import org.ligi.fast.util.FileHelper;
 import org.ligi.fast.util.PackageListSerializer;
 import org.ligi.tracedroid.Log;
@@ -33,9 +35,7 @@ import java.util.List;
 /**
  * The main Activity for this App - most things come together here
  *
- * @author Marcus -ligi- Büschleb
- *         <p/>
- *         License GPLv3
+ * License GPLv3
  */
 public class SearchActivity extends Activity {
 
@@ -108,7 +108,7 @@ public class SearchActivity extends Activity {
         });
         mSearchEditText.setHint(R.string.query_hint);
 
-        mSearchEditText.addTextChangedListener(new TextWatcher() {
+        mSearchEditText.addTextChangedListener(new SimpleTextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -118,16 +118,6 @@ public class SearchActivity extends Activity {
                 if ((mAdapter.getCount() == 1) && was_adding && getPrefs().isLaunchSingleActivated()) {
                     startItemAtPos(0);
                 }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
             }
 
         });
