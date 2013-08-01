@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -40,13 +39,13 @@ import java.util.List;
 public class SearchActivity extends Activity {
 
     private List<AppInfo> pkgAppsListTemp;
-    private AppInfoAdapter mAdapter;
-    private File mIndexFile;
-    private String mNewIndex = "";
-    private String mOldIndex = "";
-    private String mOldSearch = "";
-    private EditText mSearchEditText;
-    private GridView mGridView;
+    private AppInfoAdapter adapter;
+    private File indexFile;
+    private String newIndex = "";
+    private String oldIndex = "";
+    private String oldSearch = "";
+    private EditText searchEditText;
+    private GridView gridView;
     private String not_load_reason;
     private boolean retry = true;
 
@@ -63,59 +62,59 @@ public class SearchActivity extends Activity {
 
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
-        mIndexFile = new File(getCacheDir(), "index2.csv");
+        indexFile = new File(getCacheDir(), "index2.csv");
 
         try {
-            mOldIndex = FileHelper.file2String(mIndexFile);
+            oldIndex = FileHelper.file2String(indexFile);
         } catch (Exception e) { // IO ^^
             not_load_reason = e.toString();
             Log.w("could not load new Index:" + not_load_reason);
         }
 
-        pkgAppsListTemp = PackageListSerializer.fromString(this, mOldIndex);
+        pkgAppsListTemp = PackageListSerializer.fromString(this, oldIndex);
 
-        mAdapter = new AppInfoAdapter(this, pkgAppsListTemp);
+        adapter = new AppInfoAdapter(this, pkgAppsListTemp);
 
         if (getPrefs().getSortOrder().startsWith("alpha")) {
-            mAdapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
+            adapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
         }
 
         // sync was here
 
-        mGridView = (GridView) findViewById(R.id.listView);
+        gridView = (GridView) findViewById(R.id.listView);
 
         /*getSupportActionBar().setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
                         | ActionBar.DISPLAY_SHOW_HOME);
           */
 
-        mSearchEditText = (EditText) findViewById(R.id.searchEditText);
-        mSearchEditText.setSingleLine();
-        mSearchEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        mSearchEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
+        searchEditText = (EditText) findViewById(R.id.searchEditText);
+        searchEditText.setSingleLine();
+        searchEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        searchEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
 
-        mSearchEditText.setOnEditorActionListener(new OnEditorActionListener() {
+        searchEditText.setOnEditorActionListener(new OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
                                           KeyEvent event) {
-                if (mAdapter.getCount() > 0) {
+                if (adapter.getCount() > 0) {
                     startItemAtPos(0);
                 }
                 return true;
             }
 
         });
-        mSearchEditText.setHint(R.string.query_hint);
+        searchEditText.setHint(R.string.query_hint);
 
-        mSearchEditText.addTextChangedListener(new SimpleTextWatcher() {
+        searchEditText.addTextChangedListener(new SimpleTextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
-                boolean was_adding = mOldSearch.length() < s.toString().length();
-                mOldSearch = s.toString().toLowerCase();
-                mAdapter.setActQuery(s.toString().toLowerCase());
-                if ((mAdapter.getCount() == 1) && was_adding && getPrefs().isLaunchSingleActivated()) {
+                boolean was_adding = oldSearch.length() < s.toString().length();
+                oldSearch = s.toString().toLowerCase();
+                adapter.setActQuery(s.toString().toLowerCase());
+                if ((adapter.getCount() == 1) && was_adding && getPrefs().isLaunchSingleActivated()) {
                     startItemAtPos(0);
                 }
             }
@@ -123,7 +122,7 @@ public class SearchActivity extends Activity {
         });
         // getSupportActionBar().setCustomView(search_et);
 
-        mGridView.setOnItemClickListener(new OnItemClickListener() {
+        gridView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
@@ -138,14 +137,14 @@ public class SearchActivity extends Activity {
 
         });
 
-        mGridView.setLongClickable(true);
+        gridView.setLongClickable(true);
 
-        mGridView.setOnItemLongClickListener(new OnItemLongClickListener() {
+        gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long arg3) {
-                new AppActionDialogBuilder(SearchActivity.this, mAdapter.getAtPosition(pos)).show();
+                new AppActionDialogBuilder(SearchActivity.this, adapter.getAtPosition(pos)).show();
                 return true;
             }
 
@@ -166,7 +165,7 @@ public class SearchActivity extends Activity {
                 protected void onProgressUpdate(AppInfo... values) {
                     super.onProgressUpdate(values);
                     pkgAppsListTemp.add(values[0]);
-                    mNewIndex += values[0].toCacheString() + "\n";
+                    newIndex += values[0].toCacheString() + "\n";
                     retry = false;
                 }
 
@@ -181,7 +180,7 @@ public class SearchActivity extends Activity {
     }
 
     public void startItemAtPos(int pos) {
-        Intent intent = mAdapter.getAtPosition(pos).getIntent();
+        Intent intent = adapter.getAtPosition(pos).getIntent();
         intent.setAction("android.intent.action.MAIN");
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -193,14 +192,14 @@ public class SearchActivity extends Activity {
      */
     private void process_new_index() {
 
-        if (!mNewIndex.equals(mOldIndex)) {
+        if (!newIndex.equals(oldIndex)) {
             Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
-            mAdapter.setAllAppsList(pkgAppsListTemp);
+            adapter.setAllAppsList(pkgAppsListTemp);
 
             try {
-                FileOutputStream fos = new FileOutputStream(mIndexFile);
-                fos.write(mNewIndex.getBytes());
+                FileOutputStream fos = new FileOutputStream(indexFile);
+                fos.write(newIndex.getBytes());
                 fos.close();
             } catch (IOException e) {
 
@@ -215,8 +214,8 @@ public class SearchActivity extends Activity {
         switch (requestCode) {
             case R.id.activityResultLoadingDialog:
                 if (data != null) {
-                    mNewIndex = data.getStringExtra("newIndex");
-                    pkgAppsListTemp = PackageListSerializer.fromString(this, mNewIndex);
+                    newIndex = data.getStringExtra("newIndex");
+                    pkgAppsListTemp = PackageListSerializer.fromString(this, newIndex);
                     process_new_index();
                 }
                 break;
@@ -227,12 +226,12 @@ public class SearchActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        mSearchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
+        searchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
-        mSearchEditText.requestFocus();
+        searchEditText.requestFocus();
 
         // workaround from http://code.google.com/p/android/issues/detail?id=3612
-        mSearchEditText.postDelayed(new Runnable() {
+        searchEditText.postDelayed(new Runnable() {
 
             @Override
             public void run() {
@@ -240,21 +239,21 @@ public class SearchActivity extends Activity {
                 InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                keyboard.showSoftInput(mSearchEditText, 0);
+                keyboard.showSoftInput(searchEditText, 0);
             }
         }, 200);
 
         Log.i("Resume with " + getPrefs().isTextOnlyActive());
-        mGridView.setAdapter(mAdapter);
+        gridView.setAdapter(adapter);
 
         if (new FASTPrefs(this).getIconSize().equals("tiny"))
-            mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
+            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
         else if (new FASTPrefs(this).getIconSize().equals("small"))
-            mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
+            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
         else if (new FASTPrefs(this).getIconSize().equals("large"))
-            mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
+            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
         else
-            mGridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size));
+            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size));
 
     }
 
