@@ -11,6 +11,8 @@ Just type in a fraction of the name of the App you want to launch - most of the 
        src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
 </a>
 
+<a href="https://f-droid.org/repository/browse/?fdfilter=fast&fdid=org.ligi.fast">also on available F-Droid</a>
+
 <img src="https://raw.github.com/ligi/FAST/master/promo/512x512.png"/>
 <img src="https://raw.github.com/ligi/FAST/master/promo/qr_googleplay.png"/>
 
