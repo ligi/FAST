@@ -31,6 +31,10 @@ android {
             flavorGroup "market"
         }
 
+        forFDroid {
+            flavorGroup "market"
+        }
+
     }
 
 
