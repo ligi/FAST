@@ -15,7 +15,7 @@ android {
 
     buildTypes {
         release {
-            runProguard true
+            runProguard false
             proguardFile 'proguard-project.txt'
         }
     }
