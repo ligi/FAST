@@ -19,8 +19,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.androidhelper.simplifications.SimpleTextWatcher;
-import org.ligi.fast.util.FileHelper;
 import org.ligi.fast.util.PackageListSerializer;
 import org.ligi.tracedroid.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
@@ -65,7 +65,7 @@ public class SearchActivity extends Activity {
         indexFile = new File(getCacheDir(), "index2.csv");
 
         try {
-            oldIndex = FileHelper.file2String(indexFile);
+            oldIndex = AndroidHelper.at(indexFile).loadToString();
         } catch (Exception e) { // IO ^^
             not_load_reason = e.toString();
             Log.w("could not load new Index:" + not_load_reason);
