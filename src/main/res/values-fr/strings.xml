@@ -16,12 +16,12 @@
     <string name="open_as_notification">Ouvrir en tant que notification</string>
     <string name="query_hint">Rechercher...</string>
     <string name="text_only">Montrer uniquement le nom de l\'application</string>
-    <string name="show_no_icons_pure_text">Montrer uniquement le nom de l\'application, pas l\’icône</string>
+    <string name="show_no_icons_pure_text">Montrer uniquement le nom de l\'application, pas l’icône</string>
     <string name="max_text_lines">Lignes de texte</string>
     <string name="how_much_text_you_want">Nombre maximum de lige pour montrer le nom de l\'application</string>
     <string name="create_shortcut">Créer un raccourci</string>
     <string name="icon_size">Taille d\'icône</string>
-    <string name="how_big_icons">De quel taille doit être l\’icône?</string>
+    <string name="how_big_icons">De quel taille doit être l’icône?</string>
     <string name="theme">Thème</string>
     <string name="choose_your_look">Choisissez le thème de FAST App Search</string>
     <string name="sort">Trier</string>
