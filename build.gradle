@@ -9,8 +9,16 @@ buildscript {
 apply plugin: 'android'
 
 
+repositories {
+  mavenCentral()
+  maven {
+       url "https://raw.github.com/ligi/ligis-mvn-repo/master"
+       }
+}
+
+
 android {
-    compileSdkVersion 17
+    compileSdkVersion 18
     buildToolsVersion "17.0.0"
 
     buildTypes {
@@ -40,7 +48,6 @@ android {
 
     dependencies {
         compile fileTree(dir: 'libs', include: '*.jar')
+	compile 'org.ligi:AndroidHelper:0.14'
     }
 }
-
-
