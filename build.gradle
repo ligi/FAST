@@ -19,7 +19,7 @@ repositories {
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "18.0.1"
+    buildToolsVersion "17.0.0"
 
     buildTypes {
         release {
