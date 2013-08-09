@@ -6,6 +6,8 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
+import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.tracedroid.logging.Log;
 import java.io.*;
 import java.security.MessageDigest;
@@ -54,7 +56,8 @@ public class AppInfo {
         this(_ctx);
 
         // init attributes
-        label = ri.loadLabel(ctx.getPackageManager()).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
+        label=AndroidHelper.at(ri).getLabelSafely(_ctx);
+        label=label.replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
         packageName = ri.activityInfo.packageName;
         activityName = ri.activityInfo.name;
         callCount = 0;
