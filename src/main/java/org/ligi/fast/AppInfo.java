@@ -6,8 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-
+import org.ligi.tracedroid.logging.Log;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,8 +15,8 @@ import java.security.NoSuchAlgorithmException;
  * Class to Retrieve / Store Application Information needed by this App
  *
  * @author Marcus -ligi- Büschleb
- *         <p/>
- *         License GPLv3
+ *
+ * License GPLv3
  */
 public class AppInfo {
     private String label;
@@ -36,7 +35,7 @@ public class AppInfo {
     public AppInfo(Context _ctx, String cache_str) {
         this(_ctx);
 
-        Log.i("FAST","trying to parse line: "  + cache_str );
+        Log.i("trying to parse line: " + cache_str);
         String[] app_info_str_split = cache_str.split(";;");
 
         if (app_info_str_split.length<5) {
@@ -77,8 +76,7 @@ public class AppInfo {
             hash = hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            Log.w("FastAppSearchTool",
-                    "MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
+            Log.w( "MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
             hash = packageName; // fallback
         }
 
@@ -92,7 +90,7 @@ public class AppInfo {
                 icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
             } catch (IOException e) {
-                Log.w("FastAppSearchTool", " Could not cache the Icon");
+                Log.w(" Could not cache the Icon");
             }
         }
     }
@@ -124,7 +122,7 @@ public class AppInfo {
             try {
                 icon = new BitmapDrawable(ctx.getResources(), new FileInputStream(getIconCacheFile()));
             } catch (FileNotFoundException e) {
-                Log.w("FastAppSearchTool", "Could not load the cached Icon" + getIconCacheFile().getAbsolutePath());
+                Log.w( "Could not load the cached Icon" + getIconCacheFile().getAbsolutePath());
             }
         }
         return icon;
