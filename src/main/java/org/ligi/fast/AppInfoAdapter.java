@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import org.ligi.tracedroid.Log;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

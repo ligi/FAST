@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
-import org.ligi.tracedroid.Log;
+import org.ligi.tracedroid.logging.Log;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this.ctx = ctx;
+
     }
 
     @Override

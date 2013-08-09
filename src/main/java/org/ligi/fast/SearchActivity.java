@@ -22,7 +22,7 @@ import android.widget.TextView.OnEditorActionListener;
 import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.androidhelper.simplifications.SimpleTextWatcher;
 import org.ligi.fast.util.PackageListSerializer;
-import org.ligi.tracedroid.Log;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.io.File;
@@ -33,7 +33,7 @@ import java.util.List;
 
 /**
  * The main Activity for this App - most things come together here
- *
+ * <p/>
  * License GPLv3
  */
 public class SearchActivity extends Activity {
@@ -52,7 +52,6 @@ public class SearchActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ((ApplicationContext) getApplicationContext()).applyTheme(this);
-
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);

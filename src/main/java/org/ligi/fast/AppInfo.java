@@ -13,7 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Class to Retrieve / Store Application Infos needed by this App
+ * Class to Retrieve / Store Application Information needed by this App
  *
  * @author Marcus -ligi- Büschleb
  *         <p/>
@@ -21,13 +21,13 @@ import java.security.NoSuchAlgorithmException;
  */
 public class AppInfo {
     private String label;
-    private String package_name;
-    private String activity_name;
+    private String packageName;
+    private String activityName;
     private String hash;
-    private int call_count;
+    private int callCount;
     private Context ctx;
     private BitmapDrawable icon; // caching the Icon
-    private boolean isValid=true; //
+    private boolean isValid=true;
 
     private AppInfo(Context _ctx) {
         ctx = _ctx;
@@ -46,13 +46,13 @@ public class AppInfo {
 
         hash = app_info_str_split[0];
         label = app_info_str_split[1];
-        package_name = app_info_str_split[2];
-        activity_name = app_info_str_split[3];
-        call_count = Integer.parseInt(app_info_str_split[4]);
+        packageName = app_info_str_split[2];
+        activityName = app_info_str_split[3];
+        callCount = Integer.parseInt(app_info_str_split[4]);
     }
 
     public String toCacheString() {
-        return hash + ";;" + label + ";;" + package_name + ";;" + activity_name + ";;" + call_count;
+        return hash + ";;" + label + ";;" + packageName + ";;" + activityName + ";;" + callCount;
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
@@ -60,15 +60,15 @@ public class AppInfo {
 
         // init attributes
         label = ri.loadLabel(ctx.getPackageManager()).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
-        package_name = ri.activityInfo.packageName;
-        activity_name = ri.activityInfo.name;
-        call_count = 0;
+        packageName = ri.activityInfo.packageName;
+        activityName = ri.activityInfo.name;
+        callCount = 0;
 
         // calculate the hash
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(package_name.getBytes());
-            md.update(activity_name.getBytes());
+            md.update(packageName.getBytes());
+            md.update(activityName.getBytes());
             byte[] messageDigest = md.digest();
 
             StringBuffer hexString = new StringBuffer();
@@ -79,7 +79,7 @@ public class AppInfo {
         } catch (NoSuchAlgorithmException e) {
             Log.w("FastAppSearchTool",
                     "MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
-            hash = package_name; // fallback
+            hash = packageName; // fallback
         }
 
         // cache the Icon
@@ -103,12 +103,12 @@ public class AppInfo {
 
     public Intent getIntent() {
         Intent intent = new Intent();
-        intent.setClassName(package_name, activity_name);
+        intent.setClassName(packageName, activityName);
         return intent;
     }
 
     public String getPackageName() {
-        return package_name;
+        return packageName;
     }
 
     public String getLabel() {
@@ -116,7 +116,7 @@ public class AppInfo {
     }
 
     public int getCallCount() {
-        return call_count;
+        return callCount;
     }
 
     public Drawable getIcon() {
