@@ -69,9 +69,10 @@ public class AppInfo {
             md.update(activityName.getBytes());
             byte[] messageDigest = md.digest();
 
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            StringBuilder hexString = new StringBuilder();
+            for (byte digestByte:messageDigest) {
+                hexString.append(Integer.toHexString(0xFF & digestByte));
+            }
             hash = hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
@@ -81,8 +82,7 @@ public class AppInfo {
 
         // cache the Icon
         if (!getIconCacheFile().exists()) {
-            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx
-                    .getPackageManager());
+            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx.getPackageManager());
             try {
                 getIconCacheFile().createNewFile();
                 FileOutputStream fos = new FileOutputStream(getIconCacheFile());

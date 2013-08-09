@@ -16,6 +16,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.util.ArrayList;
 
 public class AppActionDialogBuilder extends AlertDialog.Builder {
@@ -176,7 +178,15 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         try {
             if (app_info.getPackageName() == null)
                 return false;
-            String installer_pkg = context.getPackageManager().getInstallerPackageName(app_info.getPackageName());
+            PackageManager packageManager = context.getPackageManager();
+
+            if (packageManager==null) {
+                Log.w("strange - there was no PackageManager - might lie to the user now with false"
+                        + "as I cannot determine the correct answer to the question isMarketApp()");
+                return false;
+            }
+
+            String installer_pkg = packageManager.getInstallerPackageName(app_info.getPackageName());
             return installer_pkg != null && installer_pkg.startsWith(TargetStore.STORE_PNAME);
         } catch (Exception e) {
             return false;

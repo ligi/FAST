@@ -201,8 +201,8 @@ public class AppInfoAdapter extends BaseAdapter {
     private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
         protected Void doInBackground(List<AppInfo>... params) {
             List<AppInfo> all = params[0];
-            for (int i = 0; i < all.size(); i++) {
-                all.get(i).getIcon();
+            for (AppInfo info:all) {
+                info.getIcon();
             }
             return null;
         }
