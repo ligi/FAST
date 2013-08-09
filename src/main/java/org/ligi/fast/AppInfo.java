@@ -13,10 +13,6 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Class to Retrieve / Store Application Information needed by this App
- *
- * @author Marcus -ligi- Büschleb
- *
- * License GPLv3
  */
 public class AppInfo {
     private String label;

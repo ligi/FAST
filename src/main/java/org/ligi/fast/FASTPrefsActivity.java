@@ -12,16 +12,12 @@ import android.view.Window;
 
 /**
  * Activity to Edit the Preferences
- *
- * @author Marcus -ligi- Büschleb
- *         <p/>
- *         License GPLv3
  */
 public class FASTPrefsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ((ApplicationContext) getApplicationContext()).applyTheme(this);
+        App.applyTheme(this);
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
@@ -42,31 +38,31 @@ public class FASTPrefsActivity extends PreferenceActivity {
                 this);
 
         CheckBoxPreference doLaunchSingleCheckBox = new CheckBoxPreference(this);
-        doLaunchSingleCheckBox.setKey(FASTPrefs.KEY_LAUNCHSINGLE);
+        doLaunchSingleCheckBox.setKey(FASTSettings.KEY_LAUNCHSINGLE);
         doLaunchSingleCheckBox.setTitle(R.string.launch_single);
         doLaunchSingleCheckBox.setSummary(R.string.auto_launch_if_only_one_app_left);
         doLaunchSingleCheckBox.setDefaultValue(false);
 
         CheckBoxPreference doSearchInPackage = new CheckBoxPreference(this);
-        doSearchInPackage.setKey(FASTPrefs.KEY_SEARCHPKG);
+        doSearchInPackage.setKey(FASTSettings.KEY_SEARCHPKG);
         doSearchInPackage.setTitle(R.string.search_in_package);
         doSearchInPackage.setSummary(R.string.also_use_the_package_name_for_searching);
         doSearchInPackage.setDefaultValue(false);
 
         CheckBoxPreference marketForAllApps = new CheckBoxPreference(this);
-        marketForAllApps.setKey(FASTPrefs.KEY_MARKETFORALL);
+        marketForAllApps.setKey(FASTSettings.KEY_MARKETFORALL);
         marketForAllApps.setTitle("" + String.format(getResources().getString(R.string.open_in_for_all), TargetStore.STORE_NAME));
         marketForAllApps.setSummary(R.string.even_if_installed_another_way);
         marketForAllApps.setDefaultValue(false);
 
         CheckBoxPreference textOnly = new CheckBoxPreference(this);
-        textOnly.setKey(FASTPrefs.KEY_TEXTONLY);
+        textOnly.setKey(FASTSettings.KEY_TEXTONLY);
         textOnly.setTitle(R.string.text_only);
         textOnly.setSummary(R.string.show_no_icons_pure_text);
         textOnly.setDefaultValue(false);
 
         ListPreference maxLinesPref = new ListPreference(this);
-        maxLinesPref.setKey(FASTPrefs.KEY_MAXLINES);
+        maxLinesPref.setKey(FASTSettings.KEY_MAXLINES);
         maxLinesPref.setTitle(R.string.max_text_lines);
         maxLinesPref.setSummary(R.string.how_much_text_you_want);
         maxLinesPref.setEntries(new CharSequence[]{"1", "2", "3"});
@@ -74,7 +70,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         maxLinesPref.setDefaultValue("1");
 
         ListPreference iconSizePref = new ListPreference(this);
-        iconSizePref.setKey(FASTPrefs.KEY_ICONSIZE);
+        iconSizePref.setKey(FASTSettings.KEY_ICONSIZE);
         iconSizePref.setTitle(R.string.icon_size);
         iconSizePref.setSummary(R.string.how_big_icons);
         iconSizePref.setEntries(R.array.sizes);
@@ -82,7 +78,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         iconSizePref.setDefaultValue("medium");
 
         ListPreference sortPref = new ListPreference(this);
-        sortPref.setKey(FASTPrefs.KEY_SORT);
+        sortPref.setKey(FASTSettings.KEY_SORT);
         sortPref.setTitle(getString(R.string.sort));
         sortPref.setSummary(getString(R.string.sort_decr));
         sortPref.setEntries(R.array.sort_orders);
@@ -90,7 +86,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         sortPref.setDefaultValue("unsorted");
 
         ListPreference themePref = new ListPreference(this);
-        themePref.setKey(FASTPrefs.KEY_THEME);
+        themePref.setKey(FASTSettings.KEY_THEME);
         themePref.setTitle(R.string.theme);
         themePref.setSummary(R.string.choose_your_look);
         themePref.setEntries(R.array.themes);
@@ -106,7 +102,7 @@ public class FASTPrefsActivity extends PreferenceActivity {
         });
 
         CheckBoxPreference convertUmlauts = new CheckBoxPreference(this);
-        convertUmlauts.setKey(FASTPrefs.KEY_UMLAUTCONVERT);
+        convertUmlauts.setKey(FASTSettings.KEY_UMLAUTCONVERT);
         convertUmlauts.setTitle(getString(R.string.convert_umlauts));
         convertUmlauts.setSummary(getString(R.string.convert_umlauts_descr));
         convertUmlauts.setDefaultValue(false);

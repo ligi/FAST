@@ -6,12 +6,8 @@ import android.preference.PreferenceManager;
 
 /**
  * Class to handle the Preferences
- *
- * @author Marcus -ligi- Büschleb
- *         <p/>
- *         License GPLv3
  */
-public class FASTPrefs {
+public class FASTSettings {
 
 
     private SharedPreferences mSharedPreferences;
@@ -26,7 +22,7 @@ public class FASTPrefs {
     public static final String KEY_THEME = "theme";
     public static final String KEY_SORT = "sort";
 
-    public FASTPrefs(Context ctx) {
+    public FASTSettings(Context ctx) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 

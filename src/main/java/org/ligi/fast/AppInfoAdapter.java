@@ -14,20 +14,15 @@ import java.util.List;
 
 /**
  * Adapter to provide the AppInfo to the user - also care for the filtering of the query
- *
- * @author Marcus -ligi- Büschleb
- *         jfreax
- *         <p/>
- *         License GPLv3
  */
 public class AppInfoAdapter extends BaseAdapter {
 
     private static List<AppInfo> pkgAppsListShowing;
     private static List<AppInfo> pkgAppsListAll;
     private Context ctx;
-    private String act_query = "";
+    private String actQuery = "";
     private String colorString = "";
-    private SortMode sort_mode = SortMode.UNSORTED;
+    private SortMode sortMode = SortMode.UNSORTED;
 
     public enum SortMode {
         UNSORTED, ALPHABETICAL
@@ -45,15 +40,15 @@ public class AppInfoAdapter extends BaseAdapter {
 
         new IconCacheTask().execute(pkgAppsListAll);
 
-        setActQuery(act_query); // to rebuild the showing list
+        setActQuery(actQuery); // to rebuild the showing list
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
         colorString = Integer.toHexString(color).toUpperCase().substring(2);
     }
 
     public void setSortMode(SortMode mode) {
-        sort_mode = mode;
-        if (sort_mode.equals(SortMode.ALPHABETICAL))
+        sortMode = mode;
+        if (sortMode.equals(SortMode.ALPHABETICAL))
             java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
     }
 
@@ -72,14 +67,14 @@ public class AppInfoAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        if (convertView == null) { // || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getPrefs().isTextOnlyActive()) { // if it's not recycled, initialize some
+        if (convertView == null) { // || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getSettings().isTextOnlyActive()) { // if it's not recycled, initialize some
 
             LayoutInflater mLayoutInflater = (LayoutInflater) ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (getPrefs().isTextOnlyActive())
+            if (App.getSettings().isTextOnlyActive())
                 convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
             else {
-                String size = (new FASTPrefs(ctx).getIconSize());
+                String size = (new FASTSettings(ctx).getIconSize());
                 int cellSize;
                 int iconSize;
 
@@ -121,14 +116,14 @@ public class AppInfoAdapter extends BaseAdapter {
             holder.image.setImageDrawable(drawable);
         }
 
-        labelView.setMaxLines(getPrefs().getMaxLines());
+        labelView.setMaxLines(App.getSettings().getMaxLines());
 
         String label = pkgAppsListShowing.get(position).getLabel();
         String hightlight_label = label;
 
-        int query_index = label.toLowerCase().indexOf(act_query);
+        int query_index = label.toLowerCase().indexOf(actQuery);
 
-        if (act_query.length() == 0) {
+        if (actQuery.length() == 0) {
             labelView.setText(label);
             return convertView;
         }
@@ -136,7 +131,7 @@ public class AppInfoAdapter extends BaseAdapter {
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = pkgAppsListShowing.get(position).getPackageName();
             label = label.replace("com.google.android.apps.", "");
-            query_index = label.toLowerCase().indexOf(act_query);
+            query_index = label.toLowerCase().indexOf(actQuery);
         }
 
         if (query_index != -1) {
@@ -145,9 +140,9 @@ public class AppInfoAdapter extends BaseAdapter {
                     + colorString
                     + "'>"
                     + label.substring(query_index,
-                    query_index + act_query.length())
+                    query_index + actQuery.length())
                     + "</font>"
-                    + label.substring(query_index + act_query.length(),
+                    + label.substring(query_index + actQuery.length(),
                     label.length());
         }
 
@@ -157,12 +152,12 @@ public class AppInfoAdapter extends BaseAdapter {
 
 
     private boolean appInfoMatchesQuery(AppInfo info, String query) {
-        if (info.getLabel().toLowerCase().contains(act_query)) {
+        if (info.getLabel().toLowerCase().contains(actQuery)) {
             return true;
         }
 
         // also search in package name when activated
-        if (getPrefs().isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(act_query))) {
+        if (App.getSettings().isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(actQuery))) {
             return true;
         }
 
@@ -174,13 +169,13 @@ public class AppInfoAdapter extends BaseAdapter {
         // is FASTer than exact and totally enough for most cases
         String actAlternateQuery;
 
-        if (getPrefs().isUmlautConvertActivated()) {
+        if (App.getSettings().isUmlautConvertActivated()) {
             actAlternateQuery = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
         } else {
             actAlternateQuery = null;
         }
 
-        this.act_query = act_query;
+        this.actQuery = act_query;
 
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
@@ -196,10 +191,6 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public AppInfo getAtPosition(int pos) {
         return pkgAppsListShowing.get(pos);
-    }
-
-    public FASTPrefs getPrefs() {
-        return ((ApplicationContext) ctx.getApplicationContext()).getPrefs();
     }
 
     private static class ViewHolder {

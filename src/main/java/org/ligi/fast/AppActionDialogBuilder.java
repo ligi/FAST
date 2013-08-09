@@ -68,7 +68,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
-        if (new FASTPrefs(context).isMarketForAllActivated()
+        if (new FASTSettings(context).isMarketForAllActivated()
                 || isMarketApp())
             fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
                 @Override
@@ -88,7 +88,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             @Override
             public void run() {
                 try {
-                    String message = "check out this app: " + ApplicationContext.getStoreURL4PackageName(app_info.getPackageName());
+                    String message = "check out this app: " + App.getStoreURL4PackageName(app_info.getPackageName());
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");
                     share.putExtra(Intent.EXTRA_TEXT, message);

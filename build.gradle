@@ -47,7 +47,7 @@ android {
 
 
     dependencies {
-        compile 'org.ligi:AndroidHelper:0.14'
+        compile 'org.ligi:AndroidHelper:0.15'
         compile 'org.ligi:tracedroid:1.1'
         compile 'com.android.support:support-v4:18.0.0'
     }

@@ -2,7 +2,6 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -14,10 +13,6 @@ import org.ligi.androidhelper.AndroidHelper;
 /**
  * Dialog to make the waiting time for the initial index building nicer for the user
  * inform him which app we are processing and how far we are progressed with that
- *
- * @author Marcus -ligi- Büschleb
- *         <p/>
- *         License GPLv3
  */
 public class LoadingDialog extends Activity {
 

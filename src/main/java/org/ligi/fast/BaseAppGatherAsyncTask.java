@@ -10,10 +10,6 @@ import java.util.List;
 
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
- *
- * @author Marcus -ligi- Büschleb
- *         <p/>
- *         License GPLv3
  */
 public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private Context ctx;

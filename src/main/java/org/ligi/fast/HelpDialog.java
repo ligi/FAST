@@ -8,11 +8,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
 
-/**
- * User: ligi
- * Date: 2/12/13
- * Time: 10:29 PM
- */
 public class HelpDialog {
 
     public static void show(Context ctx) {

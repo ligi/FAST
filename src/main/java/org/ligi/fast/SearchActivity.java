@@ -2,7 +2,6 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -33,8 +31,6 @@ import java.util.List;
 
 /**
  * The main Activity for this App - most things come together here
- * <p/>
- * License GPLv3
  */
 public class SearchActivity extends Activity {
 
@@ -51,7 +47,7 @@ public class SearchActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ((ApplicationContext) getApplicationContext()).applyTheme(this);
+        App.applyTheme(this);
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -74,7 +70,7 @@ public class SearchActivity extends Activity {
 
         adapter = new AppInfoAdapter(this, pkgAppsListTemp);
 
-        if (getPrefs().getSortOrder().startsWith("alpha")) {
+        if (App.getSettings().getSortOrder().startsWith("alpha")) {
             adapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
         }
 
@@ -113,7 +109,7 @@ public class SearchActivity extends Activity {
                 boolean was_adding = oldSearch.length() < s.toString().length();
                 oldSearch = s.toString().toLowerCase();
                 adapter.setActQuery(s.toString().toLowerCase());
-                if ((adapter.getCount() == 1) && was_adding && getPrefs().isLaunchSingleActivated()) {
+                if ((adapter.getCount() == 1) && was_adding && App.getSettings().isLaunchSingleActivated()) {
                     startItemAtPos(0);
                 }
             }
@@ -201,7 +197,8 @@ public class SearchActivity extends Activity {
                 fos.write(newIndex.getBytes());
                 fos.close();
             } catch (IOException e) {
-
+                Log.i("could not write new index because " + e
+                        + " user might suffer from constant index rebuilds");
             }
         }
     }
@@ -234,32 +231,25 @@ public class SearchActivity extends Activity {
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                InputMethodManager keyboard = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                keyboard.showSoftInput(searchEditText, 0);
+                AndroidHelper.at(searchEditText).hideKeyBoard();
             }
         }, 200);
 
-        Log.i("Resume with " + getPrefs().isTextOnlyActive());
+        Log.i("Resume with " + App.getSettings().isTextOnlyActive());
         gridView.setAdapter(adapter);
 
-        if (new FASTPrefs(this).getIconSize().equals("tiny"))
+        if (new FASTSettings(this).getIconSize().equals("tiny"))
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
-        else if (new FASTPrefs(this).getIconSize().equals("small"))
+        else if (new FASTSettings(this).getIconSize().equals("small"))
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
-        else if (new FASTPrefs(this).getIconSize().equals("large"))
+        else if (new FASTSettings(this).getIconSize().equals("large"))
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
         else
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size));
 
     }
 
-    public FASTPrefs getPrefs() {
-        return ((ApplicationContext) getApplicationContext()).getPrefs();
-    }
-
+    @SuppressWarnings("UnusedDeclaration") // the API is that way
     public void settingsClicked(View v) {
         startActivity(new Intent(this, FASTPrefsActivity.class));
         finish();
