@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -205,19 +204,6 @@ public class AppInfoAdapter extends BaseAdapter {
                 info.getIcon();
             }
             return null;
-        }
-    }
-
-    class AppInfoSortByLabelComparator implements Comparator<AppInfo> {
-
-        @Override
-        public int compare(AppInfo lhs, AppInfo rhs) {
-            return lhs.getLabel().compareTo(rhs.getLabel());
-        }
-
-        @Override
-        public boolean equals(Object object) {
-            return false;  //To change body of implemented methods use File | Settings | File Templates.
         }
     }
 
