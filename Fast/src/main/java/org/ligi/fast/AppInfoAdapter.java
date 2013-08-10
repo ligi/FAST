@@ -49,7 +49,7 @@ public class AppInfoAdapter extends BaseAdapter {
     public void setSortMode(SortMode mode) {
         sortMode = mode;
         if (sortMode.equals(SortMode.ALPHABETICAL))
-            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortComperator());
+            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortByLabelComparator());
     }
 
     public int getCount() {
@@ -208,7 +208,7 @@ public class AppInfoAdapter extends BaseAdapter {
         }
     }
 
-    class AppInfoSortComperator implements Comparator<AppInfo> {
+    class AppInfoSortByLabelComparator implements Comparator<AppInfo> {
 
         @Override
         public int compare(AppInfo lhs, AppInfo rhs) {
