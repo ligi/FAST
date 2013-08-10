@@ -19,7 +19,7 @@ public class HelpDialog {
         Linkify.addLinks(tv, Linkify.ALL);
         tv.setMovementMethod(LinkMovementMethod.getInstance());
         new AlertDialog.Builder(ctx).setTitle(R.string.help_label).setView(tv)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
