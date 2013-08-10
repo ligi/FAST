@@ -1,0 +1,85 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "file:///home/ligi/git/ligis-mvn-repo"
+        //url "https://raw.github.com/ligi/ligis-mvn-repo/master"
+    }
+}
+
+configurations {
+    unitTestCompile.extendsFrom runtime
+    unitTestRuntime.extendsFrom unitTestCompile 
+} 
+
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "17.0.0"
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFile 'proguard-project.txt'
+        }
+    }
+
+    flavorGroups "market"
+    productFlavors {
+        // no google-play services & google-analytics
+        forGooglePlay {
+            flavorGroup "market"
+        }
+
+        forAmazon {
+            flavorGroup "market"
+        }
+
+        forFDroid {
+            flavorGroup "market"
+        }
+
+    }
+
+
+    dependencies {
+         compile 'org.ligi:AndroidHelper:0.16'
+         compile 'org.ligi:tracedroid:1.1'
+         compile 'com.android.support:support-v4:18.0.0'
+
+ unitTestCompile files("$project.buildDir/classes/forGooglePlay/debug") 
+    unitTestCompile 'junit:junit:4.11' 
+    unitTestCompile 'org.robolectric:robolectric:2.1.1' 
+    unitTestCompile 'com.google.android:android:4.1.1.4' 
+unitTestCompile 'com.squareup:fest-android:1.0.5'
+         unitTestCompile 'org.ligi:AndroidHelper:0.16'
+         unitTestCompile 'org.ligi:tracedroid:1.1'
+         unitTestCompile 'com.android.support:support-v4:18.0.0'
+    }
+}
+
+sourceSets { 
+    unitTest { 
+        java.srcDir file('src/test/java') 
+        resources.srcDir file('src/test/resources') 
+    } 
+} 
+ 
+
+task unitTest(type:Test, dependsOn: assemble) { 
+    description = "run unit tests" 
+    testClassesDir = project.sourceSets.unitTest.output.classesDir 
+    classpath = project.sourceSets.unitTest.runtimeClasspath 
+} 
+ 
+check.dependsOn unitTest
