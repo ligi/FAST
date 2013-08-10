@@ -54,7 +54,6 @@ public class SearchActivity extends Activity {
 
         setContentView(R.layout.activity_search);
 
-
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
         indexFile = new File(getCacheDir(), "index2.csv");
