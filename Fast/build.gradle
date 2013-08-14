@@ -12,8 +12,7 @@ apply plugin: 'android'
 repositories {
     mavenCentral()
     maven {
-        url "file:///home/ligi/git/ligis-mvn-repo"
-        //url "https://raw.github.com/ligi/ligis-mvn-repo/master"
+        url project.hasProperty('ligisMavenUrl') ? ligisMavenUrl : "https://raw.github.com/ligi/ligis-mvn-repo/master";
     }
 }
 
