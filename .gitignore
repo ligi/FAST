@@ -1,3 +1,4 @@
+gradle.properties
 *.iml
 .gradletasknamecache
 .gradle
