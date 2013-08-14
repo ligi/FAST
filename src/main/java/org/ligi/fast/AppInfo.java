@@ -2,6 +2,7 @@ package org.ligi.fast;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -88,9 +89,12 @@ public class AppInfo {
             hash = packageName; // fallback
         }
 
-        // cache the Icon
-        if (!getIconCacheFile().exists()) {
-            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx.getPackageManager());
+        /* cache the Icon */
+        PackageManager packageManager = ctx.getPackageManager();
+        System.out.print("packageManager" + packageManager);
+        if ((!getIconCacheFile().exists()) && packageManager !=null) {
+
+            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(packageManager);
             if (icon != null) {
                 try {
                     getIconCacheFile().createNewFile();
