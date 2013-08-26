@@ -18,7 +18,7 @@ repositories {
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "17.0.0"
+    buildToolsVersion "18.0.1"
 
     buildTypes {
         release {
@@ -27,7 +27,7 @@ android {
         }
     }
 
-    flavorGroups "market"
+    flavorGroups "market","language"
     productFlavors {
         // no google-play services & google-analytics
         forGooglePlay {
@@ -42,11 +42,19 @@ android {
             flavorGroup "market"
         }
 
+	singleLanguage {
+            flavorGroup "language"
+	}
+
+	multiLanguage {
+            flavorGroup "language"
+	}
+
     }
 
 
     dependencies {
-        compile 'org.ligi:AndroidHelper:0.17'
+        compile 'org.ligi:AndroidHelper:0.20'
         compile 'org.ligi:tracedroid:1.1'
         compile 'com.android.support:support-v4:18.0.0'
     }
