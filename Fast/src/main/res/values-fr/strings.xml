@@ -1,31 +1,31 @@
 <resources>
     <string name="app_name">FAST App Search Tool</string>
-    <string name="icon">Icône</string>
+    <string name="icon">"Icône"</string>
     <string name="launch_single">Lancement automatique</string>
     <string name="settings">Paramètres</string>
     <string name="connect">Connecter</string>
     <string name="share">Partager</string>
     <string name="rate">Note</string>
-    <string name="also_use_the_package_name_for_searching">Chercher le nom du paquet mais aussi le nom de l\'application</string>
+    <string name="also_use_the_package_name_for_searching">"Chercher le nom du paquet mais aussi le nom de l'application"</string>
     <string name="search_in_package">Rechercher des paquets</string>
-    <string name="auto_launch_if_only_one_app_left">Si il n\'y a qu\'un résultat de recherche, lancer automatiquement</string>
-    <string name="open_in_for_all">Tout le temps montrer "ouvrir dans %s"</string>
-    <string name="even_if_installed_another_way">Même si il a été installé d\'une autre manière</string>
-    <string name="application_details">Détails d\'Application</string>
+    <string name="auto_launch_if_only_one_app_left">"Si il n'y a qu'un résultat de recherche, lancer automatiquement"</string>
+    <string name="open_in_for_all">"Tout le temps montrer "ouvrir dans %s""</string>
+    <string name="even_if_installed_another_way">"Même si il a été installé d'une autre manière"</string>
+    <string name="application_details">"Détails d'Application"</string>
     <string name="open_in">Ouvrir dans</string>
     <string name="open_as_notification">Ouvrir en tant que notification</string>
     <string name="query_hint">Rechercher...</string>
-    <string name="text_only">Montrer uniquement le nom de l\'application</string>
-    <string name="show_no_icons_pure_text">Montrer uniquement le nom de l\'application, pas l’icône</string>
+    <string name="text_only">"Montrer uniquement le nom de l'application"</string>
+    <string name="show_no_icons_pure_text">"Montrer uniquement le nom de l'application, pas l’icône"</string>
     <string name="max_text_lines">Lignes de texte</string>
-    <string name="how_much_text_you_want">Nombre maximum de lige pour montrer le nom de l\'application</string>
-    <string name="create_shortcut">Créer un raccourci</string>
-    <string name="icon_size">Taille d\'icône</string>
-    <string name="how_big_icons">De quel taille doit être l’icône?</string>
-    <string name="theme">Thème</string>
-    <string name="choose_your_look">Choisissez le thème de FAST App Search</string>
+    <string name="how_much_text_you_want">"Nombre maximum de lige pour montrer le nom de l'application"</string>
+    <string name="create_shortcut">"Créer un raccourci"</string>
+    <string name="icon_size">"Taille d'icône"</string>
+    <string name="how_big_icons">"De quel taille doit être l’icône?"</string>
+    <string name="theme">"Thème"</string>
+    <string name="choose_your_look">"Choisissez le thème de FAST App Search"</string>
     <string name="sort">Trier</string>
-    <string name="sort_decr">De quelle manière les applications doivent-elles être triées?</string>
+    <string name="sort_decr">"De quelle manière les applications doivent-elles être triées?"</string>
 
 
     <string name="help_label">Aide</string>
@@ -42,24 +42,24 @@ Si vous aimez cette application vous pouvez la partager, sélectionnez partager 
 ]]>
     </string>
     <string name="convert_umlauts">Conserver umlauts</string>
-    <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
+    <string name="convert_umlauts_descr">"ae to ä; oe to ö; ss to ß; ue to ü"</string>
     <string name="loadingDialogTitle">Mettre en cache pour être FAST</string>
     <string-array name="sizes">
         <item>Minuscule</item>
         <item>Petit</item>
         <item>moyen</item>
-        <item>Énorme</item>
+        <item>"Énorme"</item>
     </string-array>
 
     <string-array name="themes">
-        <item>Foncé</item>
+        <item>"Foncé"</item>
         <item>Clair</item>
-        <item>Transparent et foncé</item>
+        <item>"Transparent et foncé"</item>
         <item>Transparent et clair</item>
     </string-array>
 
     <string-array name="sort_orders">
-        <item>Non trié</item>
-        <item>Alphabétique</item>
+        <item>"Non trié"</item>
+        <item>"Alphabétique"</item>
     </string-array>
 </resources>
