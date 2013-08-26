@@ -6,10 +6,7 @@ Intro
 **Find and Launch Applications FAST** and for free with a small App that needs no permission!
 Just type in a fraction of the name of the App you want to launch - most of the time 3 chars are enough.
 
-<a href="https://play.google.com/store/apps/details?id=org.ligi.fast">
-  <img alt="Android app on Google Play"
-       src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
-</a>
+[![Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=org.ligi.fast)
 
 <a href="https://f-droid.org/repository/browse/?fdfilter=fast&fdid=org.ligi.fast">also on available F-Droid</a>
 
