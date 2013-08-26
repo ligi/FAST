@@ -13,8 +13,7 @@ repositories {
     mavenCentral()
     maven {
         url project.hasProperty('ligisMavenUrl') ? ligisMavenUrl : "https://raw.github.com/ligi/ligis-mvn-repo/master";
-    }
-}
+    }}
 
 
 android {
@@ -23,7 +22,7 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            runProguard true
             proguardFile 'proguard-project.txt'
         }
     }
