@@ -34,7 +34,7 @@
             android:theme="@style/transparent_dark">
 
         <activity
-                android:name=".FASTPrefsActivity"/>
+                android:name=".FASTSettingsActivity"/>
         <activity
                 android:name=".LoadingDialog"
                 android:theme="@android:style/Theme.Dialog"/>

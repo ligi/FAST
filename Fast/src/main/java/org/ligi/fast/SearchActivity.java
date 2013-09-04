@@ -253,7 +253,7 @@ public class SearchActivity extends Activity {
 
     @SuppressWarnings("UnusedDeclaration") // the API is that way
     public void settingsClicked(View v) {
-        startActivity(new Intent(this, FASTPrefsActivity.class));
+        startActivity(new Intent(this, FASTSettingsActivity.class));
         finish();
     }
 

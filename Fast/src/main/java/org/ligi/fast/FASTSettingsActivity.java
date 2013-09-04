@@ -13,7 +13,7 @@ import android.view.Window;
 /**
  * Activity to Edit the Preferences
  */
-public class FASTPrefsActivity extends PreferenceActivity {
+public class FASTSettingsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
