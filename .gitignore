@@ -11,4 +11,4 @@ bin/
 gen/
 proguard/
 project.properties
-
+tests/AndroidManifest.xml
