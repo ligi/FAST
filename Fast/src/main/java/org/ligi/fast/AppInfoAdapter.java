@@ -2,13 +2,12 @@ package org.ligi.fast;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -16,43 +15,24 @@ import java.util.List;
  */
 public class AppInfoAdapter extends BaseAdapter {
 
-    private static List<AppInfo> pkgAppsListShowing;
-    private static List<AppInfo> pkgAppsListAll;
-    private Context ctx;
-    private String actQuery = "";
-    private String colorString = "";
-    private SortMode sortMode = SortMode.UNSORTED;
 
-    public enum SortMode {
-        UNSORTED, ALPHABETICAL
-    }
+    private final Context ctx;
 
-    public AppInfoAdapter(Context _ctx, List<AppInfo> _pkgAppsListAll) {
-        ctx = _ctx;
-        setAllAppsList(_pkgAppsListAll);
-    }
+    private String highLightColorHexString = "";
+    private final AppInfoList appInfoList;
 
-    @SuppressWarnings("unchecked")
-    public void setAllAppsList(List<AppInfo> _pkgAppsListAll) {
-        pkgAppsListAll = new ArrayList<AppInfo>();
-        pkgAppsListAll.addAll(_pkgAppsListAll);
 
-        new IconCacheTask().execute(pkgAppsListAll);
-
-        setActQuery(actQuery); // to rebuild the showing list
+    public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
+        this.ctx = ctx;
+        appInfoList=new AppInfoList(pkgAppsListAll);
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
-        colorString = Integer.toHexString(color).toUpperCase().substring(2);
+        highLightColorHexString = Integer.toHexString(color).toUpperCase().substring(2);
     }
 
-    public void setSortMode(SortMode mode) {
-        sortMode = mode;
-        if (sortMode.equals(SortMode.ALPHABETICAL))
-            java.util.Collections.sort(pkgAppsListAll, new AppInfoSortByLabelComparator());
-    }
 
     public int getCount() {
-        return pkgAppsListShowing.size();
+        return appInfoList.getCount();
     }
 
     public Object getItem(int position) {
@@ -70,9 +50,9 @@ public class AppInfoAdapter extends BaseAdapter {
 
             LayoutInflater mLayoutInflater = (LayoutInflater) ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (App.getSettings().isTextOnlyActive())
+            if (App.getSettings().isTextOnlyActive()) {
                 convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
-            else {
+            } else {
                 String size = (new FASTSettings(ctx).getIconSize());
                 int cellSize;
                 int iconSize;
@@ -111,85 +91,48 @@ public class AppInfoAdapter extends BaseAdapter {
         ImageView imageView = holder.image;
         TextView labelView = holder.text;
         if (imageView != null) {
-            Drawable drawable = pkgAppsListShowing.get(position).getIcon();
+            Drawable drawable = appInfoList.get(position).getIcon();
             holder.image.setImageDrawable(drawable);
         }
 
         labelView.setMaxLines(App.getSettings().getMaxLines());
 
-        String label = pkgAppsListShowing.get(position).getLabel();
-        String hightlight_label = label;
+        String label = appInfoList.get(position).getLabel();
+        String highlight_label = label;
 
-        int query_index = label.toLowerCase().indexOf(actQuery);
+        int query_index = label.toLowerCase().indexOf(appInfoList.getQuery());
 
-        if (actQuery.length() == 0) {
+        if (appInfoList.getQuery().length() == 0) {
             labelView.setText(label);
             return convertView;
         }
 
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
-            label = pkgAppsListShowing.get(position).getPackageName();
+            label = appInfoList.get(position).getPackageName();
             label = label.replace("com.google.android.apps.", "");
-            query_index = label.toLowerCase().indexOf(actQuery);
+            query_index = label.toLowerCase().indexOf(appInfoList.getQuery());
         }
 
         if (query_index != -1) {
-            hightlight_label = label.substring(0, query_index)
+            highlight_label = label.substring(0, query_index)
                     + "<font color='#"
-                    + colorString
+                    + highLightColorHexString
                     + "'>"
                     + label.substring(query_index,
-                    query_index + actQuery.length())
+                    query_index + appInfoList.getQuery().length())
                     + "</font>"
-                    + label.substring(query_index + actQuery.length(),
+                    + label.substring(query_index + appInfoList.getQuery().length(),
                     label.length());
         }
 
-        labelView.setText(Html.fromHtml(hightlight_label));
+        labelView.setText(Html.fromHtml(highlight_label));
         return convertView;
     }
 
 
-    private boolean appInfoMatchesQuery(AppInfo info, String query) {
-        if (info.getLabel().toLowerCase().contains(actQuery)) {
-            return true;
-        }
-
-        // also search in package name when activated
-        if (App.getSettings().isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(actQuery))) {
-            return true;
-        }
-
-        return false; // no match till here - we must be false
-    }
-
     public void setActQuery(String act_query) {
-        // note the alternate query approach is not exact - doesn't match all permutations of replacements, but
-        // is FASTer than exact and totally enough for most cases
-        String actAlternateQuery;
-
-        if (App.getSettings().isUmlautConvertActivated()) {
-            actAlternateQuery = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
-        } else {
-            actAlternateQuery = null;
-        }
-
-        this.actQuery = act_query;
-
-        ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
-
-        for (AppInfo info : pkgAppsListAll) {
-            if (appInfoMatchesQuery(info, act_query) || appInfoMatchesQuery(info, actAlternateQuery)) {
-                pkgAppsListFilter.add(info);
-            }
-        }
-
-        pkgAppsListShowing = pkgAppsListFilter;
+        appInfoList.setQuery(act_query);
         notifyDataSetChanged();
-    }
-
-    public AppInfo getAtPosition(int pos) {
-        return pkgAppsListShowing.get(pos);
     }
 
     private static class ViewHolder {
@@ -197,14 +140,8 @@ public class AppInfoAdapter extends BaseAdapter {
         public ImageView image;
     }
 
-    private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
-        protected Void doInBackground(List<AppInfo>... params) {
-            List<AppInfo> all = params[0];
-            for (AppInfo info:all) {
-                info.getIcon();
-            }
-            return null;
-        }
+    public AppInfoList getList() {
+        return appInfoList;
     }
 
 }

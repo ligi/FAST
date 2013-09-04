@@ -23,11 +23,8 @@ public class FASTPrefsActivity extends PreferenceActivity {
 
         super.onCreate(savedInstanceState);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         PreferenceScreen prefs_screen = createPreferenceHierarchy();
         setPreferenceScreen(prefs_screen);
-
 
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.prefs_title);
     }

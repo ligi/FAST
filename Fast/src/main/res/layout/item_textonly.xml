@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxLines="2" 
-        android:text="a"/>
+        android:maxLines="2" />
     
 
 </LinearLayout>

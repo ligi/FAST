@@ -11,13 +11,12 @@ import java.util.List;
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
  */
-public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
-    private Context ctx;
-    protected int appCount;
+class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
+    private final Context ctx;
+    int appCount;
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this.ctx = ctx;
-
     }
 
     @Override
@@ -26,15 +25,14 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         try {
-            List<ResolveInfo> resolveInfos = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
-            appCount = resolveInfos.size();
-            for (ResolveInfo info : resolveInfos) {
+            List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
+            appCount = resolveInfoList.size();
+            for (ResolveInfo info : resolveInfoList) {
                 AppInfo act_appinfo = new AppInfo(ctx, info);
                 publishProgress(act_appinfo);
             }
         } catch (Exception e) {
             Log.d("Exception occurred when getting activities skipping...!");
-
         }
 
         return null;

@@ -70,7 +70,7 @@ public class SearchActivity extends Activity {
         adapter = new AppInfoAdapter(this, pkgAppsListTemp);
 
         if (App.getSettings().getSortOrder().startsWith("alpha")) {
-            adapter.setSortMode(AppInfoAdapter.SortMode.ALPHABETICAL);
+            adapter.getList().setSortMode(AppInfoList.SortMode.ALPHABETICAL);
         }
 
         // sync was here
@@ -138,7 +138,7 @@ public class SearchActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long arg3) {
-                new AppActionDialogBuilder(SearchActivity.this, adapter.getAtPosition(pos)).show();
+                new AppActionDialogBuilder(SearchActivity.this, adapter.getList().get(pos)).show();
                 return true;
             }
 
@@ -166,7 +166,9 @@ public class SearchActivity extends Activity {
                 @Override
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
-                    if (retry == false) process_new_index();
+                    if (!retry) {
+                        process_new_index();
+                    }
                 }
 
             }.execute();
@@ -174,7 +176,7 @@ public class SearchActivity extends Activity {
     }
 
     public void startItemAtPos(int pos) {
-        Intent intent = adapter.getAtPosition(pos).getIntent();
+        Intent intent = adapter.getList().get(pos).getIntent();
         intent.setAction("android.intent.action.MAIN");
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -189,7 +191,7 @@ public class SearchActivity extends Activity {
         if (!newIndex.equals(oldIndex)) {
             Log.i("processing new app-index");
             // TODO we should do a cleanup of cached icons here regarding the new index
-            adapter.setAllAppsList(pkgAppsListTemp);
+            adapter.getList().setAppsList(pkgAppsListTemp);
 
             try {
                 FileOutputStream fos = new FileOutputStream(indexFile);
@@ -234,17 +236,17 @@ public class SearchActivity extends Activity {
             }
         }, 200);
 
-        Log.i("Resume with " + App.getSettings().isTextOnlyActive());
         gridView.setAdapter(adapter);
 
-        if (new FASTSettings(this).getIconSize().equals("tiny"))
+        if (new FASTSettings(this).getIconSize().equals("tiny")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
-        else if (new FASTSettings(this).getIconSize().equals("small"))
+        } else if (new FASTSettings(this).getIconSize().equals("small")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
-        else if (new FASTSettings(this).getIconSize().equals("large"))
+        } else if (new FASTSettings(this).getIconSize().equals("large")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
-        else
+        } else {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size));
+        }
 
     }
 

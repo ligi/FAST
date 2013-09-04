@@ -8,7 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
 
-public class HelpDialog {
+class HelpDialog {
 
     public static void show(Context ctx) {
 

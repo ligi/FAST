@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 public class FASTSettings {
 
 
-    private SharedPreferences mSharedPreferences;
+    private final SharedPreferences mSharedPreferences;
 
     public final static String KEY_LAUNCHSINGLE = "launch_single";
     public static final String KEY_SEARCHPKG = "search_pkg";

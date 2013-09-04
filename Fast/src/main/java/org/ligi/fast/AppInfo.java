@@ -27,7 +27,7 @@ public class AppInfo {
     private String activityName;
     private String hash;
     private int callCount;
-    private Context ctx;
+    private final Context ctx;
     private BitmapDrawable icon; // caching the Icon
     private boolean isValid = true;
 

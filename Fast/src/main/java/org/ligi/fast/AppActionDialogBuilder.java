@@ -26,8 +26,8 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
     private static final String APP_PKG_NAME_22 = "pkg";
     private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
     private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
-    private AppInfo app_info;
-    private Context context;
+    private final AppInfo app_info;
+    private final Context context;
 
     public AppActionDialogBuilder(Context _context, AppInfo _app_info) {
 
@@ -144,7 +144,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
     }
 
-    public static void showInstalledAppDetails(Context context,
+    private static void showInstalledAppDetails(Context context,
 
                                                String packageName) {
         Intent intent = new Intent();
