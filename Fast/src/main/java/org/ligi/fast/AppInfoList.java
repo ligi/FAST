@@ -7,8 +7,8 @@ import java.util.List;
 
 public class AppInfoList {
 
-    private static List<AppInfo> pkgAppsListShowing;
-    private static List<AppInfo> pkgAppsListAll;
+    private List<AppInfo> pkgAppsListShowing;
+    private List<AppInfo> pkgAppsListAll;
     private String query = "";
     private final FASTSettings settings;
 
@@ -19,16 +19,16 @@ public class AppInfoList {
     @SuppressWarnings("unchecked")
     public AppInfoList(List<AppInfo> pkgAppsListAll, FASTSettings settings) {
         this.settings = settings;
+        setAppsList(pkgAppsListAll);
+    }
+
+    public void setAppsList(List<AppInfo> pkgAppsListAll) {
         this.pkgAppsListAll = new ArrayList<AppInfo>();
         this.pkgAppsListAll.addAll(pkgAppsListAll);
 
         new IconCacheTask().execute(this.pkgAppsListAll);
 
         setQuery(query); // to rebuild the showing list
-    }
-
-    public void setAppsList(List<AppInfo> pkgAppsListAll) {
-
     }
 
     public void setSortMode(SortMode mode) {
@@ -48,7 +48,7 @@ public class AppInfoList {
     private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
         protected Void doInBackground(List<AppInfo>... params) {
             List<AppInfo> all = params[0];
-            for (AppInfo info:all) {
+            for (AppInfo info : all) {
                 info.getIcon();
             }
             return null;
@@ -60,7 +60,7 @@ public class AppInfoList {
 
         if (settings.isIgnoreSpaceAfterQueryActivated()) {
             if (act_query.endsWith(" ")) {
-                act_query=act_query.substring(0,act_query.length()-1);
+                act_query = act_query.substring(0, act_query.length() - 1);
             }
         }
 
@@ -81,7 +81,7 @@ public class AppInfoList {
         for (AppInfo info : pkgAppsListAll) {
             if (appInfoMatchesQuery(info, act_query)) {
                 pkgAppsListFilter.add(info);
-            } else if ( actAlternateQuery!=null &&  appInfoMatchesQuery(info, actAlternateQuery)) {
+            } else if (actAlternateQuery != null && appInfoMatchesQuery(info, actAlternateQuery)) {
                 pkgAppsListFilter.add(info);
             }
         }

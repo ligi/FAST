@@ -6,7 +6,10 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
         this.ctx = ctx;
-        appInfoList=new AppInfoList(pkgAppsListAll, App.getSettings());
+        appInfoList = new AppInfoList(pkgAppsListAll, App.getSettings());
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
         highLightColorHexString = Integer.toHexString(color).toUpperCase().substring(2);
@@ -77,9 +80,9 @@ public class AppInfoAdapter extends BaseAdapter {
                 convertView = mLayoutInflater.inflate(R.layout.item_icon, null);
                 convertView.setLayoutParams(new AbsListView.LayoutParams(cellSize, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
                 imageView.getLayoutParams().height = iconSize;
-                imageView.getLayoutParams().width  = iconSize;
+                imageView.getLayoutParams().width = iconSize;
             }
             holder = new ViewHolder();
             holder.text = (TextView) convertView.findViewById(R.id.textView);

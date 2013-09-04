@@ -17,14 +17,23 @@ public interface FASTSettings {
     public static final String KEY_SORT = "sort";
 
     public boolean isLaunchSingleActivated();
+
     public boolean isSearchPackageActivated();
+
     public boolean isUmlautConvertActivated();
+
     public boolean isMarketForAllActivated();
+
     public boolean isTextOnlyActivated();
+
     public boolean isIgnoreSpaceAfterQueryActivated();
+
     public int getMaxLines();
+
     public String getIconSize();
+
     public String getTheme();
+
     public String getSortOrder();
 
 }

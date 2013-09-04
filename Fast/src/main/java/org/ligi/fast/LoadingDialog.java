@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import org.ligi.androidhelper.AndroidHelper;
 
 /**
@@ -66,7 +67,8 @@ public class LoadingDialog extends Activity {
         AndroidHelper.at(this).disableRotation();
     }
 
-    @SuppressWarnings("deprecation") // we cannot use the new getSize function - or we would get a NoSuchMethod error on newer devices
+    @SuppressWarnings("deprecation")
+    // we cannot use the new getSize function - or we would get a NoSuchMethod error on newer devices
     private void setWindowWidth() {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = 3 * getWindowManager().getDefaultDisplay().getWidth() / 4;

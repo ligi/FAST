@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
+
 import org.ligi.tracedroid.logging.Log;
 
 import java.util.List;

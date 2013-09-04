@@ -70,8 +70,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
-        if (App.getSettings().isMarketForAllActivated()
-                || isMarketApp())
+        if (App.getSettings().isMarketForAllActivated()  || isMarketApp()) {
             fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
                 @Override
                 public void run() {
@@ -85,6 +84,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                     }
                 }
             }));
+        }
 
         fkt_map.add(new LabelAndCode(context.getString(R.string.share), new Runnable() {
             @Override
@@ -146,7 +146,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
     private static void showInstalledAppDetails(Context context,
 
-                                               String packageName) {
+                                                String packageName) {
         Intent intent = new Intent();
         final int apiLevel = Build.VERSION.SDK_INT;
         if (apiLevel >= 9) { // above 2.3
@@ -180,7 +180,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                 return false;
             PackageManager packageManager = context.getPackageManager();
 
-            if (packageManager==null) {
+            if (packageManager == null) {
                 Log.w("strange - there was no PackageManager - might lie to the user now with false"
                         + "as I cannot determine the correct answer to the question isMarketApp()");
                 return false;

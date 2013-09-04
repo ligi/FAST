@@ -238,7 +238,7 @@ public class SearchActivity extends Activity {
 
         gridView.setAdapter(adapter);
 
-        String iconSize=App.getSettings().getIconSize();
+        String iconSize = App.getSettings().getIconSize();
         if (iconSize.equals("tiny")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
         } else if (iconSize.equals("small")) {
@@ -257,6 +257,7 @@ public class SearchActivity extends Activity {
         finish();
     }
 
+    @SuppressWarnings("UnusedDeclaration") // the API is that way
     public void helpClicked(View v) {
         HelpDialog.show(this);
     }
