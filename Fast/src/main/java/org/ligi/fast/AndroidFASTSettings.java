@@ -32,7 +32,11 @@ public class AndroidFASTSettings implements FASTSettings {
         return mSharedPreferences.getBoolean(KEY_MARKETFORALL, false);
     }
 
-    public boolean isTextOnlyActive() {
+    public boolean isIgnoreSpaceAfterQueryActivated() {
+        return mSharedPreferences.getBoolean(KEY_IGNORESPACEAFTERQUERY, false);
+    }
+
+    public boolean isTextOnlyActivated() {
         return mSharedPreferences.getBoolean(KEY_TEXTONLY, false);
     }
 

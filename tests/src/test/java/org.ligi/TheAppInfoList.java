@@ -69,4 +69,28 @@ public class TheAppInfoList {
         assertThat(tested.getCount()).isEqualTo(3);
     }
 
+    @Test
+    public void should_ignore_space_after_query_when_active() {
+        // configure
+        settings.ignoreSpace=true;
+
+        // invoke
+        tested.setQuery("testfoo ");
+
+        // post assert
+        assertThat(tested.getCount()).isEqualTo(2);
+    }
+
+    @Test
+    public void should_not_ignore_space_after_query_when_inactive() {
+        // configure
+        settings.ignoreSpace=false;
+
+        // invoke
+        tested.setQuery("testfoo ");
+
+        // post assert
+        assertThat(tested.getCount()).isEqualTo(0);
+    }
+
 }

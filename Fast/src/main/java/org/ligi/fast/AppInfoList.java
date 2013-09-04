@@ -56,6 +56,14 @@ public class AppInfoList {
     }
 
     public void setQuery(String act_query) {
+
+
+        if (settings.isIgnoreSpaceAfterQueryActivated()) {
+            if (act_query.endsWith(" ")) {
+                act_query=act_query.substring(0,act_query.length()-1);
+            }
+        }
+
         // note the alternate query approach is not exact - doesn't match all permutations of replacements, but
         // is FASTer than exact and totally enough for most cases
         String actAlternateQuery;

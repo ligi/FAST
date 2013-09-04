@@ -50,7 +50,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
             LayoutInflater mLayoutInflater = (LayoutInflater) ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (App.getSettings().isTextOnlyActive()) {
+            if (App.getSettings().isTextOnlyActivated()) {
                 convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
             } else {
                 String size = (App.getSettings().getIconSize());

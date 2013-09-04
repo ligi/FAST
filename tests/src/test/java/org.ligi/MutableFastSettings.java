@@ -7,6 +7,7 @@ public class MutableFastSettings implements FASTSettings{
     public boolean launchSingle=false;
     public boolean searchPackage=false;
     public boolean convertUmlaut=false;
+    public boolean ignoreSpace=false;
 
     @Override
     public boolean isLaunchSingleActivated() {
@@ -20,7 +21,7 @@ public class MutableFastSettings implements FASTSettings{
 
     @Override
     public boolean isUmlautConvertActivated() {
-        return false;
+        return convertUmlaut;
     }
 
     @Override
@@ -29,8 +30,13 @@ public class MutableFastSettings implements FASTSettings{
     }
 
     @Override
-    public boolean isTextOnlyActive() {
+    public boolean isTextOnlyActivated() {
         return false;
+    }
+
+    @Override
+    public boolean isIgnoreSpaceAfterQueryActivated() {
+        return ignoreSpace;
     }
 
     @Override

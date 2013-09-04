@@ -12,6 +12,7 @@ public interface FASTSettings {
     public static final String KEY_MAXLINES = "maxlines";
     public static final String KEY_ICONSIZE = "iconsize";
     public static final String KEY_UMLAUTCONVERT = "convert_umlauts";
+    public static final String KEY_IGNORESPACEAFTERQUERY = "ignore_space";
     public static final String KEY_THEME = "theme";
     public static final String KEY_SORT = "sort";
 
@@ -19,7 +20,8 @@ public interface FASTSettings {
     public boolean isSearchPackageActivated();
     public boolean isUmlautConvertActivated();
     public boolean isMarketForAllActivated();
-    public boolean isTextOnlyActive();
+    public boolean isTextOnlyActivated();
+    public boolean isIgnoreSpaceAfterQueryActivated();
     public int getMaxLines();
     public String getIconSize();
     public String getTheme();
