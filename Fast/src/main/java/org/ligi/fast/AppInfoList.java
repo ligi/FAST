@@ -10,13 +10,15 @@ public class AppInfoList {
     private static List<AppInfo> pkgAppsListShowing;
     private static List<AppInfo> pkgAppsListAll;
     private String query = "";
+    private final FASTSettings settings;
 
     public enum SortMode {
         UNSORTED, ALPHABETICAL
     }
 
     @SuppressWarnings("unchecked")
-    public AppInfoList(List<AppInfo> pkgAppsListAll) {
+    public AppInfoList(List<AppInfo> pkgAppsListAll, FASTSettings settings) {
+        this.settings = settings;
         this.pkgAppsListAll = new ArrayList<AppInfo>();
         this.pkgAppsListAll.addAll(pkgAppsListAll);
 
@@ -58,7 +60,7 @@ public class AppInfoList {
         // is FASTer than exact and totally enough for most cases
         String actAlternateQuery;
 
-        if (App.getSettings().isUmlautConvertActivated()) {
+        if (settings.isUmlautConvertActivated()) {
             actAlternateQuery = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
         } else {
             actAlternateQuery = null;
@@ -69,7 +71,9 @@ public class AppInfoList {
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
         for (AppInfo info : pkgAppsListAll) {
-            if (appInfoMatchesQuery(info, act_query) || appInfoMatchesQuery(info, actAlternateQuery)) {
+            if (appInfoMatchesQuery(info, act_query)) {
+                pkgAppsListFilter.add(info);
+            } else if ( actAlternateQuery!=null &&  appInfoMatchesQuery(info, actAlternateQuery)) {
                 pkgAppsListFilter.add(info);
             }
         }
@@ -87,7 +91,7 @@ public class AppInfoList {
         }
 
         // also search in package name when activated
-        return App.getSettings().isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(query));
+        return settings.isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(query));
 
     }
 

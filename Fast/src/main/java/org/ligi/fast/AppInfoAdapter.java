@@ -24,7 +24,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
         this.ctx = ctx;
-        appInfoList=new AppInfoList(pkgAppsListAll);
+        appInfoList=new AppInfoList(pkgAppsListAll, App.getSettings());
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
         highLightColorHexString = Integer.toHexString(color).toUpperCase().substring(2);
@@ -53,7 +53,7 @@ public class AppInfoAdapter extends BaseAdapter {
             if (App.getSettings().isTextOnlyActive()) {
                 convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
             } else {
-                String size = (new FASTSettings(ctx).getIconSize());
+                String size = (App.getSettings().getIconSize());
                 int cellSize;
                 int iconSize;
 

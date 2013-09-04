@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class TheAppInfo {
 
     private ResolveInfo resolveInfo;
-    private String SERIALIZED_APPINFO="hashTest;;labelTest;;packageNameTest;;activityNameTest;;42";
+    private String SERIALIZED_APPINFO="hash;;labelTest;;packageNameTest;;activityNameTest;;42";
 
     @Before
     public void setUp() {
@@ -32,7 +32,7 @@ public class TheAppInfo {
     }
 
     @org.junit.Test
-	public void testName() throws Exception {
+	public void package_name_should_be_correct_after_construc_with_resolveinfo() throws Exception {
 
         AppInfo tested=new AppInfo(Robolectric.application,resolveInfo);
 
@@ -76,7 +76,7 @@ public class TheAppInfo {
     public void hash_should_be_same_after_deserialize() {
         AppInfo tested=new AppInfo(Robolectric.application,SERIALIZED_APPINFO);
 
-        assertThat(tested.getHash()).isEqualTo("hashTest");
+        assertThat(tested.getHash()).isEqualTo("hash");
     }
 
     @Test

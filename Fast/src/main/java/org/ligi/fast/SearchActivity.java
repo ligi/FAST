@@ -238,11 +238,12 @@ public class SearchActivity extends Activity {
 
         gridView.setAdapter(adapter);
 
-        if (new FASTSettings(this).getIconSize().equals("tiny")) {
+        String iconSize=App.getSettings().getIconSize();
+        if (iconSize.equals("tiny")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
-        } else if (new FASTSettings(this).getIconSize().equals("small")) {
+        } else if (iconSize.equals("small")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
-        } else if (new FASTSettings(this).getIconSize().equals("large")) {
+        } else if (iconSize.equals("large")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
         } else {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size));

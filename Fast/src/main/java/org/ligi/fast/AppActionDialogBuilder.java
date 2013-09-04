@@ -70,7 +70,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
-        if (new FASTSettings(context).isMarketForAllActivated()
+        if (App.getSettings().isMarketForAllActivated()
                 || isMarketApp())
             fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
                 @Override

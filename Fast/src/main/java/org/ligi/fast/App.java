@@ -13,7 +13,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         TraceDroid.init(this);
-        settings = new FASTSettings(App.this);
+        settings = new AndroidFASTSettings(App.this);
     }
 
     public static FASTSettings getSettings() {
