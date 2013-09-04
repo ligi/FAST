@@ -43,6 +43,8 @@
     <string name="convert_umlauts">Convert umlauts</string>
     <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>
+    <string name="ignore_space">Ignore space</string>
+    <string name="ignore_space_descr">remove last space from query</string>
     <string-array name="sizes">
         <item>tiny</item>
         <item>small</item>

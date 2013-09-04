@@ -105,6 +105,13 @@ public class FASTSettingsActivity extends PreferenceActivity {
         convertUmlauts.setDefaultValue(false);
 
 
+        CheckBoxPreference ignoreSpace = new CheckBoxPreference(this);
+        convertUmlauts.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
+        convertUmlauts.setTitle(getString(R.string.ignore_space));
+        convertUmlauts.setSummary(getString(R.string.ignore_space_descr));
+        convertUmlauts.setDefaultValue(false);
+
+
         root.addPreference(themePref);
         root.addPreference(iconSizePref);
         root.addPreference(maxLinesPref);
