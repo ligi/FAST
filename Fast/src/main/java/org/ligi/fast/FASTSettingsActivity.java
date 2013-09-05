@@ -111,6 +111,12 @@ public class FASTSettingsActivity extends PreferenceActivity {
         convertUmlauts.setSummary(getString(R.string.ignore_space_descr));
         convertUmlauts.setDefaultValue(false);
 
+        CheckBoxPreference autoShowKeyboard = new CheckBoxPreference(this);
+        convertUmlauts.setKey(FASTSettings.KEY_SHOWKEYBOARDONSTART);
+        convertUmlauts.setTitle(getString(R.string.show_keyboard));
+        convertUmlauts.setSummary(getString(R.string.show_keyboard_descr));
+        convertUmlauts.setDefaultValue(true);
+
 
         root.addPreference(themePref);
         root.addPreference(iconSizePref);
@@ -120,6 +126,8 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(marketForAllApps);
         root.addPreference(textOnly);
         root.addPreference(sortPref);
+        root.addPreference(ignoreSpace);
+        root.addItemFromInflater(autoShowKeyboard);
         root.addPreference(convertUmlauts);
 
         return root;

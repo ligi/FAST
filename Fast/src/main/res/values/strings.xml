@@ -45,6 +45,8 @@
     <string name="loadingDialogTitle">Caching to serve FAST</string>
     <string name="ignore_space">Ignore space</string>
     <string name="ignore_space_descr">remove last space from query</string>
+    <string name="show_keyboard">Show keyboard</string>
+    <string name="show_keyboard_descr">open the keyboard on startup</string>
     <string-array name="sizes">
         <item>tiny</item>
         <item>small</item>

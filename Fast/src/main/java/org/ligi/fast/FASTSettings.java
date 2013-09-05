@@ -1,7 +1,7 @@
 package org.ligi.fast;
 
 /**
- * Class to handle the Preferences
+ * Interface for FAST's preferences
  */
 public interface FASTSettings {
 
@@ -15,6 +15,7 @@ public interface FASTSettings {
     public static final String KEY_IGNORESPACEAFTERQUERY = "ignore_space";
     public static final String KEY_THEME = "theme";
     public static final String KEY_SORT = "sort";
+    public static final String KEY_SHOWKEYBOARDONSTART = "show_keyboard_on_start";
 
     public boolean isLaunchSingleActivated();
 
@@ -27,6 +28,8 @@ public interface FASTSettings {
     public boolean isTextOnlyActivated();
 
     public boolean isIgnoreSpaceAfterQueryActivated();
+
+    public boolean isShowKeyBoardOnStartActivated();
 
     public int getMaxLines();
 
