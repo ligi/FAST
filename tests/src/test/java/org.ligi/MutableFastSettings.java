@@ -40,6 +40,11 @@ public class MutableFastSettings implements FASTSettings{
     }
 
     @Override
+    public boolean isShowKeyBoardOnStartActivated() {
+        return false;
+    }
+
+    @Override
     public int getMaxLines() {
         return 0;
     }
