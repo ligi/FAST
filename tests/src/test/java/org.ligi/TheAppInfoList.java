@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ligi.fast.AppInfo;
 import org.ligi.fast.AppInfoList;
-import org.ligi.fast.FASTSettings;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -18,6 +17,8 @@ public class TheAppInfoList {
     private String SERIALIZED_APPINFO1="hash;;label1TestBarü;;packageNameTest1;;activityNameTest;;42";
     private String SERIALIZED_APPINFO2="hash;;label2TestFoo;;packageNameTest2;;activityNameTest;;42";
     private String SERIALIZED_APPINFO3="hash;;label3TestFoo;;packageNameTest3;;activityNameTest;;42";
+    private String SERIALIZED_APPINFO4="hash;;label4TestFoo;;packageNameTest4;;activityNameTest;;42";
+
     private AppInfoList tested;
     private MutableFastSettings settings;
 
@@ -40,7 +41,7 @@ public class TheAppInfoList {
         // invoke
         tested.setQuery("foo");
 
-        // post assert
+        // assert
         assertThat(tested.getCount()).isEqualTo(2);
     }
 
@@ -52,7 +53,7 @@ public class TheAppInfoList {
         // invoke
         tested.setQuery("packageName");
 
-        // post assert
+        // assert
         assertThat(tested.getCount()).isEqualTo(0);
     }
 
@@ -65,7 +66,7 @@ public class TheAppInfoList {
         // invoke
         tested.setQuery("packagename");
 
-        // post assert
+        // assert
         assertThat(tested.getCount()).isEqualTo(3);
     }
 
@@ -77,7 +78,7 @@ public class TheAppInfoList {
         // invoke
         tested.setQuery("testfoo ");
 
-        // post assert
+        // assert
         assertThat(tested.getCount()).isEqualTo(2);
     }
 
@@ -89,8 +90,19 @@ public class TheAppInfoList {
         // invoke
         tested.setQuery("testfoo ");
 
-        // post assert
+        // assert
         assertThat(tested.getCount()).isEqualTo(0);
+    }
+
+    @Test
+    public void should_respect_when_we_set_a_new_list() {
+        AppInfo appInfo4=new AppInfo(Robolectric.application,SERIALIZED_APPINFO4);
+
+        // invoke
+        tested.setAppsList(asList(appInfo4));
+
+        // assert
+        assertThat(tested.get(0)).isEqualTo(appInfo4);
     }
 
 }
