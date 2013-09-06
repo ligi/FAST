@@ -36,6 +36,11 @@ public class AndroidFASTSettings implements FASTSettings {
         return mSharedPreferences.getBoolean(KEY_IGNORESPACEAFTERQUERY, false);
     }
 
+    @Override
+    public boolean isShowKeyBoardOnStartActivated() {
+        return mSharedPreferences.getBoolean(KEY_SHOWKEYBOARDONSTART, true);
+    }
+
     public boolean isTextOnlyActivated() {
         return mSharedPreferences.getBoolean(KEY_TEXTONLY, false);
     }
