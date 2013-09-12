@@ -5,14 +5,14 @@ repositories {
 apply plugin: 'java'
 
 dependencies {
-    testCompile project(':Fast')
+    testCompile project(':app')
     testCompile "junit:junit:4.10"
     testCompile "com.squareup:fest-android:1.0.1"
     testCompile 'org.robolectric:robolectric:2.0-alpha-2'
 
-    testCompile project(":Fast").android.applicationVariants.toList().first().javaCompile.outputs.files
-    testCompile project(":Fast").android.applicationVariants.toList().first().javaCompile.classpath
-    testCompile files(project(":Fast").plugins.findPlugin("android").runtimeJarList)
+    testCompile project(":app").android.applicationVariants.toList().first().javaCompile.outputs.files
+    testCompile project(":app").android.applicationVariants.toList().first().javaCompile.classpath
+    testCompile files(project(":app").plugins.findPlugin("android").runtimeJarList)
 }
 
 
@@ -20,7 +20,7 @@ test {
     inputs.files file("AndroidManifest.xml")
     doFirst {
         copy {
-            from project(":Fast").file("src/main/AndroidManifest.xml")
+            from project(":app").file("src/main/AndroidManifest.xml")
             into projectDir
         }
     }

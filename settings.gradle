@@ -1,1 +1,1 @@
-include ':Fast',':tests'
+include ':app',':tests'
