@@ -2,15 +2,14 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -227,7 +226,7 @@ public class SearchActivity extends Activity {
 
         searchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
-        showKeyboardWhenActivated();
+        dealWithUserPreferencesRegardingSoftKeyboard();
 
         gridView.setAdapter(adapter);
 
@@ -244,19 +243,30 @@ public class SearchActivity extends Activity {
 
     }
 
-    private void showKeyboardWhenActivated() {
-        if (!App.getSettings().isShowKeyBoardOnStartActivated()) {
-            return; // user did not want this service
+    private void dealWithUserPreferencesRegardingSoftKeyboard() {
+        if (App.getSettings().isShowKeyBoardOnStartActivated()) {
+            showKeyboard();
+        } else {
+            hideKeyboard();
         }
+
+    }
+
+    private void hideKeyboard() {
+        searchEditText.clearFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    private void showKeyboard() {
         searchEditText.requestFocus();
 
         searchEditText.postDelayed(new Runnable() {
 
-			@Override
-			public void run() {
+            @Override
+            public void run() {
                 AndroidHelper.at(searchEditText).showKeyboard();
-			}
-		},200);
+            }
+        },200);
     }
 
     @SuppressWarnings("UnusedDeclaration") // the API is that way

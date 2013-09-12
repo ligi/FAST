@@ -106,16 +106,16 @@ public class FASTSettingsActivity extends PreferenceActivity {
 
 
         CheckBoxPreference ignoreSpace = new CheckBoxPreference(this);
-        convertUmlauts.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
-        convertUmlauts.setTitle(getString(R.string.ignore_space));
-        convertUmlauts.setSummary(getString(R.string.ignore_space_descr));
-        convertUmlauts.setDefaultValue(false);
+        ignoreSpace.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
+        ignoreSpace.setTitle(getString(R.string.ignore_space));
+        ignoreSpace.setSummary(getString(R.string.ignore_space_descr));
+        ignoreSpace.setDefaultValue(false);
 
         CheckBoxPreference autoShowKeyboard = new CheckBoxPreference(this);
-        convertUmlauts.setKey(FASTSettings.KEY_SHOWKEYBOARDONSTART);
-        convertUmlauts.setTitle(getString(R.string.show_keyboard));
-        convertUmlauts.setSummary(getString(R.string.show_keyboard_descr));
-        convertUmlauts.setDefaultValue(true);
+        autoShowKeyboard.setKey(FASTSettings.KEY_SHOWKEYBOARDONSTART);
+        autoShowKeyboard.setTitle(getString(R.string.show_keyboard));
+        autoShowKeyboard.setSummary(getString(R.string.show_keyboard_descr));
+        autoShowKeyboard.setDefaultValue(true);
 
 
         root.addPreference(themePref);
@@ -127,7 +127,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(textOnly);
         root.addPreference(sortPref);
         root.addPreference(ignoreSpace);
-        root.addItemFromInflater(autoShowKeyboard);
+        root.addPreference(autoShowKeyboard);
         root.addPreference(convertUmlauts);
 
         return root;
