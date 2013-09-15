@@ -90,19 +90,32 @@ public class AppInfo {
 
         // cache the Icon
         if (!getIconCacheFile().exists()) {
-            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx.getPackageManager());
-            if (icon != null) {
+            try {
+                cacheIcon(ri);
+            } catch (OutOfMemoryError oom) {
+                System.gc();
                 try {
-                    getIconCacheFile().createNewFile();
-                    FileOutputStream fos = new FileOutputStream(getIconCacheFile());
-                    icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.close();
-                } catch (IOException e) {
-                    Log.w(" Could not cache the Icon");
+                    cacheIcon(ri);
+                } catch (OutOfMemoryError oom2) {
+                    Log.i("could not cache Icon due to Memory issues");
                 }
             }
         }
 
+    }
+
+    private void cacheIcon(ResolveInfo ri) {
+        BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx.getPackageManager());
+        if (icon != null) {
+            try {
+                getIconCacheFile().createNewFile();
+                FileOutputStream fos = new FileOutputStream(getIconCacheFile());
+                icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+            } catch (IOException e) {
+                Log.w(" Could not cache the Icon");
+            }
+        }
     }
 
     private File getIconCacheFile() {
