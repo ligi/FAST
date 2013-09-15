@@ -97,7 +97,7 @@ public class AppInfo {
                 try {
                     cacheIcon(ri);
                 } catch (OutOfMemoryError oom2) {
-                    Log.i("could not cache Icon due to Memory issues");
+                    Log.w("could not cache Icon with a final attempt after GC due to Memory issues");
                 }
             }
         }
