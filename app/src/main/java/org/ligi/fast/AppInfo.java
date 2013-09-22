@@ -2,6 +2,7 @@ package org.ligi.fast;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -64,8 +65,13 @@ public class AppInfo {
         // init attributes
         label = AXT.at(ri).getLabelSafely(_ctx);
         label = label.replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
-        packageName = ri.activityInfo.packageName;
-        activityName = ri.activityInfo.name;
+        if (ri.activityInfo!=null) {
+            packageName = ri.activityInfo.packageName;
+            activityName = ri.activityInfo.name;
+        } else {
+            packageName = "unknown";
+            activityName = "unknown";
+        }
         callCount = 0;
 
 
@@ -105,10 +111,20 @@ public class AppInfo {
     }
 
     private void cacheIcon(ResolveInfo ri) {
-        BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(ctx.getPackageManager());
+
+        PackageManager packageManager = ctx.getPackageManager();
+
+        if (packageManager == null) {
+            Log.w("could not cache the Icon - PM is null");
+            return;
+        }
+
+        BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(packageManager);
         if (icon != null) {
             try {
-                getIconCacheFile().createNewFile();
+
+                createIconCacheFile();
+
                 FileOutputStream fos = new FileOutputStream(getIconCacheFile());
                 icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
@@ -116,6 +132,11 @@ public class AppInfo {
                 Log.w(" Could not cache the Icon");
             }
         }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored") // as we do not care if it is new or old
+    private boolean createIconCacheFile() throws IOException {
+        return getIconCacheFile().createNewFile();
     }
 
     private File getIconCacheFile() {
