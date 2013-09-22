@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import org.ligi.androidhelper.AndroidHelper;
+import org.ligi.axt.AXT;
 import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
@@ -62,7 +62,7 @@ public class AppInfo {
 
 
         // init attributes
-        label = AndroidHelper.at(ri).getLabelSafely(_ctx);
+        label = AXT.at(ri).getLabelSafely(_ctx);
         label = label.replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
         packageName = ri.activityInfo.packageName;
         activityName = ri.activityInfo.name;

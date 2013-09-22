@@ -18,8 +18,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import org.ligi.androidhelper.AndroidHelper;
-import org.ligi.androidhelper.simplifications.SimpleTextWatcher;
+import org.ligi.axt.AXT;
+import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.util.PackageListSerializer;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
@@ -60,7 +60,7 @@ public class SearchActivity extends Activity {
         indexFile = new File(getCacheDir(), "index2.csv");
 
         try {
-            oldIndex = AndroidHelper.at(indexFile).loadToString();
+            oldIndex = AXT.at(indexFile).loadToString();
         } catch (Exception e) { // IO ^^
             not_load_reason = e.toString();
             Log.w("could not load new Index:" + not_load_reason);
@@ -264,7 +264,7 @@ public class SearchActivity extends Activity {
 
             @Override
             public void run() {
-                AndroidHelper.at(searchEditText).showKeyboard();
+                AXT.at(searchEditText).showKeyboard();
             }
         },200);
     }
