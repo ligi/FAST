@@ -30,7 +30,11 @@ class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
                 AppInfo act_appinfo = new AppInfo(ctx, info);
-                publishProgress(act_appinfo);
+
+                if (!ctx.getPackageName().equals(act_appinfo.getPackageName())) {
+                    // do not add this app as app in list
+                    publishProgress(act_appinfo);
+                }
             }
         } catch (Exception e) {
             Log.d("Exception occurred when getting activities skipping...!");
