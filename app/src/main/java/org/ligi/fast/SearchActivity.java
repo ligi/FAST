@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * The main Activity for this App - most things come together here
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends Activity implements App.PackageChangedListener {
 
     private List<AppInfo> pkgAppsListTemp;
     private AppInfoAdapter adapter;
@@ -226,6 +226,8 @@ public class SearchActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        App.packageChangedListener=this;
+
         searchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
         dealWithUserPreferencesRegardingSoftKeyboard();
@@ -314,5 +316,16 @@ public class SearchActivity extends Activity {
         intent.addCategory(Intent.CATEGORY_HOME);
         ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return resolveInfo.activityInfo.packageName;
+    }
+
+    @Override
+    public void onPackageChange() {
+
+    }
+
+    @Override
+    protected void onPause() {
+        App.packageChangedListener=null;
+        super.onPause();
     }
 }
