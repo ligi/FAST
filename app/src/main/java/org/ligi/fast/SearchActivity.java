@@ -20,7 +20,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import org.ligi.androidhelper.helpers.FileHelper;
 import org.ligi.axt.AXT;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.util.PackageListSerializer;
@@ -28,8 +27,6 @@ import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,7 +168,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
                     if (!retry) {
-                        process_new_index();
+                        processNewIndex();
                     }
                 }
 
@@ -190,7 +187,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     /**
      * takes the temp apps list as the new all apps index
      */
-    private void process_new_index() {
+    private void processNewIndex() {
 
         if (!newIndex.equals(oldIndex)) {
             Log.i("processing new app-index");
@@ -212,7 +209,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
                 if (data != null) {
                     newIndex = data.getStringExtra("newIndex");
                     pkgAppsListTemp = PackageListSerializer.fromString(this, newIndex);
-                    process_new_index();
+                    processNewIndex();
                 }
                 break;
         }
