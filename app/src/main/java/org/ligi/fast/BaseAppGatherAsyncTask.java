@@ -29,11 +29,11 @@ class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
             List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
-                AppInfo act_appinfo = new AppInfo(ctx, info);
+                AppInfo actAppInfo = new AppInfo(ctx, info);
 
-                if (!ctx.getPackageName().equals(act_appinfo.getPackageName())) {
+                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) {
                     // do not add this app as app in list
-                    publishProgress(act_appinfo);
+                    publishProgress(actAppInfo);
                 }
             }
         } catch (Exception e) {
