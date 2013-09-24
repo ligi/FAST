@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import org.ligi.androidhelper.helpers.FileHelper;
 import org.ligi.axt.AXT;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.util.PackageListSerializer;
@@ -196,13 +197,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             // TODO we should do a cleanup of cached icons here regarding the new index
             adapter.getList().setAppsList(pkgAppsListTemp);
 
-            try {
-                FileOutputStream fos = new FileOutputStream(indexFile);
-                fos.write(newIndex.getBytes());
-                fos.close();
-            } catch (IOException e) {
-                Log.i("could not write new index because " + e
-                        + " user might suffer from constant index rebuilds");
+            if (!AXT.at(indexFile).writeString(newIndex)) {
+                Log.i("could not write new index - user might suffer from constant index rebuilds");
             }
         }
     }
