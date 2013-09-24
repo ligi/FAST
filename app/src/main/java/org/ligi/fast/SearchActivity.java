@@ -3,6 +3,8 @@ package org.ligi.fast;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.KeyEvent;
@@ -266,7 +268,7 @@ public class SearchActivity extends Activity {
             public void run() {
                 AXT.at(searchEditText).showKeyboard();
             }
-        },200);
+        }, 200);
     }
 
     @SuppressWarnings("UnusedDeclaration") // the API is that way
@@ -280,4 +282,37 @@ public class SearchActivity extends Activity {
         HelpDialog.show(this);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ECLAIR
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            // Take care of calling this method on earlier versions of
+            // the platform where it doesn't exist.
+            onBackPressed();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finishIfWeAreNotTheDefaultLauncher();
+
+    }
+
+    private void finishIfWeAreNotTheDefaultLauncher() {
+        // TODO check if we perhaps only want this when we have only one launcher
+        if (!getPackageName().equals(getHomePackageName())) {
+            finish();
+        }
+    }
+
+    private String getHomePackageName() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return resolveInfo.activityInfo.packageName;
+    }
 }
