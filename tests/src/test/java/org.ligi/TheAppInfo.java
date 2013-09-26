@@ -3,24 +3,20 @@ package org.ligi;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ligi.fast.AppInfo;
-import org.ligi.fast.SearchActivity;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.bytecode.Setup;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class TheAppInfo {
+public class TheAppInfo extends BaseAppInfoTest {
 
     private ResolveInfo resolveInfo;
-    private String SERIALIZED_APPINFO="hash;;labelTest;;packageNameTest;;activityNameTest;;42";
+
 
     @Before
     public void setUp() {
@@ -32,7 +28,7 @@ public class TheAppInfo {
     }
 
     @org.junit.Test
-	public void package_name_should_be_correct_after_construc_with_resolveinfo() throws Exception {
+    public void package_name_should_be_correct_after_construct_with_resolveinfo() throws Exception {
 
         AppInfo tested=new AppInfo(Robolectric.application,resolveInfo);
 

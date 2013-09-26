@@ -1,7 +1,6 @@
 package org.ligi.fast;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -10,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.ligi.axt.AXT;
+import org.ligi.fast.util.PackageListStore;
 
 /**
  * Dialog to make the waiting time for the initial index building nicer for the user
@@ -17,21 +17,18 @@ import org.ligi.axt.AXT;
  */
 public class LoadingDialog extends Activity {
 
-    private ImageView icon_iv; // we will show the icon of the act app which is processed - makes the time appear shorter
-    private TextView label_tv;
+    private ImageView iconImageView; // we will show the icon of the act app which is processed - makes the time appear shorter
+    private TextView labelTextView;
     private ProgressBar progressBar;
-    private String newIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_dialog);
-        icon_iv = (ImageView) findViewById(R.id.imageView);
-        label_tv = (TextView) findViewById(R.id.textView);
+        iconImageView = (ImageView) findViewById(R.id.imageView);
+        labelTextView = (TextView) findViewById(R.id.textView);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         setTitle(getString(R.string.loadingDialogTitle));
-
-        newIndex = "";
 
         new BaseAppGatherAsyncTask(this) {
 
@@ -42,22 +39,19 @@ public class LoadingDialog extends Activity {
                 super.onProgressUpdate(values);
 
                 actAppIndex++;
-                getProgessBar().setMax(appCount);
-                getProgessBar().setProgress(actAppIndex);
+                getProgressBar().setMax(appCount);
+                getProgressBar().setProgress(actAppIndex);
 
                 setIcon(values[0].getIcon());
                 setText(values[0].getLabel());
 
-                newIndex += values[0].toCacheString() + "\n";
             }
 
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("newIndex", newIndex);
-                setResult(RESULT_OK, resultIntent);
-
+                new PackageListStore(LoadingDialog.this).save(appInfoList);
+                setResult(RESULT_OK);
                 finish();
             }
 
@@ -76,14 +70,14 @@ public class LoadingDialog extends Activity {
     }
 
     public void setIcon(Drawable icon) {
-        icon_iv.setImageDrawable(icon);
+        iconImageView.setImageDrawable(icon);
     }
 
     public void setText(String text) {
-        label_tv.setText(text);
+        labelTextView.setText(text);
     }
 
-    public ProgressBar getProgessBar() {
+    public ProgressBar getProgressBar() {
         return progressBar;
     }
 

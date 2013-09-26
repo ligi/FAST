@@ -65,7 +65,7 @@ public class AppInfo {
         // init attributes
         label = AXT.at(ri).getLabelSafely(_ctx);
         label = label.replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
-        if (ri.activityInfo!=null) {
+        if (ri.activityInfo != null) {
             packageName = ri.activityInfo.packageName;
             activityName = ri.activityInfo.name;
         } else {
@@ -179,4 +179,10 @@ public class AppInfo {
     public String getHash() {
         return hash;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return toCacheString().equals(toCacheString());
+    }
+
 }

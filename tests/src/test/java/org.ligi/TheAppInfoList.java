@@ -12,23 +12,18 @@ import static java.util.Arrays.asList;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-public class TheAppInfoList {
-
-    private String SERIALIZED_APPINFO1="hash;;label1TestBarü;;packageNameTest1;;activityNameTest;;42";
-    private String SERIALIZED_APPINFO2="hash;;label2TestFoo;;packageNameTest2;;activityNameTest;;42";
-    private String SERIALIZED_APPINFO3="hash;;label3TestFoo;;packageNameTest3;;activityNameTest;;42";
-    private String SERIALIZED_APPINFO4="hash;;label4TestFoo;;packageNameTest4;;activityNameTest;;42";
+public class TheAppInfoList extends BaseAppInfoTest {
 
     private AppInfoList tested;
     private MutableFastSettings settings;
 
     @Before
     public void setUp() {
-        AppInfo appInfo1=new AppInfo(Robolectric.application,SERIALIZED_APPINFO1);
-        AppInfo appInfo2=new AppInfo(Robolectric.application,SERIALIZED_APPINFO2);
-        AppInfo appInfo3=new AppInfo(Robolectric.application,SERIALIZED_APPINFO3);
+        AppInfo appInfo1 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO1);
+        AppInfo appInfo2 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO2);
+        AppInfo appInfo3 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO3);
         settings = new MutableFastSettings();
-        tested = new AppInfoList(asList(appInfo1,appInfo2,appInfo3), settings);
+        tested = new AppInfoList(asList(appInfo1, appInfo2, appInfo3), settings);
     }
 
     @Test
@@ -48,7 +43,7 @@ public class TheAppInfoList {
     @Test
     public void should_not_search_in_package_name_when_disabled() {
         // configure
-        settings.searchPackage=false;
+        settings.searchPackage = false;
 
         // invoke
         tested.setQuery("packageName");
@@ -61,7 +56,7 @@ public class TheAppInfoList {
     @Test
     public void should_search_in_package_name_when_enabled() {
         // configure
-        settings.searchPackage=true;
+        settings.searchPackage = true;
 
         // invoke
         tested.setQuery("packagename");
@@ -73,7 +68,7 @@ public class TheAppInfoList {
     @Test
     public void should_ignore_space_after_query_when_active() {
         // configure
-        settings.ignoreSpace=true;
+        settings.ignoreSpace = true;
 
         // invoke
         tested.setQuery("testfoo ");
@@ -85,7 +80,7 @@ public class TheAppInfoList {
     @Test
     public void should_not_ignore_space_after_query_when_inactive() {
         // configure
-        settings.ignoreSpace=false;
+        settings.ignoreSpace = false;
 
         // invoke
         tested.setQuery("testfoo ");
@@ -96,7 +91,7 @@ public class TheAppInfoList {
 
     @Test
     public void should_respect_when_we_set_a_new_list() {
-        AppInfo appInfo4=new AppInfo(Robolectric.application,SERIALIZED_APPINFO4);
+        AppInfo appInfo4 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO4);
 
         // invoke
         tested.setAppsList(asList(appInfo4));

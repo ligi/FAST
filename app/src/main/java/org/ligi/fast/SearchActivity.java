@@ -22,11 +22,9 @@ import android.widget.TextView.OnEditorActionListener;
 
 import org.ligi.axt.AXT;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
-import org.ligi.fast.util.PackageListSerializer;
-import org.ligi.tracedroid.logging.Log;
+import org.ligi.fast.util.PackageListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,44 +35,33 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     private List<AppInfo> pkgAppsListTemp;
     private AppInfoAdapter adapter;
-    private File indexFile;
-    private String newIndex = "";
-    private String oldIndex = "";
     private String oldSearch = "";
     private EditText searchEditText;
     private GridView gridView;
-    private String not_load_reason;
-    private boolean retry = true;
+
+    private PackageListStore packageListStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         App.applyTheme(this);
 
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
         setContentView(R.layout.activity_search);
 
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
-        indexFile = new File(getCacheDir(), "index2.csv");
+        packageListStore = new PackageListStore(this);
 
-        try {
-            oldIndex = AXT.at(indexFile).loadToString();
-        } catch (Exception e) { // IO ^^
-            not_load_reason = e.toString();
-            Log.w("could not load new Index:" + not_load_reason);
-        }
-
-        pkgAppsListTemp = PackageListSerializer.fromString(this, oldIndex);
+        pkgAppsListTemp = packageListStore.load();
 
         adapter = new AppInfoAdapter(this, pkgAppsListTemp);
 
         if (App.getSettings().getSortOrder().startsWith("alpha")) {
             adapter.getList().setSortMode(AppInfoList.SortMode.ALPHABETICAL);
         }
-
-        // sync was here
 
         gridView = (GridView) findViewById(R.id.listView);
 
@@ -154,25 +141,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
             pkgAppsListTemp = new ArrayList<AppInfo>();
 
-            new BaseAppGatherAsyncTask(this) {
-
-                @Override
-                protected void onProgressUpdate(AppInfo... values) {
-                    super.onProgressUpdate(values);
-                    pkgAppsListTemp.add(values[0]);
-                    newIndex += values[0].toCacheString() + "\n";
-                    retry = false;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    super.onPostExecute(result);
-                    if (!retry) {
-                        processNewIndex();
-                    }
-                }
-
-            }.execute();
+            new BackgroundGatherAsyncTask(this).execute();
         }
     }
 
@@ -184,21 +153,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         startActivity(intent);
     }
 
-    /**
-     * takes the temp apps list as the new all apps index
-     */
-    private void processNewIndex() {
 
-        if (!newIndex.equals(oldIndex)) {
-            Log.i("processing new app-index");
-            // TODO we should do a cleanup of cached icons here regarding the new index
-            adapter.getList().setAppsList(pkgAppsListTemp);
-
-            if (!AXT.at(indexFile).writeString(newIndex)) {
-                Log.i("could not write new index - user might suffer from constant index rebuilds");
-            }
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -206,11 +161,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         switch (requestCode) {
             case R.id.activityResultLoadingDialog:
-                if (data != null) {
-                    newIndex = data.getStringExtra("newIndex");
-                    pkgAppsListTemp = PackageListSerializer.fromString(this, newIndex);
-                    processNewIndex();
-                }
+                onPackageChange();
                 break;
         }
     }
@@ -219,7 +170,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     protected void onResume() {
         super.onResume();
 
-        App.packageChangedListener=this;
+        App.packageChangedListener = this;
 
         searchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
@@ -311,14 +262,24 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         return resolveInfo.activityInfo.packageName;
     }
 
+
     @Override
     public void onPackageChange() {
-
+        // TODO we should also do a cleanup of cached icons here
+        // we might not come from UI Thread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.getList().setAppsList(packageListStore.load());
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     protected void onPause() {
-        App.packageChangedListener=null;
+        App.packageChangedListener = null;
         super.onPause();
     }
+
 }
