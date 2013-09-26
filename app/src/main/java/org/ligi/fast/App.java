@@ -9,6 +9,12 @@ public class App extends Application {
 
     private static FASTSettings settings;
 
+    public interface PackageChangedListener {
+        public void onPackageChange();
+    }
+
+    public static PackageChangedListener packageChangedListener;
+
     @Override
     public void onCreate() {
         super.onCreate();

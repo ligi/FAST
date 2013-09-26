@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class AppInfoAdapter extends BaseAdapter {
 
-
     private final Context ctx;
 
     private String highLightColorHexString = "";

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 
 import org.ligi.tracedroid.logging.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,10 +15,12 @@ import java.util.List;
  */
 class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private final Context ctx;
-    int appCount;
+    protected int appCount;
+    protected List<AppInfo> appInfoList;
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this.ctx = ctx;
+        appInfoList = new ArrayList<AppInfo>();
     }
 
     @Override
@@ -29,11 +32,11 @@ class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
             List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
-                AppInfo act_appinfo = new AppInfo(ctx, info);
+                AppInfo actAppInfo = new AppInfo(ctx, info);
 
-                if (!ctx.getPackageName().equals(act_appinfo.getPackageName())) {
-                    // do not add this app as app in list
-                    publishProgress(act_appinfo);
+                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) { // ignore self
+                    appInfoList.add(actAppInfo);
+                    publishProgress(actAppInfo);
                 }
             }
         } catch (Exception e) {
@@ -42,4 +45,6 @@ class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
 
         return null;
     }
+
+
 }
