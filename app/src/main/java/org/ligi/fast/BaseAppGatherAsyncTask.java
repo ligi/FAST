@@ -27,20 +27,33 @@ class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     protected Void doInBackground(Void... params) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
+        
+        List<List<String>> apps = new ArrayList<List<String>>();
+        
+        
         try {
-            List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
-            appCount = resolveInfoList.size();
-            for (ResolveInfo info : resolveInfoList) {
-                AppInfo actAppInfo = new AppInfo(ctx, info);
-
-                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) { // ignore self
-                    appInfoList.add(actAppInfo);
-                    publishProgress(actAppInfo);
-                }
+        	
+            List<ResolveInfo> resolveInfos = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
+            appCount = resolveInfos.size();
+              
+            for (ResolveInfo info : resolveInfos) {
+            	
+            	ArrayList<String> data = new ArrayList<String>();
+            	data.add(info.activityInfo.packageName.toString());
+            	data.add(info.activityInfo.name.toString());
+            	apps.add(data);
             }
+            
+            
         } catch (Exception e) {
             Log.d("Exception occurred when getting activities skipping...!");
+
+        }
+        
+        
+        for (int n = 0; n < apps.size(); n++) {
+        	AppInfo act_appinfoStr = new AppInfo(ctx,apps.get(n).get(0).toString(),apps.get(n).get(1).toString());
+            publishProgress(act_appinfoStr);
         }
 
         return null;
