@@ -1,8 +1,8 @@
 package org.ligi.fast;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -62,24 +62,23 @@ public class AppInfo {
         return hash + ";;" + label + ";;" + packageName + ";;" + activityName + ";;" + callCount;
     }
 
-    public AppInfo(Context _ctx, String pkgname, Boolean bool) {
+    public AppInfo(Context _ctx, String pkgname, String actname) {
         this(_ctx);
 
         // init attributes
     	
     	try {
     		PackageManager  pm = ctx.getPackageManager();
-            ApplicationInfo app = pm.getApplicationInfo(pkgname, 0);   
+            ComponentName appPC = new ComponentName(pkgname,actname);
             
-            
-			
-            label = pm.getApplicationLabel(app).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
-            
+
+            label = pm.getActivityInfo (appPC, 0).loadLabel(pm).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
             package_name = pkgname;
-            
-            activity_name = pm.getLaunchIntentForPackage(pkgname).getComponent().getClassName();
+            activity_name = actname;
             call_count = 0;
             
+            //Log.w("pkgname",pkgname);
+            //Log.w("activity_name",activity_name);
             // calculate the hash
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
@@ -101,8 +100,8 @@ public class AppInfo {
             // cache the Icon
             if (!getIconCacheFile().exists()) {
 
-                Bitmap icon = drawableToBitmap(pm.getApplicationIcon(app));
-                
+                Bitmap icon = drawableToBitmap(pm.getActivityIcon(appPC));
+
                 try {
                     getIconCacheFile().createNewFile();
                     FileOutputStream fos = new FileOutputStream(getIconCacheFile());
@@ -113,8 +112,7 @@ public class AppInfo {
                 }
             }
     	} catch (NameNotFoundException e) {
-            //Toast toast = Toast.makeText(this, "error in getting icon", Toast.LENGTH_SHORT);
-            //toast.show();
+
             e.printStackTrace();
         }
            
