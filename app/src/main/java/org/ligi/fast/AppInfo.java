@@ -2,9 +2,13 @@ package org.ligi.fast;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -58,56 +62,62 @@ public class AppInfo {
         return hash + ";;" + label + ";;" + packageName + ";;" + activityName + ";;" + callCount;
     }
 
-    public AppInfo(Context _ctx, ResolveInfo ri) {
+    public AppInfo(Context _ctx, String pkgname, Boolean bool) {
         this(_ctx);
 
-
         // init attributes
-        label = AXT.at(ri).getLabelSafely(_ctx);
-        label = label.replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
-        if (ri.activityInfo != null) {
-            packageName = ri.activityInfo.packageName;
-            activityName = ri.activityInfo.name;
-        } else {
-            packageName = "unknown";
-            activityName = "unknown";
-        }
-        callCount = 0;
-
-
-        // calculate the hash
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(packageName.getBytes());
-            md.update(activityName.getBytes());
-
-            byte[] messageDigest = md.digest();
-
-            StringBuilder hexString = new StringBuilder();
-            for (byte digestByte : messageDigest) {
-                hexString.append(Integer.toHexString(0xFF & digestByte));
-            }
-            hash = hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            Log.w("MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
-            hash = packageName; // fallback
-        }
-
-        // cache the Icon
-        if (!getIconCacheFile().exists()) {
+    	
+    	try {
+    		PackageManager  pm = ctx.getPackageManager();
+            ApplicationInfo app = pm.getApplicationInfo(pkgname, 0);   
+            
+            
+			
+            label = pm.getApplicationLabel(app).toString().replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
+            
+            package_name = pkgname;
+            
+            activity_name = pm.getLaunchIntentForPackage(pkgname).getComponent().getClassName();
+            call_count = 0;
+            
+            // calculate the hash
             try {
-                cacheIcon(ri);
-            } catch (OutOfMemoryError oom) {
-                System.gc();
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(package_name.getBytes());
+                md.update(activity_name.getBytes());
+                byte[] messageDigest = md.digest();
+
+                StringBuffer hexString = new StringBuffer();
+                for (int i = 0; i < messageDigest.length; i++)
+                    hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+                hash = hexString.toString();
+
+            } catch (NoSuchAlgorithmException e) {
+                Log.w("FastAppSearchTool",
+                        "MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
+                hash = package_name; // fallback
+            }
+
+            // cache the Icon
+            if (!getIconCacheFile().exists()) {
+
+                Bitmap icon = drawableToBitmap(pm.getApplicationIcon(app));
+                
                 try {
-                    cacheIcon(ri);
-                } catch (OutOfMemoryError oom2) {
-                    Log.w("could not cache Icon with a final attempt after GC due to Memory issues");
+                    getIconCacheFile().createNewFile();
+                    FileOutputStream fos = new FileOutputStream(getIconCacheFile());
+                    icon.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+                } catch (IOException e) {
+                    Log.w("FastAppSearchTool", " Could not cache the Icon");
                 }
             }
+    	} catch (NameNotFoundException e) {
+            //Toast toast = Toast.makeText(this, "error in getting icon", Toast.LENGTH_SHORT);
+            //toast.show();
+            e.printStackTrace();
         }
-
+           
     }
 
     private void cacheIcon(ResolveInfo ri) {
