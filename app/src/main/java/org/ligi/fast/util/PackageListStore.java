@@ -58,7 +58,7 @@ public class PackageListStore {
 
         for (AppInfo appInfo : appInfoList) {
             res.append(appInfo.toCacheString());
-            res.append("\n");
+            res.append(SEPARATOR);
         }
 
         try {
