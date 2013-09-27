@@ -9,6 +9,7 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashSet;
 
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
@@ -32,17 +33,26 @@ class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
             List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
-                AppInfo actAppInfo = new AppInfo(ctx, info);
-
-                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) { // ignore self
-                    appInfoList.add(actAppInfo);
-                    publishProgress(actAppInfo);
-                }
+                
+                pkgnames.add(info.activityInfo.packageName.toString());
+                
             }
         } catch (Exception e) {
             Log.d("Exception occurred when getting activities skipping...!");
         }
-
+        
+        //Remove duplicates... 
+        LinkedHashSet<String>  pkgnames_hs = new LinkedHashSet<String> ();
+        pkgnames_hs.addAll(pkgnames);
+        pkgnames.clear();
+        pkgnames.addAll(pkgnames_hs);
+        
+        //Create appinfo with new implemetation by talexop
+        for (String appPkgName : pkgnames) {
+        	AppInfo act_appinfoStr = new AppInfo(ctx,appPkgName,true);
+        	publishProgress(act_appinfoStr);
+        }
+        
         return null;
     }
 
