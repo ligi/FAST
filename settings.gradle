@@ -1,1 +1,1 @@
-include ':app',':tests'
+include ':android',':tests'

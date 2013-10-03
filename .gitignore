@@ -13,3 +13,4 @@ proguard/
 project.properties
 local.properties
 tests/AndroidManifest.xml
+android/build
