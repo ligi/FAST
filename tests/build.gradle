@@ -5,14 +5,14 @@ repositories {
 apply plugin: 'java'
 
 dependencies {
-    testCompile project(':app')
+    testCompile project(':android')
     testCompile "junit:junit:4.10"
     testCompile "com.squareup:fest-android:1.0.1"
     testCompile 'org.robolectric:robolectric:2.0-alpha-2'
 
-    testCompile project(":app").android.applicationVariants.toList().first().javaCompile.outputs.files
-    testCompile project(":app").android.applicationVariants.toList().first().javaCompile.classpath
-    testCompile files(project(":app").plugins.findPlugin("android").runtimeJarList)
+    testCompile project(":android").android.applicationVariants.toList().first().javaCompile.outputs.files
+    testCompile project(":android").android.applicationVariants.toList().first().javaCompile.classpath
+    testCompile files(project(":android").plugins.findPlugin("android").runtimeJarList)
 }
 
 
