@@ -20,7 +20,7 @@ test {
     inputs.files file("AndroidManifest.xml")
     doFirst {
         copy {
-            from project(":app").file("src/main/AndroidManifest.xml")
+            from project(":android").file("src/main/AndroidManifest.xml")
             into projectDir
         }
     }
