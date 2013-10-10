@@ -92,14 +92,18 @@ public class AppInfoAdapter extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
         ImageView imageView = holder.image;
         TextView labelView = holder.text;
+
+        AppInfo actAppInfo = appInfoList.get(position);
+
+
         if (imageView != null) {
-            Drawable drawable = appInfoList.get(position).getIcon();
+            Drawable drawable = actAppInfo.getIcon();
             holder.image.setImageDrawable(drawable);
         }
 
         labelView.setMaxLines(App.getSettings().getMaxLines());
 
-        String label = appInfoList.get(position).getLabel();
+        String label = actAppInfo.getLabel();
         String highlight_label = label;
 
         int query_index = label.toLowerCase().indexOf(appInfoList.getQuery());
@@ -110,7 +114,7 @@ public class AppInfoAdapter extends BaseAdapter {
         }
 
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
-            label = appInfoList.get(position).getPackageName();
+            label = actAppInfo.getPackageName();
             label = label.replace("com.google.android.apps.", "");
             query_index = label.toLowerCase().indexOf(appInfoList.getQuery());
         }
