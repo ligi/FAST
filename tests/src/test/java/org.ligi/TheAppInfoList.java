@@ -100,4 +100,12 @@ public class TheAppInfoList extends BaseAppInfoTest {
         assertThat(tested.get(0)).isEqualTo(appInfo4);
     }
 
+    @Test
+    public void should_not_explode_for_indexes_out_of_bounds() {
+
+        for (int i = 0; i < 5; i++) {
+            assertThat(tested.get(i)).isNotNull();
+        }
+    }
+
 }
