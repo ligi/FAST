@@ -42,6 +42,9 @@ public class AppInfoList {
     }
 
     public AppInfo get(int pos) {
+        if (pos > getCount()) {
+            return get(0); // the first one for the rescue
+        }
         return pkgAppsListShowing.get(pos);
     }
 
