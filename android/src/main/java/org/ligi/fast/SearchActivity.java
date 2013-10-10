@@ -36,7 +36,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     private List<AppInfo> pkgAppsListTemp;
     private AppInfoAdapter adapter;
     private String oldSearch = "";
-    private EditText searchEditText;
+    private EditText searchQueryEditText;
     private GridView gridView;
 
     private PackageListStore packageListStore;
@@ -59,9 +59,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         adapter = new AppInfoAdapter(this, pkgAppsListTemp);
 
-        if (App.getSettings().getSortOrder().startsWith("alpha")) {
-            adapter.getList().setSortMode(AppInfoList.SortMode.ALPHABETICAL);
-        }
+        configureAdapter();
 
         gridView = (GridView) findViewById(R.id.listView);
 
@@ -70,12 +68,12 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
                         | ActionBar.DISPLAY_SHOW_HOME);
           */
 
-        searchEditText = (EditText) findViewById(R.id.searchEditText);
-        searchEditText.setSingleLine();
-        searchEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        searchEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
+        searchQueryEditText = (EditText) findViewById(R.id.searchEditText);
+        searchQueryEditText.setSingleLine();
+        searchQueryEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        searchQueryEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
 
-        searchEditText.setOnEditorActionListener(new OnEditorActionListener() {
+        searchQueryEditText.setOnEditorActionListener(new OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -87,18 +85,16 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             }
 
         });
-        searchEditText.setHint(R.string.query_hint);
+        searchQueryEditText.setHint(R.string.query_hint);
 
-        searchEditText.addTextChangedListener(new SimpleTextWatcher() {
+        searchQueryEditText.addTextChangedListener(new SimpleTextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
                 boolean was_adding = oldSearch.length() < s.toString().length();
                 oldSearch = s.toString().toLowerCase();
                 adapter.setActQuery(s.toString().toLowerCase());
-                if ((adapter.getCount() == 1) && was_adding && App.getSettings().isLaunchSingleActivated()) {
-                    startItemAtPos(0);
-                }
+                startAppWhenItIstheOnlyOneInList(was_adding);
             }
 
         });
@@ -145,6 +141,18 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         }
     }
 
+    private void startAppWhenItIstheOnlyOneInList(boolean was_adding) {
+        if ((adapter.getCount() == 1) && was_adding && App.getSettings().isLaunchSingleActivated()) {
+            startItemAtPos(0);
+        }
+    }
+
+    private void configureAdapter() {
+        if (App.getSettings().getSortOrder().startsWith("alpha")) {
+            adapter.getList().setSortMode(AppInfoList.SortMode.ALPHABETICAL);
+        }
+    }
+
     public void startItemAtPos(int pos) {
         Intent intent = adapter.getList().get(pos).getIntent();
         intent.setAction("android.intent.action.MAIN");
@@ -172,7 +180,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         App.packageChangedListener = this;
 
-        searchEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
+        searchQueryEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
         dealWithUserPreferencesRegardingSoftKeyboard();
 
@@ -201,18 +209,18 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     private void hideKeyboard() {
-        searchEditText.clearFocus();
+        searchQueryEditText.clearFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void showKeyboard() {
-        searchEditText.requestFocus();
+        searchQueryEditText.requestFocus();
 
-        searchEditText.postDelayed(new Runnable() {
+        searchQueryEditText.postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                AXT.at(searchEditText).showKeyboard();
+                AXT.at(searchQueryEditText).showKeyboard();
             }
         }, 200);
     }
@@ -270,8 +278,11 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter.getList().setAppsList(packageListStore.load());
-                adapter.notifyDataSetChanged();
+
+                adapter = new AppInfoAdapter(SearchActivity.this, packageListStore.load());
+                configureAdapter();
+                adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase());
+                gridView.setAdapter(adapter);
             }
         });
     }
