@@ -182,7 +182,12 @@ public class AppInfo {
 
     @Override
     public boolean equals(Object o) {
-        return toCacheString().equals(toCacheString());
+        if (!(o instanceof AppInfo)) {
+            return false;
+        }
+
+        AppInfo other = (AppInfo) o;
+        return toCacheString().equals(other.toCacheString());
     }
 
 }

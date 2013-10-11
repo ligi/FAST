@@ -106,9 +106,9 @@ public class AppInfoAdapter extends BaseAdapter {
         String label = actAppInfo.getLabel();
         String highlight_label = label;
 
-        int query_index = label.toLowerCase().indexOf(appInfoList.getQuery());
+        int query_index = label.toLowerCase().indexOf(appInfoList.getCurrentQuery());
 
-        if (appInfoList.getQuery().length() == 0) {
+        if (appInfoList.getCurrentQuery().length() == 0) {
             labelView.setText(label);
             return convertView;
         }
@@ -116,7 +116,7 @@ public class AppInfoAdapter extends BaseAdapter {
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = actAppInfo.getPackageName();
             label = label.replace("com.google.android.apps.", "");
-            query_index = label.toLowerCase().indexOf(appInfoList.getQuery());
+            query_index = label.toLowerCase().indexOf(appInfoList.getCurrentQuery());
         }
 
         if (query_index != -1) {
@@ -125,9 +125,9 @@ public class AppInfoAdapter extends BaseAdapter {
                     + highLightColorHexString
                     + "'>"
                     + label.substring(query_index,
-                    query_index + appInfoList.getQuery().length())
+                    query_index + appInfoList.getCurrentQuery().length())
                     + "</font>"
-                    + label.substring(query_index + appInfoList.getQuery().length(),
+                    + label.substring(query_index + appInfoList.getCurrentQuery().length(),
                     label.length());
         }
 

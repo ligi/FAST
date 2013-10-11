@@ -6,7 +6,7 @@ class AppInfoSortByLabelComparator implements Comparator<AppInfo> {
 
     @Override
     public int compare(AppInfo lhs, AppInfo rhs) {
-        return lhs.getLabel().compareTo(rhs.getLabel());
+        return lhs.getLabel().toLowerCase().compareTo(rhs.getLabel().toLowerCase());
     }
 
 }

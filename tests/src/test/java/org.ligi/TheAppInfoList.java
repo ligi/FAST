@@ -108,4 +108,22 @@ public class TheAppInfoList extends BaseAppInfoTest {
         }
     }
 
+    @Test
+    public void should_sort_alphabetical_if_requested() throws Exception {
+        AppInfo appInfo1 = new AppInfo(Robolectric.application, "hash;;clabel;;packageNameTest;;activityNameTest;;42");
+        AppInfo appInfo2 = new AppInfo(Robolectric.application, "hash;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
+        AppInfo appInfo3 = new AppInfo(Robolectric.application, "hash;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
+        AppInfo appInfo4 = new AppInfo(Robolectric.application, "hash;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
+        AppInfo appInfo5 = new AppInfo(Robolectric.application, "hash;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
+        tested = new AppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
+
+        tested.setSortMode(AppInfoList.SortMode.ALPHABETICAL);
+
+        assertThat(tested.get(0)).isEqualTo(appInfo2);
+        assertThat(tested.get(1)).isEqualTo(appInfo1);
+        assertThat(tested.get(2)).isEqualTo(appInfo5);
+        assertThat(tested.get(3)).isEqualTo(appInfo4);
+        assertThat(tested.get(4)).isEqualTo(appInfo3);
+
+    }
 }
