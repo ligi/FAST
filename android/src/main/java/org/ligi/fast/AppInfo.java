@@ -163,9 +163,14 @@ public class AppInfo {
 
     public Drawable getIcon() {
         if (icon == null) {
-            try {
-                icon = new BitmapDrawable(ctx.getResources(), new FileInputStream(getIconCacheFile()));
-            } catch (FileNotFoundException e) {
+            
+        	BitmapFactory.Options options = new BitmapFactory.Options();
+        	options.inSampleSize = 2;
+        	Bitmap downStreamIcon = BitmapFactory.decodeFile(getIconCacheFile().getAbsolutePath(),options);
+            
+        	if (downStreamIcon != null) {
+                icon = new BitmapDrawable(ctx.getResources(),downStreamIcon);
+            } else {
                 Log.w("Could not load the cached Icon" + getIconCacheFile().getAbsolutePath());
             }
         }
