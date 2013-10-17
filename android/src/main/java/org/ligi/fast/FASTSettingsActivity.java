@@ -10,6 +10,8 @@ import android.preference.PreferenceScreen;
 import android.view.View;
 import android.view.Window;
 
+import org.ligi.axt.AXT;
+
 /**
  * Activity to Edit the Preferences
  */
@@ -117,6 +119,10 @@ public class FASTSettingsActivity extends PreferenceActivity {
         autoShowKeyboard.setSummary(getString(R.string.show_keyboard_descr));
         autoShowKeyboard.setDefaultValue(true);
 
+        PreferenceScreen removeCachePreference=getPreferenceManager().createPreferenceScreen(this);
+        removeCachePreference.setTitle("Remove Cache");
+        removeCachePreference.setSummary("In case something is not fresh as it should");
+        removeCachePreference.setOnPreferenceClickListener(new CacheRemovingOnPreferenceClickListener());
 
         root.addPreference(themePref);
         root.addPreference(iconSizePref);
@@ -129,6 +135,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(ignoreSpace);
         root.addPreference(autoShowKeyboard);
         root.addPreference(convertUmlauts);
+        root.addPreference(removeCachePreference);
 
         return root;
     }
@@ -146,5 +153,16 @@ public class FASTSettingsActivity extends PreferenceActivity {
 
     public void helpClicked(View v) {
         HelpDialog.show(this);
+    }
+
+    private class CacheRemovingOnPreferenceClickListener implements Preference.OnPreferenceClickListener {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            AXT.at(getBaseContext().getCacheDir()).deleteRecursive();
+            Intent intent = new Intent(FASTSettingsActivity.this, SearchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return false;
+        }
     }
 }
