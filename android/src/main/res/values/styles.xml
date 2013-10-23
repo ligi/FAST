@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="dark" parent="android:Theme">
+    <style name="dark" parent="@android:style/Theme">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="light" parent="android:Theme.Light">
+    <style name="light" parent="@android:style/Theme.Light">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
         <item name="android:windowActionBar">false</item>
@@ -20,6 +21,7 @@
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
@@ -28,6 +30,7 @@
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
