@@ -2,20 +2,12 @@ package org.ligi.fast;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import org.ligi.axt.AXT;
 import org.ligi.tracedroid.logging.Log;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,24 +15,25 @@ import java.security.NoSuchAlgorithmException;
  * Class to Retrieve / Store Application Information needed by this App
  */
 public class AppInfo {
+    private static final String SEPARATOR = ";;";
+
     private String label;
     private String packageName;
     private String activityName;
     private String hash;
     private int callCount;
-    private final Context ctx;
-    private BitmapDrawable icon; // caching the Icon
     private boolean isValid = true;
 
-    private AppInfo(Context _ctx) {
-        ctx = _ctx;
+    private final AppIconCache iconCache;
+
+    private AppInfo(Context ctx) {
+        iconCache = new AppIconCache(ctx,this);
     }
 
-    public AppInfo(Context _ctx, String cache_str) {
-        this(_ctx);
+    public AppInfo(Context ctx, String cache_str) {
+        this(ctx);
 
-        Log.i("trying to parse line: " + cache_str);
-        String[] app_info_str_split = cache_str.split(";;");
+        String[] app_info_str_split = cache_str.split(SEPARATOR);
 
         if (app_info_str_split.length < 5) {
             isValid = false;
@@ -54,17 +47,12 @@ public class AppInfo {
         callCount = Integer.parseInt(app_info_str_split[4]);
     }
 
-    public String toCacheString() {
-        return hash + ";;" + label + ";;" + packageName + ";;" + activityName + ";;" + callCount;
-    }
-
     public AppInfo(Context _ctx, ResolveInfo ri) {
         this(_ctx);
 
-
         // init attributes
         label = AXT.at(ri).getLabelSafely(_ctx);
-        label = label.replaceAll("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
+        label = label.replace("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
         if (ri.activityInfo != null) {
             packageName = ri.activityInfo.packageName;
             activityName = ri.activityInfo.name;
@@ -74,8 +62,15 @@ public class AppInfo {
         }
         callCount = 0;
 
+        hash=calculateTheHash();
+    }
 
-        // calculate the hash
+    public String toCacheString() {
+        return hash + SEPARATOR + label + SEPARATOR + packageName +
+                SEPARATOR + activityName + SEPARATOR + callCount;
+    }
+
+    private String calculateTheHash() {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(packageName.getBytes());
@@ -87,66 +82,32 @@ public class AppInfo {
             for (byte digestByte : messageDigest) {
                 hexString.append(Integer.toHexString(0xFF & digestByte));
             }
-            hash = hexString.toString();
+            return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
             Log.w("MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
-            hash = packageName; // fallback
+            return packageName; // fallback
         }
-
-        // cache the Icon
-        if (!getIconCacheFile().exists()) {
-            try {
-                cacheIcon(ri);
-            } catch (OutOfMemoryError oom) {
-                System.gc();
-                try {
-                    cacheIcon(ri);
-                } catch (OutOfMemoryError oom2) {
-                    Log.w("could not cache Icon with a final attempt after GC due to Memory issues");
-                }
-            }
-        }
-
-    }
-
-    private void cacheIcon(ResolveInfo ri) {
-
-        PackageManager packageManager = ctx.getPackageManager();
-
-        if (packageManager == null) {
-            Log.w("could not cache the Icon - PM is null");
-            return;
-        }
-
-        BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(packageManager);
-        if (icon != null) {
-            try {
-
-                createIconCacheFile();
-
-                FileOutputStream fos = new FileOutputStream(getIconCacheFile());
-                icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.close();
-            } catch (IOException e) {
-                Log.w(" Could not cache the Icon");
-            }
-        }
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored") // as we do not care if it is new or old
-    private boolean createIconCacheFile() throws IOException {
-        return getIconCacheFile().createNewFile();
-    }
-
-    private File getIconCacheFile() {
-        return new File(ctx.getCacheDir() + "/" + hash + ".png");
     }
 
     public Intent getIntent() {
         Intent intent = new Intent();
         intent.setClassName(packageName, activityName);
         return intent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof AppInfo)) {
+            return false;
+        }
+
+        AppInfo other = (AppInfo) o;
+        return toCacheString().equals(other.toCacheString());
+    }
+
+    public Drawable getIcon() {
+        return iconCache.getIcon();
     }
 
     public String getPackageName() {
@@ -161,17 +122,6 @@ public class AppInfo {
         return callCount;
     }
 
-    public Drawable getIcon() {
-        if (icon == null) {
-            try {
-                icon = new BitmapDrawable(ctx.getResources(), new FileInputStream(getIconCacheFile()));
-            } catch (FileNotFoundException e) {
-                Log.w("Could not load the cached Icon" + getIconCacheFile().getAbsolutePath());
-            }
-        }
-        return icon;
-    }
-
     public boolean isValid() {
         return isValid;
     }
@@ -179,15 +129,4 @@ public class AppInfo {
     public String getHash() {
         return hash;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof AppInfo)) {
-            return false;
-        }
-
-        AppInfo other = (AppInfo) o;
-        return toCacheString().equals(other.toCacheString());
-    }
-
 }
