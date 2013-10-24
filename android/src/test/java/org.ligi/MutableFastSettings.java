@@ -2,12 +2,12 @@ package org.ligi;
 
 import org.ligi.fast.FASTSettings;
 
-public class MutableFastSettings implements FASTSettings{
+public class MutableFastSettings implements FASTSettings {
 
-    public boolean launchSingle=false;
-    public boolean searchPackage=false;
-    public boolean convertUmlaut=false;
-    public boolean ignoreSpace=false;
+    public boolean launchSingle = false;
+    public boolean searchPackage = false;
+    public boolean convertUmlaut = false;
+    public boolean ignoreSpace = false;
 
     @Override
     public boolean isLaunchSingleActivated() {

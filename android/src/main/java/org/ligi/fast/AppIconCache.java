@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 
-class AppIconCache {
+public class AppIconCache {
 
     private final Context ctx;
     private final AppInfo appInfo;
@@ -111,7 +111,7 @@ class AppIconCache {
         return new Point(bitmap.getWidth(), bitmap.getHeight());
     }
 
-    private Point scaleToFitCalc(int maxDist, Point point) {
+    public Point scaleToFitCalc(int maxDist, Point point) {
         float scale;
         if (point.x < maxDist && point.y < maxDist) {
             // nothing is over dist px -> we are good with the given value

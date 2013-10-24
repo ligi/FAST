@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.0.+'
     }
 }
 
@@ -13,7 +14,8 @@ repositories {
     mavenCentral()
     maven {
         url project.hasProperty('ligisMavenUrl') ? ligisMavenUrl : "https://raw.github.com/ligi/ligis-mvn-repo/master";
-    }}
+    }
+}
 
 
 android {
@@ -42,12 +44,33 @@ android {
             flavorGroup "market"
         }
 
+
     }
 
+  defaultConfig {
+    packageName "org.ligi.fast"
+  }
+}
 
-    dependencies {
-        compile 'org.ligi:AXT:0.21'
-        compile 'org.ligi:tracedroid:1.1'
-        compile 'com.android.support:support-v4:18.0.0'
-    }
+
+apply plugin: 'android-unit-test'
+
+dependencies {
+     repositories {
+    mavenCentral()
+  }
+
+    compile 'org.ligi:AXT:0.21'
+    compile 'org.ligi:tracedroid:1.1'
+    compile 'com.android.support:support-v4:18.0.0'
+
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.1.+'
+    testCompile "com.squareup:fest-android:1.0.1"
+}
+
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*The*.class" // whatever Ant pattern matches your test class files
 }

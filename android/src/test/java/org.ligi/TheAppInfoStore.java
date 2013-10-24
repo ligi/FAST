@@ -12,10 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static junit.framework.Assert.fail;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-public class TheAppInfoStore extends BaseAppInfoTest {
+public class TheAppInfoStore extends AppInfoTestBase {
 
     private PackageListStore tested;
     private List<AppInfo> appInfoList;
@@ -30,6 +31,7 @@ public class TheAppInfoStore extends BaseAppInfoTest {
         tested = new PackageListStore(Robolectric.application);
 
         appInfoList = asList(appInfo1, appInfo2, appInfo3);
+
     }
 
     @Test

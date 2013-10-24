@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-public class TheAppInfoList extends BaseAppInfoTest {
+public class TheAppInfoList extends AppInfoTestBase {
 
     private AppInfoList tested;
     private MutableFastSettings settings;
