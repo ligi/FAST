@@ -1,6 +1,6 @@
 package org.ligi;
 
-import org.ligi.fast.FASTSettings;
+import org.ligi.fast.settings.FASTSettings;
 
 public class MutableFastSettings implements FASTSettings {
 

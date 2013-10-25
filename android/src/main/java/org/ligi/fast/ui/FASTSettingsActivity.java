@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.Window;
 
 import org.ligi.axt.AXT;
+import org.ligi.fast.App;
+import org.ligi.fast.R;
+import org.ligi.fast.TargetStore;
+import org.ligi.fast.settings.FASTSettings;
 
 /**
  * Activity to Edit the Preferences

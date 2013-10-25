@@ -3,7 +3,7 @@ package org.ligi.fast.util;
 import android.content.Context;
 
 import org.ligi.androidhelper.AXT;
-import org.ligi.fast.AppInfo;
+import org.ligi.fast.model.AppInfo;
 import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;

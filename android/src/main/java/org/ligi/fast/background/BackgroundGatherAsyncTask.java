@@ -1,10 +1,12 @@
-package org.ligi.fast;
+package org.ligi.fast.background;
 
 import android.content.Context;
 
+import org.ligi.fast.App;
+import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.util.PackageListStore;
 
-class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
+public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
 
     private Context context;
 

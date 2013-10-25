@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.ui;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -16,6 +16,10 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
+import org.ligi.fast.App;
+import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.R;
+import org.ligi.fast.TargetStore;
 import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
@@ -54,19 +58,15 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                         PendingIntent.FLAG_UPDATE_CURRENT
                                 | Notification.FLAG_AUTO_CANCEL);
 
-                final Notification notifyDetails = new NotificationCompat.Builder(
-                        context)
-                        .setContentTitle(
-                                "FAST Launch "
-                                        + app_info.getLabel())
+                final String title = context.getString(R.string.appActionDialog_title) + app_info.getLabel();
+                final Notification notifyDetails = new NotificationCompat.Builder(context)
+                        .setContentTitle(title)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentIntent(intent)
                         .setAutoCancel(true).getNotification();
 
-                ((NotificationManager) context
-                        .getSystemService(Context.NOTIFICATION_SERVICE))
-                        .notify((int) (Math.random() * 1000),
-                                notifyDetails);
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify((int) (Math.random() * 1000),notifyDetails);
             }
         }));
 

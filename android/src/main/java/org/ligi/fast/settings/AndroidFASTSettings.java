@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;

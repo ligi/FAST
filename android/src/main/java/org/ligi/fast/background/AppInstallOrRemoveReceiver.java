@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.background;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

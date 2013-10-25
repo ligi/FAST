@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
+
+import org.ligi.fast.R;
 
 class HelpDialog {
 

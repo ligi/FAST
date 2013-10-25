@@ -3,8 +3,8 @@ package org.ligi;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ligi.fast.AppInfo;
-import org.ligi.fast.AppInfoList;
+import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.model.AppInfoList;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 

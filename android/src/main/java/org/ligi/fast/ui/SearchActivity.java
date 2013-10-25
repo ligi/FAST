@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.ui;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -22,6 +22,11 @@ import android.widget.TextView.OnEditorActionListener;
 
 import org.ligi.axt.AXT;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
+import org.ligi.fast.App;
+import org.ligi.fast.R;
+import org.ligi.fast.background.BackgroundGatherAsyncTask;
+import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.util.PackageListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 

@@ -3,6 +3,8 @@ package org.ligi.fast;
 import android.app.Activity;
 import android.app.Application;
 
+import org.ligi.fast.settings.AndroidFASTSettings;
+import org.ligi.fast.settings.FASTSettings;
 import org.ligi.tracedroid.TraceDroid;
 
 public class App extends Application {

@@ -2,7 +2,7 @@ package org.ligi.fast.util;
 
 import android.content.Context;
 
-import org.ligi.fast.AppInfo;
+import org.ligi.fast.model.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;

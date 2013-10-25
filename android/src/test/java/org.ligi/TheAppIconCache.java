@@ -5,8 +5,8 @@ import android.graphics.Point;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ligi.fast.AppIconCache;
-import org.ligi.fast.AppInfo;
+import org.ligi.fast.model.AppIconCache;
+import org.ligi.fast.model.AppInfo;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 

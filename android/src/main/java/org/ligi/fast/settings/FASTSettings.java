@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.settings;
 
 /**
  * Interface for FAST's preferences

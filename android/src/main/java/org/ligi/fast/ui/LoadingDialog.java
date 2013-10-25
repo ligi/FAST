@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.ui;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.ligi.axt.AXT;
+import org.ligi.fast.R;
+import org.ligi.fast.background.BaseAppGatherAsyncTask;
+import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.util.PackageListStore;
 
 /**

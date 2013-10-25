@@ -1,10 +1,11 @@
-package org.ligi.fast;
+package org.ligi.fast.background;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 
+import org.ligi.fast.model.AppInfo;
 import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
  */
-class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
+public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private final Context ctx;
     protected int appCount;
     protected List<AppInfo> appInfoList;

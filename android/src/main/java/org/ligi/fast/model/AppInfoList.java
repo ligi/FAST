@@ -1,6 +1,8 @@
-package org.ligi.fast;
+package org.ligi.fast.model;
 
 import android.os.AsyncTask;
+
+import org.ligi.fast.settings.FASTSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,13 +84,13 @@ public class AppInfoList {
     }
 
     private String generateConfiguredAlternativeQuery(String act_query) {
-        String actAlternateQuery;
         if (settings.isUmlautConvertActivated()) {
-            actAlternateQuery = act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
+           String actAlternateQuery;
+
+           return act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
         } else {
-            actAlternateQuery = null;
+            return null;
         }
-        return actAlternateQuery;
     }
 
     private String configuredRemoveTrailingSpace(String act_query) {

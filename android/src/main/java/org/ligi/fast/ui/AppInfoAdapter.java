@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.ui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -10,6 +10,11 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.ligi.fast.App;
+import org.ligi.fast.R;
+import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.model.AppInfoList;
 
 import java.util.List;
 

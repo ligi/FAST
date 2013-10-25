@@ -1,4 +1,4 @@
-package org.ligi.fast;
+package org.ligi.fast.model;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
