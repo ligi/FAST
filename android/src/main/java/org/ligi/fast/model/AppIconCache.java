@@ -28,7 +28,7 @@ public class AppIconCache {
         this.appInfo = appInfo;
     }
 
-    private void cacheIcon(ResolveInfo ri) {
+    public void cacheIcon(ResolveInfo ri) {
         PackageManager packageManager = ctx.getPackageManager();
 
         if (packageManager == null) {

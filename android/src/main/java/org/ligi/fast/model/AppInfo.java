@@ -6,6 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
 import org.ligi.axt.AXT;
+import org.ligi.fast.util.UmlautConverter;
 import org.ligi.tracedroid.logging.Log;
 
 import java.security.MessageDigest;
@@ -18,7 +19,9 @@ public class AppInfo {
     private static final String SEPARATOR = ";;";
 
     private String label;
+    private String alternateLabel;
     private String packageName;
+    private String alternatePackageName;
     private String activityName;
     private String hash;
     private int callCount;
@@ -45,6 +48,9 @@ public class AppInfo {
         packageName = app_info_str_split[2];
         activityName = app_info_str_split[3];
         callCount = Integer.parseInt(app_info_str_split[4]);
+
+        calculateAlternateLabelAndPackageName();
+
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
@@ -63,6 +69,13 @@ public class AppInfo {
         callCount = 0;
 
         hash=calculateTheHash();
+        calculateAlternateLabelAndPackageName();
+        iconCache.cacheIcon(ri);
+    }
+
+    private void calculateAlternateLabelAndPackageName() {
+        alternateLabel= UmlautConverter.replaceAllUmlautsReturnNullIfEqual(label);
+        alternatePackageName=UmlautConverter.replaceAllUmlautsReturnNullIfEqual(packageName);
     }
 
     public String toCacheString() {
@@ -128,5 +141,13 @@ public class AppInfo {
 
     public String getHash() {
         return hash;
+    }
+
+    public String getAlternateLabel() {
+        return alternateLabel;
+    }
+
+    public String getAlternatePackageName() {
+        return alternatePackageName;
     }
 }

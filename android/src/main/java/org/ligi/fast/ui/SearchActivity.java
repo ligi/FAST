@@ -275,7 +275,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         return resolveInfo.activityInfo.packageName;
     }
 
-
     @Override
     public void onPackageChange() {
         // TODO we should also do a cleanup of cached icons here

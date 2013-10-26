@@ -33,12 +33,12 @@
         android:allowBackup="true"
         android:theme="@style/transparent_dark">
 
-        <activity android:name=".FASTSettingsActivity" />
+        <activity android:name=".ui.FASTSettingsActivity" />
         <activity
-            android:name=".LoadingDialog"
+            android:name=".ui.LoadingDialog"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".ui.SearchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:stateNotNeeded="true">
@@ -69,7 +69,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AppInstallOrRemoveReceiver">
+        <receiver android:name=".background.AppInstallOrRemoveReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />

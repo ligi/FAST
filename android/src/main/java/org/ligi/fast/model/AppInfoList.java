@@ -3,6 +3,7 @@ package org.ligi.fast.model;
 import android.os.AsyncTask;
 
 import org.ligi.fast.settings.FASTSettings;
+import org.ligi.fast.util.UmlautConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,31 +67,15 @@ public class AppInfoList {
 
         currentQuery = configuredRemoveTrailingSpace(act_query);
 
-        // note the alternate currentQuery approach is not exact - doesn't match all permutations of replacements, but
-        // is FASTer than exact and totally enough for most cases
-        String actAlternateQuery = generateConfiguredAlternativeQuery(currentQuery);
-
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
         for (AppInfo info : pkgAppsListAll) {
             if (appInfoMatchesQuery(info, currentQuery)) {
                 pkgAppsListFilter.add(info);
-            } else if (actAlternateQuery != null && appInfoMatchesQuery(info, actAlternateQuery)) {
-                pkgAppsListFilter.add(info);
             }
         }
 
         pkgAppsListShowing = pkgAppsListFilter;
-    }
-
-    private String generateConfiguredAlternativeQuery(String act_query) {
-        if (settings.isUmlautConvertActivated()) {
-           String actAlternateQuery;
-
-           return act_query.replaceAll("ue", "ü").replaceAll("oe", "ö").replaceAll("ae", "ä").replaceAll("ss", "ß");
-        } else {
-            return null;
-        }
     }
 
     private String configuredRemoveTrailingSpace(String act_query) {
@@ -111,9 +96,22 @@ public class AppInfoList {
             return true;
         }
 
-        // also search in package name when activated
-        return settings.isSearchPackageActivated() && (info.getPackageName().toLowerCase().contains(query));
+        if (settings.isUmlautConvertActivated() && info.getAlternateLabel()!=null && info.getAlternateLabel().toLowerCase().contains(query)) {
+            return true;
+        }
 
+
+        // also search in package name when activated
+        if (settings.isSearchPackageActivated()) {
+            if (settings.isUmlautConvertActivated() && info.getAlternatePackageName()!=null && info.getAlternatePackageName().toLowerCase().contains(query)) {
+                return true;
+            }
+
+            return (info.getPackageName().toLowerCase().contains(query));
+        }
+
+        // no match
+        return false;
     }
 
 }
