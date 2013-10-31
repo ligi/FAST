@@ -2,6 +2,8 @@ package org.ligi;
 
 import org.ligi.fast.settings.FASTSettings;
 
+import java.lang.Override;
+
 public class MutableFastSettings implements FASTSettings {
 
     public boolean launchSingle = false;
@@ -62,5 +64,11 @@ public class MutableFastSettings implements FASTSettings {
     @Override
     public String getSortOrder() {
         return null;
+    }
+
+
+    @Override
+    public boolean isFinishOnLaunchEnabled() {
+        return false;
     }
 }
