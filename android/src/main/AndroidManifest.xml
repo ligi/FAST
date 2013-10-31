@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ligi.fast"
-    android:versionCode="46"
-    android:versionName="4.6">
+    android:versionCode="47"
+    android:versionName="4.7">
 
     <uses-sdk
         android:minSdkVersion="5"
