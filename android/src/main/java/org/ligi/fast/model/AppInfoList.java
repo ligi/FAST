@@ -66,6 +66,7 @@ public class AppInfoList {
     public void setQuery(String act_query) {
 
         currentQuery = configuredRemoveTrailingSpace(act_query);
+        currentQuery = currentQuery.toLowerCase();
 
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
@@ -96,14 +97,14 @@ public class AppInfoList {
             return true;
         }
 
-        if (settings.isUmlautConvertActivated() && info.getAlternateLabel()!=null && info.getAlternateLabel().toLowerCase().contains(query)) {
+        if (settings.isUmlautConvertActivated() && info.getAlternateLabel() != null && info.getAlternateLabel().toLowerCase().contains(query)) {
             return true;
         }
 
 
         // also search in package name when activated
         if (settings.isSearchPackageActivated()) {
-            if (settings.isUmlautConvertActivated() && info.getAlternatePackageName()!=null && info.getAlternatePackageName().toLowerCase().contains(query)) {
+            if (settings.isUmlautConvertActivated() && info.getAlternatePackageName() != null && info.getAlternatePackageName().toLowerCase().contains(query)) {
                 return true;
             }
 

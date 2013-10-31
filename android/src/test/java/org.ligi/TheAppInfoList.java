@@ -77,6 +77,34 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.getCount()).isEqualTo(2);
     }
 
+
+    @Test
+    /**
+     e.g. important because umlauts are only converted lower case
+     */
+    public void should_ignore_case() {
+        // configure
+        settings.ignoreSpace = true;
+
+        // invoke
+        tested.setQuery("TeStFoO");
+
+        // assert
+        assertThat(tested.getCount()).isEqualTo(2);
+    }
+
+    @Test
+    public void should_convert_query_to_lower() {
+        // configure
+        settings.ignoreSpace = false;
+
+        // invoke
+        tested.setQuery("TestCase");
+
+        // assert
+        assertThat(tested.getCurrentQuery()).isEqualTo("testcase");
+    }
+
     @Test
     public void should_not_ignore_space_after_query_when_inactive() {
         // configure
