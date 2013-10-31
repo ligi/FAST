@@ -64,6 +64,12 @@ public class FASTSettingsActivity extends PreferenceActivity {
         textOnly.setSummary(R.string.show_no_icons_pure_text);
         textOnly.setDefaultValue(false);
 
+        CheckBoxPreference finishAfterLaunch = new CheckBoxPreference(this);
+        finishAfterLaunch.setKey(FASTSettings.KEY_FINISH_ON_LAUNCH);
+        finishAfterLaunch.setTitle("Finish on Launch");
+        finishAfterLaunch.setTitle("Finish FAST on App-Launch");
+        finishAfterLaunch.setDefaultValue(false);
+
         ListPreference maxLinesPref = new ListPreference(this);
         maxLinesPref.setKey(FASTSettings.KEY_MAXLINES);
         maxLinesPref.setTitle(R.string.max_text_lines);
@@ -133,6 +139,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(maxLinesPref);
         root.addPreference(doLaunchSingleCheckBox);
         root.addPreference(doSearchInPackage);
+        root.addPreference(finishAfterLaunch);
         root.addPreference(marketForAllApps);
         root.addPreference(textOnly);
         root.addPreference(sortPref);
