@@ -3,7 +3,7 @@ package org.ligi.fast.model;
 import android.os.AsyncTask;
 
 import org.ligi.fast.settings.FASTSettings;
-import org.ligi.fast.util.UmlautConverter;
+import org.ligi.fast.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +109,14 @@ public class AppInfoList {
             }
 
             return (info.getPackageName().toLowerCase().contains(query));
+        }
+
+        String appLabelLowerCase = info.getLabel().toLowerCase();
+        int diffLength = appLabelLowerCase.length() - query.length();
+        int threshold = diffLength > 0 ? diffLength : 0;
+
+        if (StringUtils.getLevenshteinDistance(appLabelLowerCase, query, threshold) != -1) {
+            return true;
         }
 
         // no match
