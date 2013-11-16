@@ -154,4 +154,32 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.get(4)).isEqualTo(appInfo3);
 
     }
+
+    @Test
+    public void should_match_with_fuzzy_search() {
+        settings.fuzzySearch = true;
+
+        tested.setQuery("lbar");
+
+        assertThat(tested.getCount()).isEqualTo(1);
+    }
+
+    @Test
+    public void should_match_all_with_fuzzy_search() {
+        settings.fuzzySearch = true;
+
+        tested.setQuery("lte");
+
+        assertThat(tested.getCount()).isEqualTo(3);
+    }
+
+    @Test
+    public void should_not_match_with_fuzzy_search() {
+        settings.fuzzySearch = true;
+
+        tested.setQuery("stl");
+
+        assertThat(tested.getCount()).isEqualTo(0);
+    }
+
 }

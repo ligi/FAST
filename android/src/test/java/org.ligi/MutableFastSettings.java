@@ -2,14 +2,13 @@ package org.ligi;
 
 import org.ligi.fast.settings.FASTSettings;
 
-import java.lang.Override;
-
 public class MutableFastSettings implements FASTSettings {
 
     public boolean launchSingle = false;
     public boolean searchPackage = false;
     public boolean convertUmlaut = false;
     public boolean ignoreSpace = false;
+    public boolean fuzzySearch = false;
 
     @Override
     public boolean isLaunchSingleActivated() {
@@ -70,5 +69,10 @@ public class MutableFastSettings implements FASTSettings {
     @Override
     public boolean isFinishOnLaunchEnabled() {
         return false;
+    }
+
+    @Override
+    public boolean isFuzzySearchActivated() {
+        return fuzzySearch;
     }
 }
