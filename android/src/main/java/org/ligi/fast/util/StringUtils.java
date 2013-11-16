@@ -1,5 +1,6 @@
 package org.ligi.fast.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class StringUtils {
@@ -165,6 +166,44 @@ public class StringUtils {
             return p[n];
         }
         return -1;
+    }
+
+    public static ArrayList<String> splitWithIndices(String s, ArrayList<Integer> indices) {
+        ArrayList<String> tokens = new ArrayList<String>();
+
+        int startIndex = 0;
+
+        for (int i = 0; i < indices.size(); i++) {
+            if (startIndex != -1) {
+                tokens.add(s.substring(startIndex, indices.get(i)));
+                tokens.add(String.valueOf(s.charAt(indices.get(i))));
+                if (indices.get(i) + 1 < s.length()) {
+                    startIndex = indices.get(i) + 1;
+                } else {
+                    startIndex = -1;
+                }
+            }
+        }
+        if (startIndex != -1 && indices.size() > 0) {
+            tokens.add(s.substring(startIndex));
+        }
+        return tokens;
+    }
+
+    public static ArrayList<Integer> getMatchedIndices(String s, String charactersToMatch) {
+        ArrayList<Integer> indices = new ArrayList<Integer>();
+        int startIndex = 0;
+        for (int i = 0; i < charactersToMatch.length(); i++) {
+            char c = charactersToMatch.charAt(i);
+            if (startIndex < s.length()) {
+                int foundIndex = s.toLowerCase().indexOf(c, startIndex);
+                if (foundIndex != -1) {
+                    indices.add(foundIndex);
+                    startIndex = foundIndex + 1;
+                }
+            }
+        }
+        return indices;
     }
 
 }
