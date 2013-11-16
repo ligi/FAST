@@ -116,6 +116,10 @@ public class FASTSettingsActivity extends PreferenceActivity {
         convertUmlauts.setSummary(getString(R.string.convert_umlauts_descr));
         convertUmlauts.setDefaultValue(false);
 
+        CheckBoxPreference fuzzySearch = new CheckBoxPreference(this);
+        fuzzySearch.setKey(FASTSettings.KEY_FUZZY_SEARCH);
+        fuzzySearch.setTitle(getString(R.string.fuzzy_search));
+        fuzzySearch.setDefaultValue(true);
 
         CheckBoxPreference ignoreSpace = new CheckBoxPreference(this);
         ignoreSpace.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
@@ -129,7 +133,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         autoShowKeyboard.setSummary(getString(R.string.show_keyboard_descr));
         autoShowKeyboard.setDefaultValue(true);
 
-        PreferenceScreen removeCachePreference=getPreferenceManager().createPreferenceScreen(this);
+        PreferenceScreen removeCachePreference = getPreferenceManager().createPreferenceScreen(this);
         removeCachePreference.setTitle("Remove Cache");
         removeCachePreference.setSummary("In case something is not fresh as it should");
         removeCachePreference.setOnPreferenceClickListener(new CacheRemovingOnPreferenceClickListener());
@@ -146,6 +150,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(ignoreSpace);
         root.addPreference(autoShowKeyboard);
         root.addPreference(convertUmlauts);
+        root.addPreference(fuzzySearch);
         root.addPreference(removeCachePreference);
 
         return root;

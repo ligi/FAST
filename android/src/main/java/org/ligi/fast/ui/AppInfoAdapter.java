@@ -136,7 +136,7 @@ public class AppInfoAdapter extends BaseAdapter {
                     + "</font>"
                     + label.substring(query_index + appInfoList.getCurrentQuery().length(),
                     label.length());
-        } else {
+        } else if (App.getSettings().isFuzzySearchActivated()) {
             // highlight single characters of query in label for fuzzy matched strings
             label = actAppInfo.getLabel();
             ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(label,

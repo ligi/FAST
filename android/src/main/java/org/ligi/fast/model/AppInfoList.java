@@ -111,12 +111,14 @@ public class AppInfoList {
             return (info.getPackageName().toLowerCase().contains(query));
         }
 
-        String appLabelLowerCase = info.getLabel().toLowerCase();
-        int diffLength = appLabelLowerCase.length() - query.length();
-        int threshold = diffLength > 0 ? diffLength : 0;
+        if (settings.isFuzzySearchActivated()) {
+            String appLabelLowerCase = info.getLabel().toLowerCase();
+            int diffLength = appLabelLowerCase.length() - query.length();
+            int threshold = diffLength > 0 ? diffLength : 0;
 
-        if (StringUtils.getLevenshteinDistance(appLabelLowerCase, query, threshold) != -1) {
-            return true;
+            if (StringUtils.getLevenshteinDistance(appLabelLowerCase, query, threshold) != -1) {
+                return true;
+            }
         }
 
         // no match
