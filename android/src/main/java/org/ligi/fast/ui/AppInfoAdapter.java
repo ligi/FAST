@@ -15,7 +15,9 @@ import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
+import org.ligi.fast.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,6 +136,28 @@ public class AppInfoAdapter extends BaseAdapter {
                     + "</font>"
                     + label.substring(query_index + appInfoList.getCurrentQuery().length(),
                     label.length());
+        } else if (App.getSettings().isFuzzySearchActivated()) {
+            // highlight single characters of query in label for fuzzy matched strings
+            label = actAppInfo.getLabel();
+            ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(label,
+                    appInfoList.getCurrentQuery());
+            ArrayList<String> tokens = StringUtils.splitWithIndices(label, matchedIndices);
+
+            if (matchedIndices.size() > 0) {
+                highlight_label = "";
+                for (int i = 0; i < tokens.size(); i = i + 2) {
+                    if (i + 1 < tokens.size()) {
+                        highlight_label += tokens.get(i);
+                        highlight_label += "<font color='#"
+                                + highLightColorHexString
+                                + "'>"
+                                + tokens.get(i + 1)
+                                + "</font>";
+                    } else {
+                        highlight_label += tokens.get(i);
+                    }
+                }
+            }
         }
 
         labelView.setText(Html.fromHtml(highlight_label));

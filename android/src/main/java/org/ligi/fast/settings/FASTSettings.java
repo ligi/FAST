@@ -17,6 +17,7 @@ public interface FASTSettings {
     public static final String KEY_SORT = "sort";
     public static final String KEY_SHOWKEYBOARDONSTART = "show_keyboard_on_start";
     public static final String KEY_FINISH_ON_LAUNCH = "finish_on_LAUNCH";
+    public static final String KEY_FUZZY_SEARCH = "fuzzy_search";
 
     public boolean isLaunchSingleActivated();
 
@@ -41,5 +42,7 @@ public interface FASTSettings {
     public String getSortOrder();
 
     public boolean isFinishOnLaunchEnabled();
+
+    public boolean isFuzzySearchActivated();
 
 }
