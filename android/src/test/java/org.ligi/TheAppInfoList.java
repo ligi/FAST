@@ -156,8 +156,8 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @Test
-    public void should_match_with_fuzzy_search() {
-        settings.fuzzySearch = true;
+    public void should_match_with_gap_search() {
+        settings.gapSearch = true;
 
         tested.setQuery("lbar");
 
@@ -165,8 +165,8 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @Test
-    public void should_match_with_fuzzy_search_even_though_package_search_is_active() {
-        settings.fuzzySearch = true;
+    public void should_match_with_gap_search_even_though_package_search_is_active() {
+        settings.gapSearch = true;
         settings.searchPackage = true;
 
         tested.setQuery("lbar");
@@ -175,8 +175,8 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @Test
-    public void should_match_all_with_fuzzy_search() {
-        settings.fuzzySearch = true;
+    public void should_match_all_with_gap_search() {
+        settings.gapSearch = true;
 
         tested.setQuery("lte");
 
@@ -184,8 +184,8 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @Test
-    public void should_not_match_with_fuzzy_search() {
-        settings.fuzzySearch = true;
+    public void should_not_match_with_gap_search() {
+        settings.gapSearch = true;
 
         tested.setQuery("stl");
 

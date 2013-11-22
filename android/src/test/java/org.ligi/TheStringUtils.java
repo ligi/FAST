@@ -13,7 +13,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class TheStringUtils extends AppInfoTestBase {
 
     @Test
-    public void should_match_with_fuzzy_search() {
+    public void should_match_with_gap_search() {
         assertThat(StringUtils.getLevenshteinDistance("foobar", "fb", 4)).isEqualTo(4);
         assertThat(StringUtils.getLevenshteinDistance("foobar", "fba", 3)).isEqualTo(3);
     }

@@ -8,7 +8,7 @@ public class MutableFastSettings implements FASTSettings {
     public boolean searchPackage = false;
     public boolean convertUmlaut = false;
     public boolean ignoreSpace = false;
-    public boolean fuzzySearch = false;
+    public boolean gapSearch = false;
 
     @Override
     public boolean isLaunchSingleActivated() {
@@ -72,7 +72,7 @@ public class MutableFastSettings implements FASTSettings {
     }
 
     @Override
-    public boolean isFuzzySearchActivated() {
-        return fuzzySearch;
+    public boolean isGapSearchActivated() {
+        return gapSearch;
     }
 }

@@ -102,12 +102,12 @@ public class AppInfoList {
         }
 
 
-        if (isFuzzySearchActivateAndTrueForQuery(info, query)) {
+        if (isGapSearchActivateAndTrueForQuery(info, query)) {
             return true;
         }
 
         // also search in package name when activated
-        // TBD should we also do fuzzy search in package name?
+        // TBD should we also do gap search in package name?
         if (settings.isSearchPackageActivated()) {
             if (settings.isUmlautConvertActivated() && info.getAlternatePackageName() != null && info.getAlternatePackageName().toLowerCase().contains(query)) {
                 return true;
@@ -120,8 +120,8 @@ public class AppInfoList {
         return false;
     }
 
-    private boolean isFuzzySearchActivateAndTrueForQuery(AppInfo info, String query) {
-        if (settings.isFuzzySearchActivated()) {
+    private boolean isGapSearchActivateAndTrueForQuery(AppInfo info, String query) {
+        if (settings.isGapSearchActivated()) {
             String appLabelLowerCase = info.getLabel().toLowerCase();
             int diffLength = appLabelLowerCase.length() - query.length();
             int threshold = diffLength > 0 ? diffLength : 0;

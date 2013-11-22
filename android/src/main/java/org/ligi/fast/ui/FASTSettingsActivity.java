@@ -116,10 +116,10 @@ public class FASTSettingsActivity extends PreferenceActivity {
         convertUmlauts.setSummary(getString(R.string.convert_umlauts_descr));
         convertUmlauts.setDefaultValue(false);
 
-        CheckBoxPreference fuzzySearch = new CheckBoxPreference(this);
-        fuzzySearch.setKey(FASTSettings.KEY_FUZZY_SEARCH);
-        fuzzySearch.setTitle(getString(R.string.fuzzy_search));
-        fuzzySearch.setDefaultValue(true);
+        CheckBoxPreference allowGapSearch = new CheckBoxPreference(this);
+        allowGapSearch.setKey(FASTSettings.KEY_GAP_SEARCH);
+        allowGapSearch.setTitle(getString(R.string.allow_gap_search));
+        allowGapSearch.setDefaultValue(true);
 
         CheckBoxPreference ignoreSpace = new CheckBoxPreference(this);
         ignoreSpace.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
@@ -150,7 +150,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(ignoreSpace);
         root.addPreference(autoShowKeyboard);
         root.addPreference(convertUmlauts);
-        root.addPreference(fuzzySearch);
+        root.addPreference(allowGapSearch);
         root.addPreference(removeCachePreference);
 
         return root;

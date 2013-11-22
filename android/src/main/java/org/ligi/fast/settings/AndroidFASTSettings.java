@@ -66,8 +66,8 @@ public class AndroidFASTSettings implements FASTSettings {
         return mSharedPreferences.getString(KEY_SORT, "unsorted");
     }
 
-    public boolean isFuzzySearchActivated() {
-        return mSharedPreferences.getBoolean(KEY_FUZZY_SEARCH, true);
+    public boolean isGapSearchActivated() {
+        return mSharedPreferences.getBoolean(KEY_GAP_SEARCH, true);
     }
 
 }

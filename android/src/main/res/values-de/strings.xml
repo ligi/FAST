@@ -40,7 +40,7 @@
     <string name="sort_decr">wie sollen die Anwendungen sortiert sein?</string>
     <string name="convert_umlauts">Umlaute wandeln</string>
     <string name="convert_umlauts_descr">ae zu ä; oe zu ö; ss zu ß; ue zu ü</string>
-    <string name="fuzzy_search">Unscharfe Suche</string>
+    <string name="allow_gap_search">Lücken OK in Suche</string>
 
     <string-array name="sort_orders">
         <item>unsortiert</item>

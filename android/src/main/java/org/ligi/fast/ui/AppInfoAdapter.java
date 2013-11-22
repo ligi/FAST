@@ -56,10 +56,7 @@ public class AppInfoAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (convertView == null) { // || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getSettings().isTextOnlyActive()) { // if it's not recycled, initialize some
-
-
             if (App.getSettings().isTextOnlyActivated()) {
-
                 convertView = layoutInflater.inflate(R.layout.item_textonly, null);
             } else {
                 String size = (App.getSettings().getIconSize());
@@ -102,7 +99,6 @@ public class AppInfoAdapter extends BaseAdapter {
 
         AppInfo actAppInfo = appInfoList.get(position);
 
-
         if (imageView != null) {
             Drawable drawable = actAppInfo.getIcon();
             holder.image.setImageDrawable(drawable);
@@ -120,11 +116,14 @@ public class AppInfoAdapter extends BaseAdapter {
             return convertView;
         }
 
+
+
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = actAppInfo.getPackageName();
             label = label.replace("com.google.android.apps.", "");
             query_index = label.toLowerCase().indexOf(appInfoList.getCurrentQuery());
         }
+
 
         if (query_index != -1) {
             highlight_label = label.substring(0, query_index)
@@ -133,11 +132,13 @@ public class AppInfoAdapter extends BaseAdapter {
                     + highlightSuffix
                     + label.substring(query_index + appInfoList.getCurrentQuery().length(),
                     label.length());
-        } else if (App.getSettings().isFuzzySearchActivated()) {
-            // highlight single characters of query in label for fuzzy matched strings
-            label = actAppInfo.getLabel();
-            ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(label,
-                    appInfoList.getCurrentQuery());
+        } else if (App.getSettings().isGapSearchActivated()) {
+
+            ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(actAppInfo.getLabel(),appInfoList.getCurrentQuery());
+            if (matchedIndices.size()==appInfoList.getCurrentQuery().length()) {
+                // highlight single characters of query in label for gap matched strings
+                label = actAppInfo.getLabel();
+            } // otherwise must be in package
 
             highlight_label="";
             int i=0;
