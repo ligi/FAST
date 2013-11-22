@@ -27,16 +27,17 @@ public class AppInfoAdapter extends BaseAdapter {
 
     private final Context ctx;
 
-    private String highLightColorHexString = "";
+    private final String highlightPrefix;
+    private final String highlightSuffix;
     private final AppInfoList appInfoList;
-
 
     public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
         this.ctx = ctx;
         appInfoList = new AppInfoList(pkgAppsListAll, App.getSettings());
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
-        highLightColorHexString = Integer.toHexString(color).toUpperCase().substring(2);
+        highlightPrefix = "<font color='#" + Integer.toHexString(color).toUpperCase().substring(2) +"'>";
+        highlightSuffix = "</font>";
     }
 
 
@@ -128,12 +129,9 @@ public class AppInfoAdapter extends BaseAdapter {
 
         if (query_index != -1) {
             highlight_label = label.substring(0, query_index)
-                    + "<font color='#"
-                    + highLightColorHexString
-                    + "'>"
-                    + label.substring(query_index,
-                    query_index + appInfoList.getCurrentQuery().length())
-                    + "</font>"
+                    + highlightPrefix
+                    + label.substring(query_index,query_index + appInfoList.getCurrentQuery().length())
+                    + highlightSuffix
                     + label.substring(query_index + appInfoList.getCurrentQuery().length(),
                     label.length());
         } else if (App.getSettings().isFuzzySearchActivated()) {
@@ -141,21 +139,14 @@ public class AppInfoAdapter extends BaseAdapter {
             label = actAppInfo.getLabel();
             ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(label,
                     appInfoList.getCurrentQuery());
-            ArrayList<String> tokens = StringUtils.splitWithIndices(label, matchedIndices);
 
-            if (matchedIndices.size() > 0) {
-                highlight_label = "";
-                for (int i = 0; i < tokens.size(); i = i + 2) {
-                    if (i + 1 < tokens.size()) {
-                        highlight_label += tokens.get(i);
-                        highlight_label += "<font color='#"
-                                + highLightColorHexString
-                                + "'>"
-                                + tokens.get(i + 1)
-                                + "</font>";
-                    } else {
-                        highlight_label += tokens.get(i);
-                    }
+            highlight_label="";
+            int i=0;
+            for (char chr:label.toCharArray()) {
+                if (matchedIndices.contains(i++)) {
+                    highlight_label+=highlightPrefix+chr+highlightSuffix;
+                } else {
+                    highlight_label+=chr;
                 }
             }
         }
