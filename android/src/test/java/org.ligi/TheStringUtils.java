@@ -36,21 +36,4 @@ public class TheStringUtils extends AppInfoTestBase {
         assertThat(indices.get(2)).isEqualTo(2);
     }
 
-    @Test
-    public void should_split_with_indices() {
-        ArrayList<Integer> indices = new ArrayList<Integer>();
-        indices.add(0);
-        indices.add(3);
-        indices.add(4);
-
-        ArrayList<String> tokens = StringUtils.splitWithIndices("foobar", indices);
-
-        assertThat(tokens.get(0)).isEqualTo("");
-        assertThat(tokens.get(1)).isEqualTo("f"); // at index
-        assertThat(tokens.get(2)).isEqualTo("oo");
-        assertThat(tokens.get(3)).isEqualTo("b"); // at index
-        assertThat(tokens.get(4)).isEqualTo("");
-        assertThat(tokens.get(5)).isEqualTo("a"); // at index
-        assertThat(tokens.get(6)).isEqualTo("r");
-    }
 }
