@@ -102,7 +102,12 @@ public class AppInfoList {
         }
 
 
+        if (isFuzzySearchActivateAndTrueForQuery(info, query)) {
+            return true;
+        }
+
         // also search in package name when activated
+        // TBD should we also do fuzzy search in package name?
         if (settings.isSearchPackageActivated()) {
             if (settings.isUmlautConvertActivated() && info.getAlternatePackageName() != null && info.getAlternatePackageName().toLowerCase().contains(query)) {
                 return true;
@@ -111,6 +116,11 @@ public class AppInfoList {
             return (info.getPackageName().toLowerCase().contains(query));
         }
 
+        // no match
+        return false;
+    }
+
+    private boolean isFuzzySearchActivateAndTrueForQuery(AppInfo info, String query) {
         if (settings.isFuzzySearchActivated()) {
             String appLabelLowerCase = info.getLabel().toLowerCase();
             int diffLength = appLabelLowerCase.length() - query.length();
@@ -120,8 +130,6 @@ public class AppInfoList {
                 return true;
             }
         }
-
-        // no match
         return false;
     }
 

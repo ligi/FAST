@@ -165,6 +165,16 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @Test
+    public void should_match_with_fuzzy_search_even_though_package_search_is_active() {
+        settings.fuzzySearch = true;
+        settings.searchPackage = true;
+
+        tested.setQuery("lbar");
+
+        assertThat(tested.getCount()).isEqualTo(1);
+    }
+
+    @Test
     public void should_match_all_with_fuzzy_search() {
         settings.fuzzySearch = true;
 
