@@ -25,19 +25,18 @@ import java.util.List;
  */
 public class AppInfoAdapter extends BaseAdapter {
 
-    private final Context ctx;
-
     private final String highlightPrefix;
-    private final String highlightSuffix;
+    private final static String highlightSuffix = "</font>";
+
     private final AppInfoList appInfoList;
+    private final LayoutInflater layoutInflater;
 
     public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
-        this.ctx = ctx;
         appInfoList = new AppInfoList(pkgAppsListAll, App.getSettings());
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
         highlightPrefix = "<font color='#" + Integer.toHexString(color).toUpperCase().substring(2) +"'>";
-        highlightSuffix = "</font>";
+        layoutInflater = LayoutInflater.from(ctx);
     }
 
 
@@ -58,10 +57,10 @@ public class AppInfoAdapter extends BaseAdapter {
 
         if (convertView == null) { // || ((ViewHolder)convertView.getTag()).isTextOnlyActive == getSettings().isTextOnlyActive()) { // if it's not recycled, initialize some
 
-            LayoutInflater mLayoutInflater = (LayoutInflater) ctx
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             if (App.getSettings().isTextOnlyActivated()) {
-                convertView = mLayoutInflater.inflate(R.layout.item_textonly, null);
+
+                convertView = layoutInflater.inflate(R.layout.item_textonly, null);
             } else {
                 String size = (App.getSettings().getIconSize());
                 int cellSize;
@@ -84,7 +83,7 @@ public class AppInfoAdapter extends BaseAdapter {
                 cellSize = parent.getContext().getResources().getDimensionPixelSize(cellSize);
                 iconSize = parent.getContext().getResources().getDimensionPixelSize(iconSize);
 
-                convertView = mLayoutInflater.inflate(R.layout.item_icon, null);
+                convertView = layoutInflater.inflate(R.layout.item_icon, null);
                 convertView.setLayoutParams(new AbsListView.LayoutParams(cellSize, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
