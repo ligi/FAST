@@ -30,6 +30,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
     private final AppInfoList appInfoList;
     private final LayoutInflater layoutInflater;
+    private final IconDimensions iconDimensions;
 
     public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
         appInfoList = new AppInfoList(pkgAppsListAll, App.getSettings());
@@ -37,6 +38,7 @@ public class AppInfoAdapter extends BaseAdapter {
         int color = (ctx.getResources().getColor(R.color.divider_color));
         highlightPrefix = "<font color='#" + Integer.toHexString(color).toUpperCase().substring(2) +"'>";
         layoutInflater = LayoutInflater.from(ctx);
+        iconDimensions = new IconDimensions(ctx);
     }
 
 
@@ -59,33 +61,13 @@ public class AppInfoAdapter extends BaseAdapter {
             if (App.getSettings().isTextOnlyActivated()) {
                 convertView = layoutInflater.inflate(R.layout.item_textonly, null);
             } else {
-                String size = (App.getSettings().getIconSize());
-                int cellSize;
-                int iconSize;
-
-                if (size.equals("tiny")) {
-                    cellSize = R.dimen.cell_size_tiny;
-                    iconSize = R.dimen.icon_size_tiny;
-                } else if (size.equals("small")) {
-                    cellSize = R.dimen.cell_size_small;
-                    iconSize = R.dimen.icon_size_small;
-                } else if (size.equals("large")) {
-                    cellSize = R.dimen.cell_size_large;
-                    iconSize = R.dimen.icon_size_large;
-                } else {
-                    cellSize = R.dimen.cell_size;
-                    iconSize = R.dimen.icon_size;
-                }
-
-                cellSize = parent.getContext().getResources().getDimensionPixelSize(cellSize);
-                iconSize = parent.getContext().getResources().getDimensionPixelSize(iconSize);
 
                 convertView = layoutInflater.inflate(R.layout.item_icon, null);
-                convertView.setLayoutParams(new AbsListView.LayoutParams(cellSize, ViewGroup.LayoutParams.WRAP_CONTENT));
+                convertView.setLayoutParams(new AbsListView.LayoutParams(iconDimensions.outerSizeInPx, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
-                imageView.getLayoutParams().height = iconSize;
-                imageView.getLayoutParams().width = iconSize;
+                imageView.getLayoutParams().height = iconDimensions.innerSizeInPx;
+                imageView.getLayoutParams().width = iconDimensions.innerSizeInPx;
             }
             holder = new ViewHolder();
             holder.text = (TextView) convertView.findViewById(R.id.textView);
