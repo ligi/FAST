@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="@dimen/cell_size_small"
-              android:layout_height="@dimen/cell_size_small"
-              android:orientation="vertical">
+    android:layout_width="@dimen/cell_size_small"
+    android:layout_height="@dimen/cell_size_small"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView"

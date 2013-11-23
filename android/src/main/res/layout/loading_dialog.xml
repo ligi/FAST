@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_gravity="center"
-                android:contentDescription="@string/icon"
-                android:padding="6dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_action_search"/>
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_gravity="center"
+            android:contentDescription="@string/icon"
+            android:padding="6dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_action_search" />
+
         <TextView
 
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:maxLines="2"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
+
     <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress"
-            android:layout_gravity="center_horizontal|bottom"
-            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress"
+        android:layout_gravity="center_horizontal|bottom"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal" />
 
 </LinearLayout>
