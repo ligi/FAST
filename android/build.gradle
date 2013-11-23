@@ -47,22 +47,20 @@ android {
 
     }
 
-  defaultConfig {
-    packageName "org.ligi.fast"
-  }
+    defaultConfig {
+        packageName "org.ligi.fast"
+    }
 }
 
 
 apply plugin: 'android-unit-test'
 
 dependencies {
-     repositories {
-    mavenCentral()
-  }
+    repositories {
+        mavenCentral()
+    }
 
-//    compile 'org.ligi:AXT:0.21'
     compile 'org.ligi:tracedroid:1.1'
-//    compile 'com.android.support:support-v4:19.0.0'
 
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.1.+'
