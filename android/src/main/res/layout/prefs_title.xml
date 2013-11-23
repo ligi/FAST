@@ -29,15 +29,10 @@
                     android:src="@drawable/back"
 
                     />
-            <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="@dimen/actionbar_icon_size"
-                    android:layout_height="@dimen/actionbar_icon_size"
-                    android:layout_gravity="center"
-                    android:scaleType="fitEnd"
-                    android:src="@drawable/ic_launcher"
 
-                    />
+            <ImageView
+                style="@style/actionbar_icon"
+                />
 
         </LinearLayout>
         <TextView
@@ -62,12 +57,5 @@
                 android:padding="@dimen/actionbar_icon_padding"
                 />
     </LinearLayout>
-
-
-    <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider_color"
-            />
 
 </LinearLayout>
