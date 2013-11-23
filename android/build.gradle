@@ -19,8 +19,8 @@ repositories {
 
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "18.1"
+    compileSdkVersion 19
+    buildToolsVersion "19"
 
     buildTypes {
         release {
@@ -60,9 +60,9 @@ dependencies {
     mavenCentral()
   }
 
-    compile 'org.ligi:AXT:0.21'
+//    compile 'org.ligi:AXT:0.21'
     compile 'org.ligi:tracedroid:1.1'
-    compile 'com.android.support:support-v4:19.0.0'
+//    compile 'com.android.support:support-v4:19.0.0'
 
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.1.+'
