@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.ligi.axt.AXT;
+import org.ligi.axt.helpers.ActivityHelper;
 import org.ligi.fast.R;
 import org.ligi.fast.background.BaseAppGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
@@ -61,7 +61,7 @@ public class LoadingDialog extends Activity {
         }.execute();
 
         setWindowWidth();
-        AXT.at(this).disableRotation();
+        new ActivityHelper(this).disableRotation();
     }
 
     @SuppressWarnings("deprecation")

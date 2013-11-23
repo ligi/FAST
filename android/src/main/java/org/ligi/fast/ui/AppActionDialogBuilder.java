@@ -14,7 +14,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 
 import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
@@ -48,37 +47,16 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
-        fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new Runnable() {
-            @Override
-            public void run() {
-                Intent notifyIntent = app_info.getIntent();
+        fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
 
-                PendingIntent intent = PendingIntent.getActivity(
-                        context, 0, notifyIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                                | Notification.FLAG_AUTO_CANCEL);
-
-                final String title = context.getString(R.string.appActionDialog_title) + app_info.getLabel();
-                final Notification notifyDetails = new NotificationCompat.Builder(context)
-                        .setContentTitle(title)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentIntent(intent)
-                        .setAutoCancel(true).getNotification();
-
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify((int) (Math.random() * 1000),notifyDetails);
-            }
-        }));
-
-        if (App.getSettings().isMarketForAllActivated()  || isMarketApp()) {
+        if (App.getSettings().isMarketForAllActivated() || isMarketApp()) {
             fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
                 @Override
                 public void run() {
                     try {
                         context.startActivity(new Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse(TargetStore.STORE_URL
-                                        + app_info.getPackageName())));
+                                Uri.parse(TargetStore.STORE_URL + app_info.getPackageName())));
                     } catch (android.content.ActivityNotFoundException anfe) {
 
                     }
@@ -102,29 +80,9 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
-        if (hasShortCutPermission())
-            fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new Runnable() {
-                @Override
-                public void run() {
-                    Intent shortcutIntent = new Intent();
-                    shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
-                    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
-                    Intent create_shortcut_intent = new Intent();
-                    create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                    // Sets the custom shortcut's title
-                    create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
-
-                    BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
-                    Bitmap newbit;
-                    newbit = bd.getBitmap();
-                    create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newbit);
-
-                    create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                    context.sendBroadcast(create_shortcut_intent);
-                }
-            }));
+        if (hasShortCutPermission()) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new CreateShortCutRunnable()));
+        }
 
         CharSequence[] items = new CharSequence[fkt_map.size()];
         final Runnable[] item_code = new Runnable[fkt_map.size()];
@@ -193,6 +151,22 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         }
     }
 
+    private class OpenAsNotificationRunnable implements Runnable {
+        @Override
+        public void run() {
+            final Intent notifyIntent = app_info.getIntent();
+
+            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT | Notification.FLAG_AUTO_CANCEL);
+
+            final String title=app_info.getLabel();
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notification = new Notification(R.drawable.ic_launcher, title, System.currentTimeMillis());
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            notification.setLatestEventInfo(context,title,context.getString(R.string.appActionDialog_title), intent);
+            notificationManager.notify((int) (Math.random() * Integer.MAX_VALUE), notification);
+        }
+    }
+
     private class LabelAndCode {
         public String label;
         public Runnable code;
@@ -202,5 +176,28 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             this.label = label;
         }
 
+    }
+
+    private class CreateShortCutRunnable implements Runnable {
+        @Override
+        public void run() {
+            Intent shortcutIntent = new Intent();
+            shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
+            shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
+            Intent create_shortcut_intent = new Intent();
+            create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+            // Sets the custom shortcut's title
+            create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
+
+            BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
+            Bitmap newBitmap;
+            newBitmap = bd.getBitmap();
+            create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newBitmap);
+
+            create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+            context.sendBroadcast(create_shortcut_intent);
+        }
     }
 }

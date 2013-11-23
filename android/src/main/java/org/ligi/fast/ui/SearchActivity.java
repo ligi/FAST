@@ -19,8 +19,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-
-import org.ligi.axt.AXT;
+import org.ligi.axt.helpers.ViewHelper;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
@@ -229,7 +228,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
             @Override
             public void run() {
-                AXT.at(searchQueryEditText).showKeyboard();
+                new ViewHelper(searchQueryEditText).showKeyboard();
             }
         }, 200);
     }

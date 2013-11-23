@@ -10,7 +10,7 @@ import android.preference.PreferenceScreen;
 import android.view.View;
 import android.view.Window;
 
-import org.ligi.axt.AXT;
+import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.TargetStore;
@@ -174,7 +174,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
     private class CacheRemovingOnPreferenceClickListener implements Preference.OnPreferenceClickListener {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            AXT.at(getBaseContext().getCacheDir()).deleteRecursive();
+            new FileHelper(getBaseContext().getCacheDir()).deleteRecursive();
             Intent intent = new Intent(FASTSettingsActivity.this, SearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

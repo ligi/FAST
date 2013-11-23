@@ -2,7 +2,7 @@ package org.ligi.fast.util;
 
 import android.content.Context;
 
-import org.ligi.androidhelper.AXT;
+import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.tracedroid.logging.Log;
 
@@ -26,7 +26,7 @@ public class PackageListStore {
     public List<AppInfo> load() {
         final String inString;
         try {
-            inString = AXT.at(file).loadToString();
+            inString = new FileHelper(file).loadToString();
         } catch (IOException e) {
             return Collections.EMPTY_LIST;
         }
@@ -63,7 +63,7 @@ public class PackageListStore {
 
         try {
             file.createNewFile();
-            AXT.at(file).writeString(res.toString());
+            new FileHelper(file).writeString(res.toString());
         } catch (IOException e) {
             Log.w("could not save PackageList");
         }

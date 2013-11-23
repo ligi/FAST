@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
-import org.ligi.axt.AXT;
+import org.ligi.axt.helpers.ResolveInfoHelper;
 import org.ligi.fast.util.UmlautConverter;
 import org.ligi.tracedroid.logging.Log;
 
@@ -57,7 +57,7 @@ public class AppInfo {
         this(_ctx);
 
         // init attributes
-        label = AXT.at(ri).getLabelSafely(_ctx);
+        label = new ResolveInfoHelper(ri).getLabelSafely(_ctx);
         label = label.replace("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
         if (ri.activityInfo != null) {
             packageName = ri.activityInfo.packageName;
