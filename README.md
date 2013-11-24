@@ -30,7 +30,7 @@ The App is <a href="http://gplv3.fsf.org/">GPLv3</a>
 Credits
 =======
 
-Thanks to  <a href="https://github.com/talexop">talexop</a> and <a href="https://github.com/pserwylo">Peter Serwylo</a>
+Thanks to  <a href="https://github.com/talexop">talexop</a>, <a href="https://github.com/pserwylo">Peter Serwylo</a> and <a href="http://www.petervasil.net">Peter Vasil</a> for contributions!
 
 Questions
 =========
