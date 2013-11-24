@@ -19,7 +19,7 @@ repositories {
 
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 18
     buildToolsVersion "19"
 
     buildTypes {

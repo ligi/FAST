@@ -5,7 +5,7 @@
 
     <uses-sdk
         android:minSdkVersion="5"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="18" />
 
     <!--
     from experiments with shortcut - but dropped this feature for the feature of no needed permission
