@@ -19,7 +19,7 @@ repositories {
 
 
 android {
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion "19"
 
     buildTypes {
@@ -71,4 +71,5 @@ dependencies {
 tasks.withType(Test) {
     scanForTestClasses = false
     include "**/*The*.class" // whatever Ant pattern matches your test class files
+    exclude '**/*$*' //exclude inner classes
 }
