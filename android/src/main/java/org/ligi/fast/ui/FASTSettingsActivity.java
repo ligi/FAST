@@ -112,31 +112,31 @@ public class FASTSettingsActivity extends PreferenceActivity {
 
         CheckBoxPreference convertUmlauts = new CheckBoxPreference(this);
         convertUmlauts.setKey(FASTSettings.KEY_UMLAUTCONVERT);
-        convertUmlauts.setTitle(getString(R.string.convert_umlauts));
-        convertUmlauts.setSummary(getString(R.string.convert_umlauts_descr));
+        convertUmlauts.setTitle(R.string.convert_umlauts);
+        convertUmlauts.setSummary(R.string.convert_umlauts_descr);
         convertUmlauts.setDefaultValue(false);
 
         CheckBoxPreference allowGapSearch = new CheckBoxPreference(this);
         allowGapSearch.setKey(FASTSettings.KEY_GAP_SEARCH);
-        allowGapSearch.setTitle(getString(R.string.allow_gap_search));
-        allowGapSearch.setSummary(getString(R.string.allow_gap_search_descr));
+        allowGapSearch.setTitle(R.string.allow_gap_search);
+        allowGapSearch.setSummary(R.string.allow_gap_search_descr);
         allowGapSearch.setDefaultValue(true);
 
         CheckBoxPreference ignoreSpace = new CheckBoxPreference(this);
         ignoreSpace.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
-        ignoreSpace.setTitle(getString(R.string.ignore_space));
-        ignoreSpace.setSummary(getString(R.string.ignore_space_descr));
+        ignoreSpace.setTitle(R.string.ignore_space);
+        ignoreSpace.setSummary(R.string.ignore_space_descr);
         ignoreSpace.setDefaultValue(false);
 
         CheckBoxPreference autoShowKeyboard = new CheckBoxPreference(this);
         autoShowKeyboard.setKey(FASTSettings.KEY_SHOWKEYBOARDONSTART);
-        autoShowKeyboard.setTitle(getString(R.string.show_keyboard));
-        autoShowKeyboard.setSummary(getString(R.string.show_keyboard_descr));
+        autoShowKeyboard.setTitle(R.string.show_keyboard);
+        autoShowKeyboard.setSummary(R.string.show_keyboard_descr);
         autoShowKeyboard.setDefaultValue(true);
 
         PreferenceScreen removeCachePreference = getPreferenceManager().createPreferenceScreen(this);
-        removeCachePreference.setTitle(getString(R.string.remove_cache));
-        removeCachePreference.setSummary(getString(R.string.remove_cache_descr));
+        removeCachePreference.setTitle(R.string.remove_cache);
+        removeCachePreference.setSummary(R.string.remove_cache_descr);
         removeCachePreference.setOnPreferenceClickListener(new CacheRemovingOnPreferenceClickListener());
 
         root.addPreference(themePref);
