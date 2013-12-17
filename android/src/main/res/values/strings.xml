@@ -12,7 +12,7 @@
     <string name="application_details">Application Details</string>
     <string name="open_in">Open in</string>
     <string name="open_as_notification">Open as Notification</string>
-    <string name="query_hint">Enter Query here</string>
+    <string name="query_hint">Enter query here</string>
     <string name="text_only">Only show app names</string>
     <string name="show_no_icons_pure_text">Only show app names, not the icons</string>
     <string name="max_text_lines">Lines of text</string>
@@ -29,31 +29,34 @@
     <string name="help_label">Help</string>
     <string name="help_content">
         <![CDATA[
-        <H1>Answers</H1>Just type in a fraction from the name of the app you want to launch in the top. Click the App to
-        start or Long click the App for more options. If you have phone with Android Jelly Bean - you can also use the google-now gesture
-        to start this App. To find out how much faster you got with this app you could try <a href="https://play.google.com/store/apps/details?id=org.ligi.launchometer&referrer=utm_source%3Dfast%26utm_medium%3Dplay">Applaunch-O-Meter</a> which is also available for free.
+        <H1>Answers</H1>Just type in a fraction from the name of the app you want to launch in the top. Click the app to
+        start or long click the app for more options. If you have a phone with Android Jelly Bean (or newer), you can also use the Google Now gesture
+        to start this app. To find out how much faster you got with this app you could try <a href="https://play.google.com/store/apps/details?id=org.ligi.launchometer&referrer=utm_source%3Dfast%26utm_medium%3Dplay">Applaunch-O-Meter</a> which is also available for free.
         <H1>Questions</H1>
-        You can ask in the <a href="https://plus.google.com/b/108684152853280523320">Community</a> or drop <a href="mailto:ligi@ligi.de">the author</a> a mail. Also contact me if you can and want to translate this App - it\'s not much text at all.
+        You can ask in the <a href="https://plus.google.com/b/108684152853280523320">community</a> or drop <a href="mailto:ligi@ligi.de">the author</a> an Email. Also contact me if you can and want to translate this app - it\'s not much text at all.
         <H1>Credits</H1>
         Thanks to <a href="https://github.com/talexop">talexop</a> and <a href="https://github.com/pserwylo">Peter Serwylo</a> for pull-requests!
         <H1>One last thing</H1>
-        If you like the App you could think about sharing it. Just type in FAST - long click and select share. Also <a href="https://play.google.com/store/apps/details?id=org.ligi.fast%3Dfast%26utm_medium%3Dplay">rating this App</a> would be nice.
+        If you like the app you could think about sharing it. Just type in FAST, long click and select "Share". Also <a href="https://play.google.com/store/apps/details?id=org.ligi.fast%3Dfast%26utm_medium%3Dplay">rating this App</a> would be nice.
         ]]>
     </string>
     <string name="convert_umlauts">Convert umlauts</string>
-    <string name="convert_umlauts_descr">ae to ä; oe to ö; ss to ß; ue to ü</string>
-    <string name="allow_gap_search">Allow gaps in query</string>
+    <string name="convert_umlauts_descr">Change ae to ä, oe to ö, ss to ß and ue to ü</string>
+    <string name="allow_gap_search">Search within words</string>
+    <string name="allow_gap_search_descr">Matches all letters, not just whole words</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>
     <string name="ignore_space">Ignore space</string>
-    <string name="ignore_space_descr">remove last space from query</string>
+    <string name="ignore_space_descr">Remove last space from query</string>
     <string name="show_keyboard">Show keyboard</string>
-    <string name="show_keyboard_descr">open the keyboard on startup</string>
+    <string name="show_keyboard_descr">Open the keyboard on startup</string>
     <string name="appActionDialog_title">FAST Launch </string>
+    <string name="remove_cache">Clear cache</string>
+    <string name="remove_cache_descr">Force FAST to reset app list and history</string>
     <string-array name="sizes">
-        <item>tiny</item>
-        <item>small</item>
-        <item>medium</item>
-        <item>large</item>
+        <item>Tiny</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
 
     <string-array name="themes">
