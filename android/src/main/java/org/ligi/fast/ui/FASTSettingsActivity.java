@@ -119,6 +119,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         CheckBoxPreference allowGapSearch = new CheckBoxPreference(this);
         allowGapSearch.setKey(FASTSettings.KEY_GAP_SEARCH);
         allowGapSearch.setTitle(getString(R.string.allow_gap_search));
+        allowGapSearch.setSummary(getString(R.string.allow_gap_search_descr));
         allowGapSearch.setDefaultValue(true);
 
         CheckBoxPreference ignoreSpace = new CheckBoxPreference(this);
@@ -134,8 +135,8 @@ public class FASTSettingsActivity extends PreferenceActivity {
         autoShowKeyboard.setDefaultValue(true);
 
         PreferenceScreen removeCachePreference = getPreferenceManager().createPreferenceScreen(this);
-        removeCachePreference.setTitle("Remove Cache");
-        removeCachePreference.setSummary("In case something is not fresh as it should");
+        removeCachePreference.setTitle(getString(R.string.remove_cache));
+        removeCachePreference.setSummary(getString(R.string.remove_cache_descr));
         removeCachePreference.setOnPreferenceClickListener(new CacheRemovingOnPreferenceClickListener());
 
         root.addPreference(themePref);
