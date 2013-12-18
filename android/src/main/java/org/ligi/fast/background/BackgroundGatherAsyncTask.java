@@ -12,11 +12,6 @@ public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
 
     private Context context;
 
-    public BackgroundGatherAsyncTask(Context context) {
-        super(context);
-        this.context = context;
-    }
-
     public BackgroundGatherAsyncTask(Context context, List<AppInfo> oldAppInfoList) {
         super(context, oldAppInfoList);
         this.context = context;
