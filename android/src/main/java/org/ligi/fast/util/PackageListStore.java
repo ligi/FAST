@@ -3,7 +3,10 @@ package org.ligi.fast.util;
 import android.content.Context;
 
 import org.ligi.axt.helpers.FileHelper;
+import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.model.AppInfoList;
+import org.ligi.fast.ui.AppInfoAdapter;
 import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
@@ -24,6 +27,9 @@ public class PackageListStore {
     }
 
     public List<AppInfo> load() {
+
+        Log.i(App.LOG_TAG, "Loading package list from file");
+
         final String inString;
         try {
             inString = new FileHelper(file).loadToString();
@@ -53,6 +59,14 @@ public class PackageListStore {
         return res;
     }
 
+    public void save(AppInfoAdapter adapter) {
+        save(adapter.getList());
+    }
+
+    public void save(AppInfoList list) {
+        save(list.getAll());
+    }
+
     public void save(List<AppInfo> appInfoList) {
         StringBuilder res = new StringBuilder();
 
@@ -62,6 +76,7 @@ public class PackageListStore {
         }
 
         try {
+            Log.i(App.LOG_TAG, "Saving package list to file");
             file.createNewFile();
             new FileHelper(file).writeString(res.toString());
         } catch (IOException e) {

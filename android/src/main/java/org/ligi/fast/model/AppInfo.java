@@ -79,8 +79,13 @@ public class AppInfo {
     }
 
     public String toCacheString() {
-        return hash + SEPARATOR + label + SEPARATOR + packageName +
-                SEPARATOR + activityName + SEPARATOR + callCount;
+        StringBuilder sb = new StringBuilder();
+        sb.append(hash).append(SEPARATOR);
+        sb.append(label).append(SEPARATOR);
+        sb.append(packageName).append(SEPARATOR);
+        sb.append(activityName).append(SEPARATOR);
+        sb.append(callCount);
+        return sb.toString();
     }
 
     private String calculateTheHash() {
@@ -127,12 +132,24 @@ public class AppInfo {
         return packageName;
     }
 
+    public String getActivityName() {
+        return packageName;
+    }
+
     public String getLabel() {
         return label;
     }
 
     public int getCallCount() {
         return callCount;
+    }
+
+    public void setCallCount(int count) {
+        callCount = count;
+    }
+
+    public void incrementCallCount() {
+        callCount ++;
     }
 
     public boolean isValid() {

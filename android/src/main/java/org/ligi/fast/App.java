@@ -3,16 +3,21 @@ package org.ligi.fast;
 import android.app.Activity;
 import android.app.Application;
 
+import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
 import org.ligi.tracedroid.TraceDroid;
+
+import java.util.List;
 
 public class App extends Application {
 
     private static FASTSettings settings;
 
+    public static final String LOG_TAG = "FAST App Search";
+
     public interface PackageChangedListener {
-        public void onPackageChange();
+        public void onPackageChange(List<AppInfo> appInfoList);
     }
 
     public static PackageChangedListener packageChangedListener;

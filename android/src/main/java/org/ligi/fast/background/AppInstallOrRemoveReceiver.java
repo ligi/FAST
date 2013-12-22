@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class AppInstallOrRemoveReceiver extends BroadcastReceiver{
+import org.ligi.fast.util.PackageListStore;
+
+public class AppInstallOrRemoveReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        new BackgroundGatherAsyncTask(context).execute();
+        new BackgroundGatherAsyncTask(context, new PackageListStore(context).load()).execute();
     }
 }

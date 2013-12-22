@@ -18,10 +18,16 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private final Context ctx;
     protected int appCount;
     protected List<AppInfo> appInfoList;
+    private final List<AppInfo> oldAppList;
 
     public BaseAppGatherAsyncTask(Context ctx) {
+        this(ctx, null);
+    }
+
+    public BaseAppGatherAsyncTask(Context ctx, List<AppInfo> oldAppList) {
         this.ctx = ctx;
         appInfoList = new ArrayList<AppInfo>();
+        this.oldAppList = oldAppList;
     }
 
     @Override
@@ -36,6 +42,19 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                 AppInfo actAppInfo = new AppInfo(ctx, info);
 
                 if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) { // ignore self
+
+                    // Update call count from current index that is being used.
+                    // This is because we may have updated the call count since the last time
+                    // we saved the package list. An alternative would be to save the package list
+                    // each time we leave
+                    if (oldAppList != null) {
+                        for(AppInfo oldInfo : oldAppList) {
+                            if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
+                                actAppInfo.setCallCount(oldInfo.getCallCount());
+                                break;
+                            }
+                        }
+                    }
                     appInfoList.add(actAppInfo);
                     publishProgress(actAppInfo);
                 }
