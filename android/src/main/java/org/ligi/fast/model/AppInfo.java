@@ -30,7 +30,7 @@ public class AppInfo {
     private final AppIconCache iconCache;
 
     private AppInfo(Context ctx) {
-        iconCache = new AppIconCache(ctx,this);
+        iconCache = new AppIconCache(ctx, this);
     }
 
     public AppInfo(Context ctx, String cache_str) {
@@ -68,24 +68,19 @@ public class AppInfo {
         }
         callCount = 0;
 
-        hash=calculateTheHash();
+        hash = calculateTheHash();
         calculateAlternateLabelAndPackageName();
         iconCache.cacheIcon(ri);
     }
 
     private void calculateAlternateLabelAndPackageName() {
-        alternateLabel= UmlautConverter.replaceAllUmlautsReturnNullIfEqual(label);
-        alternatePackageName=UmlautConverter.replaceAllUmlautsReturnNullIfEqual(packageName);
+        alternateLabel = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(label);
+        alternatePackageName = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(packageName);
     }
 
     public String toCacheString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(hash).append(SEPARATOR);
-        sb.append(label).append(SEPARATOR);
-        sb.append(packageName).append(SEPARATOR);
-        sb.append(activityName).append(SEPARATOR);
-        sb.append(callCount);
-        return sb.toString();
+        return hash + SEPARATOR + label + SEPARATOR + packageName +
+                SEPARATOR + activityName + SEPARATOR + callCount;
     }
 
     private String calculateTheHash() {
@@ -149,7 +144,7 @@ public class AppInfo {
     }
 
     public void incrementCallCount() {
-        callCount ++;
+        callCount++;
     }
 
     public boolean isValid() {
