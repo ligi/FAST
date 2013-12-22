@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
         classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.0.+'
     }
 }
@@ -20,7 +20,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19"
+    buildToolsVersion "19.0.1"
 
     buildTypes {
         release {
