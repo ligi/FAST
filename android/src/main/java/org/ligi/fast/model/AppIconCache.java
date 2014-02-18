@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import org.ligi.fast.App;
 import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
@@ -78,7 +79,7 @@ public class AppIconCache {
     }
 
     private File getIconCacheFile() {
-        return new File(ctx.getCacheDir() + "/" + appInfo.getHash() + ".png");
+        return new File(App.getBaseDir() + "/" + appInfo.getHash() + ".png");
     }
 
     private boolean tryIconCaching(IconCacheSpec iconCacheSpec, ResolveInfo ri, PackageManager pm) {

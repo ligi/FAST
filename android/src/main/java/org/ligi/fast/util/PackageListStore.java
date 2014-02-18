@@ -23,7 +23,7 @@ public class PackageListStore {
 
     public PackageListStore(Context context) {
         this.context = context;
-        file = new File(context.getCacheDir(), "index2.csv");
+        file = new File(App.getBaseDir(), "index.csv");
     }
 
     public List<AppInfo> load() {

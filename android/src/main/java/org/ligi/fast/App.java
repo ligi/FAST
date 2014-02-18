@@ -8,11 +8,13 @@ import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
 import org.ligi.tracedroid.TraceDroid;
 
+import java.io.File;
 import java.util.List;
 
 public class App extends Application {
 
     private static FASTSettings settings;
+    private static App appInstance;
 
     public static final String LOG_TAG = "FAST App Search";
 
@@ -25,6 +27,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        appInstance = this;
         TraceDroid.init(this);
         settings = new AndroidFASTSettings(App.this);
     }
@@ -51,4 +54,7 @@ public class App extends Application {
         return TargetStore.STORE_URL + pname;
     }
 
+    public  static File getBaseDir() {
+        return appInstance.getFilesDir();
+    }
 }

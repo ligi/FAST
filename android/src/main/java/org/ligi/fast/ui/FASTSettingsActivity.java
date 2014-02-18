@@ -175,7 +175,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
     private class CacheRemovingOnPreferenceClickListener implements Preference.OnPreferenceClickListener {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            new FileHelper(getBaseContext().getCacheDir()).deleteRecursive();
+            new FileHelper(App.getBaseDir()).deleteRecursive();
             Intent intent = new Intent(FASTSettingsActivity.this, SearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
