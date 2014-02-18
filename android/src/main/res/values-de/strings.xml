@@ -2,9 +2,7 @@
     <string name="app_name">FAST</string>
     <string name="launch_single">Automatische Ausführung</string>
     <string name="settings">Einstellungen</string>
-    <string name="connect">Informationen</string>
     <string name="share">Teilen</string>
-    <string name="rate">Bewerten</string>
     <string name="also_use_the_package_name_for_searching">Suche auch im Packagename</string>
     <string name="search_in_package">Suche in vollständigen Packagename</string>
     <string name="auto_launch_if_only_one_app_left">Autostart bei genau einem Ergebnis</string>

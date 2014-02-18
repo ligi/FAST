@@ -3,9 +3,7 @@
     <string name="icon">"Icône"</string>
     <string name="launch_single">Lancement automatique</string>
     <string name="settings">Paramètres</string>
-    <string name="connect">Connecter</string>
     <string name="share">Partager</string>
-    <string name="rate">Note</string>
     <string name="also_use_the_package_name_for_searching">"Chercher le nom du paquet mais aussi le nom de l'application"</string>
     <string name="search_in_package">Rechercher des paquets</string>
     <string name="auto_launch_if_only_one_app_left">"Si il n'y a qu'un résultat de recherche, lancer automatiquement"</string>

@@ -3,9 +3,7 @@
     <string name="icon">Εικονίδιο</string>
     <string name="launch_single">Εκκίνηση εφαρμογής</string>
     <string name="settings">Ρυθμίσεις</string>
-    <string name="connect">Σύνδεση</string>
     <string name="share">Κοινοποίηση</string>
-    <string name="rate">Βαθμολογία</string>
     <string name="also_use_the_package_name_for_searching">Συμπεριέλαβε και το όνομα του πακέτου στην αναζήτηση</string>
     <string name="search_in_package">Αναζήτηση στο πακέτο</string>
     <string name="auto_launch_if_only_one_app_left">Αυτόματη εκκίνηση εάν υπάρχει ένα πακέτο</string>
