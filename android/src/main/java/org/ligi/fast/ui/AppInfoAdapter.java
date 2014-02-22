@@ -86,7 +86,15 @@ public class AppInfoAdapter extends BaseAdapter {
             holder.image.setImageDrawable(drawable);
         }
 
-        labelView.setMaxLines(App.getSettings().getMaxLines());
+
+        final int maxLines = App.getSettings().getMaxLines();
+
+        if (maxLines==0) {
+            labelView.setVisibility(View.GONE);
+        } else {
+            labelView.setMaxLines(maxLines);
+            labelView.setVisibility(View.VISIBLE);
+        }
 
         String label = actAppInfo.getLabel();
         String highlight_label = label;

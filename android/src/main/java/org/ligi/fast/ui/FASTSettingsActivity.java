@@ -74,8 +74,8 @@ public class FASTSettingsActivity extends PreferenceActivity {
         maxLinesPref.setKey(FASTSettings.KEY_MAXLINES);
         maxLinesPref.setTitle(R.string.max_text_lines);
         maxLinesPref.setSummary(R.string.how_much_text_you_want);
-        maxLinesPref.setEntries(new CharSequence[]{"1", "2", "3"});
-        maxLinesPref.setEntryValues(new CharSequence[]{"1", "2", "3"});
+        maxLinesPref.setEntries(new CharSequence[]{"0","1", "2", "3"});
+        maxLinesPref.setEntryValues(new CharSequence[]{"0","1", "2", "3"});
         maxLinesPref.setDefaultValue("1");
 
         ListPreference iconSizePref = new ListPreference(this);
