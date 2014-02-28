@@ -1,5 +1,6 @@
 package org.ligi.fast.ui;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -102,6 +103,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
     }
 
+    @TargetApi(5)
     private static void showInstalledAppDetails(Context context,
 
                                                 String packageName) {
