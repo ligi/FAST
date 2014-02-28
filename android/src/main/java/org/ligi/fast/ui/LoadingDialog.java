@@ -3,6 +3,7 @@ package org.ligi.fast.ui;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -84,4 +85,17 @@ public class LoadingDialog extends Activity {
         return progressBar;
     }
 
+    @Override
+    public void onBackPressed() {
+        // do nothing - user should not be able to cancel this dialog
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (MotionEvent.ACTION_OUTSIDE == event.getAction()) {
+            // do nothing - user should not be able to cancel this dialog
+            return true;
+        }
+        return false;
+    }
 }
