@@ -59,5 +59,6 @@ Si vous aimez cette application vous pouvez la partager, sélectionnez partager 
     <string-array name="sort_orders">
         <item>"Non trié"</item>
         <item>"Alphabétique"</item>
+        <item>"usage"</item>
     </string-array>
 </resources>
