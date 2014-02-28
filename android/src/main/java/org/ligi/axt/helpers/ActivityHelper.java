@@ -1,5 +1,6 @@
 package org.ligi.axt.helpers;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -24,7 +25,9 @@ public class ActivityHelper extends ContextHelper {
      * to be used in onCreate
      * slightly modified from http://stackoverflow.com/a/8765901/322642
      */
-    @TargetApi(5)
+    //  @TargetApi(5)
+    // TODO find out why the above is not working and I need to use SupressLint to get rid of the error
+    @SuppressLint("newApi")
     public void disableRotation() {
         switch (activity.getResources().getConfiguration().orientation){
             case Configuration.ORIENTATION_PORTRAIT:

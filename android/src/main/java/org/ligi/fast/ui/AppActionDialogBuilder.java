@@ -1,5 +1,6 @@
 package org.ligi.fast.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -103,7 +104,9 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
     }
 
-    @TargetApi(5)
+    //  @TargetApi(5)
+    // TODO find out why the above is not working and I need to use SupressLint to get rid of the error
+    @SuppressLint("newApi")
     private static void showInstalledAppDetails(Context context,
 
                                                 String packageName) {
