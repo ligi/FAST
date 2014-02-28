@@ -51,9 +51,13 @@ android {
         packageName "org.ligi.fast"
     }
 
-    lintOptions { 
-      abortOnError false 
-    } 
+    lintOptions {
+        disable "MissingTranslation"
+        disable "TypographyEllipsis"
+        disable "IconLocation"
+        disable "IconDensities"
+        disable "ContentDescription"
+    }
 }
 
 
