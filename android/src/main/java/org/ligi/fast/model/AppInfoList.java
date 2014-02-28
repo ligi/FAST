@@ -8,6 +8,7 @@ import org.ligi.fast.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class AppInfoList {
 
@@ -76,7 +77,7 @@ public class AppInfoList {
     public void setQuery(String act_query) {
 
         currentQuery = configuredRemoveTrailingSpace(act_query);
-        currentQuery = currentQuery.toLowerCase();
+        currentQuery = currentQuery.toLowerCase(Locale.ENGLISH);
 
         ArrayList<AppInfo> pkgAppsListFilter = new ArrayList<AppInfo>();
 
@@ -103,11 +104,13 @@ public class AppInfoList {
     }
 
     private boolean appInfoMatchesQuery(AppInfo info, String query) {
-        if (info.getLabel().toLowerCase().contains(query)) {
+        if (info.getLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
             return true;
         }
 
-        if (settings.isUmlautConvertActivated() && info.getAlternateLabel() != null && info.getAlternateLabel().toLowerCase().contains(query)) {
+        if (settings.isUmlautConvertActivated()
+                && info.getAlternateLabel() != null
+                && info.getAlternateLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
             return true;
         }
 
@@ -119,11 +122,13 @@ public class AppInfoList {
         // also search in package name when activated
         // TBD should we also do gap search in package name?
         if (settings.isSearchPackageActivated()) {
-            if (settings.isUmlautConvertActivated() && info.getAlternatePackageName() != null && info.getAlternatePackageName().toLowerCase().contains(query)) {
+            if (settings.isUmlautConvertActivated()
+                    && info.getAlternatePackageName() != null
+                    && info.getAlternatePackageName().toLowerCase(Locale.ENGLISH).contains(query)) {
                 return true;
             }
 
-            return (info.getPackageName().toLowerCase().contains(query));
+            return info.getPackageName().toLowerCase(Locale.ENGLISH).contains(query);
         }
 
         // no match
@@ -132,7 +137,7 @@ public class AppInfoList {
 
     private boolean isGapSearchActivateAndTrueForQuery(AppInfo info, String query) {
         if (settings.isGapSearchActivated()) {
-            String appLabelLowerCase = info.getLabel().toLowerCase();
+            final String appLabelLowerCase = info.getLabel().toLowerCase(Locale.ENGLISH);
             int diffLength = appLabelLowerCase.length() - query.length();
             int threshold = diffLength > 0 ? diffLength : 0;
 

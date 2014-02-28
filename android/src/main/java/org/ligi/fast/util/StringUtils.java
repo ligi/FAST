@@ -2,6 +2,7 @@ package org.ligi.fast.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class StringUtils {
 
@@ -174,7 +175,7 @@ public class StringUtils {
         for (int i = 0; i < charactersToMatch.length(); i++) {
             char c = charactersToMatch.charAt(i);
             if (startIndex < s.length()) {
-                int foundIndex = s.toLowerCase().indexOf(c, startIndex);
+                int foundIndex = s.toLowerCase(Locale.ENGLISH).indexOf(c, startIndex);
                 if (foundIndex != -1) {
                     indices.add(foundIndex);
                     startIndex = foundIndex + 1;

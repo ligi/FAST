@@ -32,6 +32,7 @@ import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The main Activity for this App - most things come together here
@@ -96,9 +97,10 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                boolean was_adding = oldSearch.length() < s.toString().length();
-                oldSearch = s.toString().toLowerCase();
-                adapter.setActQuery(s.toString().toLowerCase());
+                final String editString = s.toString();
+                final boolean was_adding = oldSearch.length() < editString.length();
+                oldSearch = editString.toLowerCase(Locale.ENGLISH);
+                adapter.setActQuery(editString.toLowerCase(Locale.ENGLISH));
                 startAppWhenItIstheOnlyOneInList(was_adding);
             }
 
@@ -297,7 +299,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
                 adapter = new AppInfoAdapter(SearchActivity.this, list);
                 configureAdapter();
-                adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase());
+                adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase(Locale.ENGLISH));
                 gridView.setAdapter(adapter);
             }
         });

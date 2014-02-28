@@ -19,6 +19,7 @@ import org.ligi.fast.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Adapter to provide the AppInfo to the user - also care for the filtering of the query
@@ -36,7 +37,8 @@ public class AppInfoAdapter extends BaseAdapter {
         appInfoList = new AppInfoList(pkgAppsListAll, App.getSettings());
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
-        highlightPrefix = "<font color='#" + Integer.toHexString(color).toUpperCase().substring(2) +"'>";
+        final String hexColorString = Integer.toHexString(color).toUpperCase(Locale.ENGLISH).substring(2);
+        highlightPrefix = "<font color='#" + hexColorString +"'>";
         layoutInflater = LayoutInflater.from(ctx);
         iconDimensions = new IconDimensions(ctx);
     }
@@ -99,19 +101,17 @@ public class AppInfoAdapter extends BaseAdapter {
         String label = actAppInfo.getLabel();
         String highlight_label = label;
 
-        int query_index = label.toLowerCase().indexOf(appInfoList.getCurrentQuery());
+        int query_index = label.toLowerCase(Locale.ENGLISH).indexOf(appInfoList.getCurrentQuery());
 
         if (appInfoList.getCurrentQuery().length() == 0) {
             labelView.setText(label);
             return convertView;
         }
 
-
-
         if (query_index == -1) { // search not App-Name - hope it is in Package Name - why else we want to show the app?
             label = actAppInfo.getPackageName();
             label = label.replace("com.google.android.apps.", "");
-            query_index = label.toLowerCase().indexOf(appInfoList.getCurrentQuery());
+            query_index = label.toLowerCase(Locale.ENGLISH).indexOf(appInfoList.getCurrentQuery());
         }
 
 
