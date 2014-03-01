@@ -30,14 +30,12 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
         this.oldAppList = oldAppList;
     }
 
-    @Override
-    protected Void doInBackground(Void... params) {
+    private void processCategory(final String category) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
+        mainIntent.addCategory(category);
         try {
             List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
-            appCount = resolveInfoList.size();
+            appCount += resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
                 AppInfo actAppInfo = new AppInfo(ctx, info);
 
@@ -63,6 +61,17 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
             Log.d("Exception occurred when getting activities skipping...!");
         }
 
+    }
+
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        // TODO the progressbar could be more exact here by first querying both - calculating the
+        // total app-count and then process them - but as we do not expect that much launchers we
+        // should be OK here
+        appCount=0;
+        processCategory(Intent.CATEGORY_LAUNCHER);
+        processCategory(Intent.CATEGORY_HOME);
         return null;
     }
 
