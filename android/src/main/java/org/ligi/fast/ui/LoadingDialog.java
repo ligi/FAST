@@ -13,7 +13,7 @@ import org.ligi.axt.helpers.ActivityHelper;
 import org.ligi.fast.R;
 import org.ligi.fast.background.BaseAppGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.util.PackageListStore;
+import org.ligi.fast.util.AppInfoListStore;
 
 /**
  * Dialog to make the waiting time for the initial index building nicer for the user
@@ -54,7 +54,7 @@ public class LoadingDialog extends Activity {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                new PackageListStore(LoadingDialog.this).save(appInfoList);
+                new AppInfoListStore(LoadingDialog.this).save(appInfoList);
                 setResult(RESULT_OK);
                 finish();
             }

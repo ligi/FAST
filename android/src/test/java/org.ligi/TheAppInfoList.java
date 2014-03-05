@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
+import org.ligi.fast.model.DynamicAppInfoList;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -14,7 +15,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 @RunWith(RobolectricTestRunner.class)
 public class TheAppInfoList extends AppInfoTestBase {
 
-    private AppInfoList tested;
+    private DynamicAppInfoList tested;
     private MutableFastSettings settings;
 
     @Before
@@ -23,12 +24,12 @@ public class TheAppInfoList extends AppInfoTestBase {
         AppInfo appInfo2 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO2);
         AppInfo appInfo3 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO3);
         settings = new MutableFastSettings();
-        tested = new AppInfoList(asList(appInfo1, appInfo2, appInfo3), settings);
+        tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3), settings);
     }
 
     @Test
     public void count_is_returned_correctly() {
-        assertThat(tested.getCount()).isEqualTo(3);
+        assertThat(tested.size()).isEqualTo(3);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         tested.setQuery("foo");
 
         // assert
-        assertThat(tested.getCount()).isEqualTo(2);
+        assertThat(tested.size()).isEqualTo(2);
     }
 
     @Test
@@ -49,7 +50,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         tested.setQuery("packageName");
 
         // assert
-        assertThat(tested.getCount()).isEqualTo(0);
+        assertThat(tested.size()).isEqualTo(0);
     }
 
 
@@ -62,7 +63,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         tested.setQuery("packagename");
 
         // assert
-        assertThat(tested.getCount()).isEqualTo(3);
+        assertThat(tested.size()).isEqualTo(3);
     }
 
     @Test
@@ -74,7 +75,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         tested.setQuery("testfoo ");
 
         // assert
-        assertThat(tested.getCount()).isEqualTo(2);
+        assertThat(tested.size()).isEqualTo(2);
     }
 
 
@@ -90,7 +91,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         tested.setQuery("TeStFoO");
 
         // assert
-        assertThat(tested.getCount()).isEqualTo(2);
+        assertThat(tested.size()).isEqualTo(2);
     }
 
     @Test
@@ -114,7 +115,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         tested.setQuery("testfoo ");
 
         // assert
-        assertThat(tested.getCount()).isEqualTo(0);
+        assertThat(tested.size()).isEqualTo(0);
     }
 
     @Test
@@ -122,7 +123,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         AppInfo appInfo4 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO4);
 
         // invoke
-        tested.setAppsList(asList(appInfo4));
+        tested.update(asList(appInfo4));
 
         // assert
         assertThat(tested.get(0)).isEqualTo(appInfo4);
@@ -143,9 +144,9 @@ public class TheAppInfoList extends AppInfoTestBase {
         AppInfo appInfo3 = new AppInfo(Robolectric.application, "hash;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
         AppInfo appInfo4 = new AppInfo(Robolectric.application, "hash;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
         AppInfo appInfo5 = new AppInfo(Robolectric.application, "hash;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
-        tested = new AppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
+        tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
 
-        tested.setSortMode(AppInfoList.SortMode.ALPHABETICAL);
+        tested.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
 
         assertThat(tested.get(0)).isEqualTo(appInfo2);
         assertThat(tested.get(1)).isEqualTo(appInfo1);
@@ -161,7 +162,7 @@ public class TheAppInfoList extends AppInfoTestBase {
 
         tested.setQuery("lbar");
 
-        assertThat(tested.getCount()).isEqualTo(1);
+        assertThat(tested.size()).isEqualTo(1);
     }
 
     @Test
@@ -171,7 +172,7 @@ public class TheAppInfoList extends AppInfoTestBase {
 
         tested.setQuery("lbar");
 
-        assertThat(tested.getCount()).isEqualTo(1);
+        assertThat(tested.size()).isEqualTo(1);
     }
 
     @Test
@@ -180,7 +181,7 @@ public class TheAppInfoList extends AppInfoTestBase {
 
         tested.setQuery("lte");
 
-        assertThat(tested.getCount()).isEqualTo(3);
+        assertThat(tested.size()).isEqualTo(3);
     }
 
     @Test
@@ -189,7 +190,7 @@ public class TheAppInfoList extends AppInfoTestBase {
 
         tested.setQuery("stl");
 
-        assertThat(tested.getCount()).isEqualTo(0);
+        assertThat(tested.size()).isEqualTo(0);
     }
 
 }

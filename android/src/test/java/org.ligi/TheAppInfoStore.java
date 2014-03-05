@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.util.PackageListStore;
+import org.ligi.fast.util.AppInfoListStore;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -18,7 +18,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 @RunWith(RobolectricTestRunner.class)
 public class TheAppInfoStore extends AppInfoTestBase {
 
-    private PackageListStore tested;
+    private AppInfoListStore tested;
     private List<AppInfo> appInfoList;
 
     @Before
@@ -28,7 +28,7 @@ public class TheAppInfoStore extends AppInfoTestBase {
         AppInfo appInfo2 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO2);
         AppInfo appInfo3 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO3);
 
-        tested = new PackageListStore(Robolectric.application);
+        tested = new AppInfoListStore(Robolectric.application);
 
         appInfoList = asList(appInfo1, appInfo2, appInfo3);
 

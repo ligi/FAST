@@ -15,10 +15,10 @@ import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
+import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -29,12 +29,12 @@ public class AppInfoAdapter extends BaseAdapter {
     private final String highlightPrefix;
     private final static String highlightSuffix = "</font>";
 
-    private final AppInfoList appInfoList;
+    private final DynamicAppInfoList appInfoList;
     private final LayoutInflater layoutInflater;
     private final IconDimensions iconDimensions;
 
-    public AppInfoAdapter(Context ctx, List<AppInfo> pkgAppsListAll) {
-        appInfoList = new AppInfoList(pkgAppsListAll, App.getSettings());
+    public AppInfoAdapter(Context ctx, DynamicAppInfoList appInfoList) {
+        this.appInfoList = appInfoList;
 
         int color = (ctx.getResources().getColor(R.color.divider_color));
         final String hexColorString = Integer.toHexString(color).toUpperCase(Locale.ENGLISH).substring(2);
@@ -45,15 +45,15 @@ public class AppInfoAdapter extends BaseAdapter {
 
 
     public int getCount() {
-        return appInfoList.getCount();
+        return appInfoList.size();
     }
 
-    public Object getItem(int position) {
-        return null;
+    public AppInfo getItem(int position) {
+        return appInfoList.get(position);
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -79,7 +79,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
         holder = (ViewHolder) convertView.getTag();
         ImageView imageView = holder.image;
-        TextView labelView = holder.text;
+        TextView labelView= holder.text;
 
         AppInfo actAppInfo = appInfoList.get(position);
 
@@ -156,8 +156,13 @@ public class AppInfoAdapter extends BaseAdapter {
         public ImageView image;
     }
 
-    public AppInfoList getList() {
-        return appInfoList;
+    public void setSortMode(final DynamicAppInfoList.SortMode sortMode) {
+        appInfoList.setSortMode(sortMode);
+        notifyDataSetChanged();
     }
 
+    public void updateList(AppInfoList list) {
+        appInfoList.update(list);
+        notifyDataSetChanged();
+    }
 }

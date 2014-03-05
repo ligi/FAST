@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
 import org.ligi.tracedroid.TraceDroid;
@@ -19,7 +20,7 @@ public class App extends Application {
     public static final String LOG_TAG = "FAST App Search";
 
     public interface PackageChangedListener {
-        public void onPackageChange(List<AppInfo> appInfoList);
+        public void onPackageChange(AppInfoList appInfoList);
     }
 
     public static PackageChangedListener packageChangedListener;

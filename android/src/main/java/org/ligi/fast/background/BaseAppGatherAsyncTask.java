@@ -6,6 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 
 import org.ligi.fast.model.AppInfo;
+import org.ligi.fast.model.AppInfoList;
 import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
@@ -17,16 +18,16 @@ import java.util.List;
 public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     private final Context ctx;
     protected int appCount;
-    protected List<AppInfo> appInfoList;
-    private final List<AppInfo> oldAppList;
+    protected AppInfoList appInfoList;
+    private final AppInfoList oldAppList;
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this(ctx, null);
     }
 
-    public BaseAppGatherAsyncTask(Context ctx, List<AppInfo> oldAppList) {
+    public BaseAppGatherAsyncTask(Context ctx, AppInfoList oldAppList) {
         this.ctx = ctx;
-        appInfoList = new ArrayList<AppInfo>();
+        appInfoList = new AppInfoList();
         this.oldAppList = oldAppList;
     }
 
@@ -46,7 +47,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     // we saved the package list. An alternative would be to save the package list
                     // each time we leave
                     if (oldAppList != null) {
-                        for(AppInfo oldInfo : oldAppList) {
+                        for(AppInfo oldInfo : appInfoList) {
                             if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
                                 actAppInfo.setCallCount(oldInfo.getCallCount());
                                 break;

@@ -6,7 +6,6 @@ import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
-import org.ligi.fast.ui.AppInfoAdapter;
 import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
@@ -15,18 +14,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PackageListStore {
+public class AppInfoListStore {
 
     public final Context context;
     public final File file;
     public static final String SEPARATOR = "\n";
 
-    public PackageListStore(Context context) {
+    public AppInfoListStore(Context context) {
         this.context = context;
         file = new File(App.getBaseDir(), "index.csv");
     }
 
-    public List<AppInfo> load() {
+    public AppInfoList load() {
 
         Log.i(App.LOG_TAG, "Loading package list from file");
 
@@ -34,10 +33,10 @@ public class PackageListStore {
         try {
             inString = new FileHelper(file).loadToString();
         } catch (IOException e) {
-            return Collections.EMPTY_LIST;
+            return new AppInfoList();
         }
 
-        List<AppInfo> res = new ArrayList<AppInfo>();
+        AppInfoList res = new AppInfoList();
 
         if (inString == null) {
             return res;
@@ -57,14 +56,6 @@ public class PackageListStore {
         }
 
         return res;
-    }
-
-    public void save(AppInfoAdapter adapter) {
-        save(adapter.getList());
-    }
-
-    public void save(AppInfoList list) {
-        save(list.getAll());
     }
 
     public void save(List<AppInfo> appInfoList) {

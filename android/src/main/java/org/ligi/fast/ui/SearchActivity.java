@@ -27,10 +27,10 @@ import org.ligi.fast.R;
 import org.ligi.fast.background.BackgroundGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
-import org.ligi.fast.util.PackageListStore;
+import org.ligi.fast.model.DynamicAppInfoList;
+import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,13 +39,14 @@ import java.util.Locale;
  */
 public class SearchActivity extends Activity implements App.PackageChangedListener {
 
-    private List<AppInfo> pkgAppsListTemp;
+    //private List<AppInfo> pkgAppsListTemp;
+    private DynamicAppInfoList appInfoList;
     private AppInfoAdapter adapter;
     private String oldSearch = "";
     private EditText searchQueryEditText;
     private GridView gridView;
 
-    private PackageListStore packageListStore;
+    private AppInfoListStore appInfoListStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,20 +60,15 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
-        packageListStore = new PackageListStore(this);
+        appInfoListStore = new AppInfoListStore(this);
 
-        pkgAppsListTemp = packageListStore.load();
+        appInfoList = new DynamicAppInfoList(appInfoListStore.load(),App.getSettings());
 
-        adapter = new AppInfoAdapter(this, pkgAppsListTemp);
+        adapter = new AppInfoAdapter(this, appInfoList);
 
         configureAdapter();
 
         gridView = (GridView) findViewById(R.id.listView);
-
-        /*getSupportActionBar().setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
-                        | ActionBar.DISPLAY_SHOW_HOME);
-          */
 
         searchQueryEditText = (EditText) findViewById(R.id.searchEditText);
         searchQueryEditText.setSingleLine();
@@ -101,11 +97,10 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
                 final boolean was_adding = oldSearch.length() < editString.length();
                 oldSearch = editString.toLowerCase(Locale.ENGLISH);
                 adapter.setActQuery(editString.toLowerCase(Locale.ENGLISH));
-                startAppWhenItIstheOnlyOneInList(was_adding);
+                startAppWhenItItIsTheOnlyOneInList(was_adding);
             }
 
         });
-        // getSupportActionBar().setCustomView(search_et);
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -115,8 +110,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
                 try {
                     startItemAtPos(pos);
                 } catch (ActivityNotFoundException e) {
-                    // e.g. uninstalled while app running - TODO should refresh
-                    // list
+                    // e.g. uninstalled while app running - TODO should refresh list
                 }
             }
 
@@ -129,7 +123,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long arg3) {
-                new AppActionDialogBuilder(SearchActivity.this, adapter.getList().get(pos)).show();
+                new AppActionDialogBuilder(SearchActivity.this, adapter.getItem(pos)).show();
                 return true;
             }
 
@@ -137,19 +131,21 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
-        if (pkgAppsListTemp.size() == 0) {
+
+        if (appInfoList.size() == 0) {
             startActivityForResult(new Intent(this, LoadingDialog.class), R.id.activityResultLoadingDialog);
         } else { // the second time - we use the old index to be fast but
             // regenerate in background to be recent
 
             // Use the pkgAppsListTemp in order to update data from the saved file with recent
             // call count information (seeing as we may not have saved it recently).
-            new BackgroundGatherAsyncTask(this, pkgAppsListTemp).execute();
-            pkgAppsListTemp = new ArrayList<AppInfo>();
+            new BackgroundGatherAsyncTask(this, appInfoList).execute();
         }
+
+        gridView.setAdapter(adapter);
     }
 
-    private void startAppWhenItIstheOnlyOneInList(boolean was_adding) {
+    private void startAppWhenItItIsTheOnlyOneInList(boolean was_adding) {
         if ((adapter.getCount() == 1) && was_adding && App.getSettings().isLaunchSingleActivated()) {
             startItemAtPos(0);
         }
@@ -157,17 +153,17 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     private void configureAdapter() {
         if (App.getSettings().getSortOrder().startsWith("alpha")) {
-            adapter.getList().setSortMode(AppInfoList.SortMode.ALPHABETICAL);
+            adapter.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
         } else if (App.getSettings().getSortOrder().equals("most_used")) {
-            adapter.getList().setSortMode(AppInfoList.SortMode.MOST_USED);
+            adapter.setSortMode(DynamicAppInfoList.SortMode.MOST_USED);
         }
     }
 
     public void startItemAtPos(int pos) {
-		AppInfo app = adapter.getList().get(pos);
+		AppInfo app = adapter.getItem(pos);
 		app.incrementCallCount();
         Intent intent = app.getIntent();
-        intent.setAction("android.intent.action.MAIN");
+        intent.setAction(Intent.ACTION_MAIN);
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
@@ -185,7 +181,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         switch (requestCode) {
             case R.id.activityResultLoadingDialog:
-                onPackageChange(packageListStore.load());
+                onPackageChange(appInfoListStore.load());
                 break;
         }
     }
@@ -201,9 +197,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         dealWithUserPreferencesRegardingSoftKeyboard();
 
         configureAdapter();
-        gridView.setAdapter(adapter);
 
-        String iconSize = App.getSettings().getIconSize();
+        final String iconSize = App.getSettings().getIconSize();
         if (iconSize.equals("tiny")) {
             gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
         } else if (iconSize.equals("small")) {
@@ -288,19 +283,14 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     @Override
-    public void onPackageChange(List<AppInfo> appInfoList) {
+    public void onPackageChange(final AppInfoList newAppInfoList) {
         // TODO we should also do a cleanup of cached icons here
         // we might not come from UI Thread
 
-        final List<AppInfo> list = appInfoList;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-                adapter = new AppInfoAdapter(SearchActivity.this, list);
-                configureAdapter();
-                adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase(Locale.ENGLISH));
-                gridView.setAdapter(adapter);
+                adapter.updateList(newAppInfoList);
             }
         });
     }
@@ -315,7 +305,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     protected void onStop() {
         // Need to persist the call count values, or else the sort by "most used"
         // will not work next time we open this activity.
-        packageListStore.save(adapter);
+        //appInfoListStore.save(adapter);
         super.onStop();
     }
 
