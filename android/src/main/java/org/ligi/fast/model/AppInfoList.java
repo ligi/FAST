@@ -13,8 +13,8 @@ public class AppInfoList extends ArrayList<AppInfo> {
 
     @Override
     public AppInfo get(int position) {
-        // TODO should do this one
-        if (size() > 0 && (position - 1) > size()) {
+        // TODO should do this one at the root of the problem
+        if (size() > 0 && (position - 1) >= size()) {
             return super.get(0);
         }
         return super.get(position);
