@@ -1,11 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.ligi.fast"
-    android:versionCode="52"
-    android:versionName="5.2">
-
-    <uses-sdk
-        android:minSdkVersion="5"
-        android:targetSdkVersion="19" />
+    package="org.ligi.fast">
 
     <!--
     from experiments with shortcut - but dropped this feature for the feature of no needed permission

@@ -22,6 +22,14 @@ android {
     compileSdkVersion 19
     buildToolsVersion "19.0.3"
 
+    defaultConfig {
+        versionCode 52
+        versionName "5.2"
+        minSdkVersion 5
+        targetSdkVersion 19
+        packageName "org.ligi.fast"
+    }
+
     buildTypes {
         release {
             runProguard true
