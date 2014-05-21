@@ -68,7 +68,7 @@ public class AppIconCache {
     }
 
     class IconCacheSpec {
-        public int maxSize = 96;
+        public int maxSize = App.getSettings().getIconResolution();
         public int quality = 100;
     }
 

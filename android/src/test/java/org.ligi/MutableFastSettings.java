@@ -75,4 +75,10 @@ public class MutableFastSettings implements FASTSettings {
     public boolean isGapSearchActivated() {
         return gapSearch;
     }
+
+    @Override
+    public int getIconResolution() {
+        return 0;
+    }
+
 }

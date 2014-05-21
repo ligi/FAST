@@ -52,6 +52,8 @@
     <string name="appActionDialog_title">FAST Launch </string>
     <string name="remove_cache">Clear cache</string>
     <string name="remove_cache_descr">Force FAST to reset app list and history</string>
+    <string name="icon_resolution_title">Icon Resolution</string>
+    <string name="icon_resolution_summary">More speed or more pixels?</string>
     <string-array name="sizes">
         <item>Tiny</item>
         <item>Small</item>

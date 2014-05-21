@@ -5,44 +5,47 @@ package org.ligi.fast.settings;
  */
 public interface FASTSettings {
 
-    public final static String KEY_LAUNCHSINGLE = "launch_single";
-    public static final String KEY_SEARCHPKG = "search_pkg";
-    public static final String KEY_MARKETFORALL = "marketforall";
-    public static final String KEY_TEXTONLY = "textonly";
-    public static final String KEY_MAXLINES = "maxlines";
-    public static final String KEY_ICONSIZE = "iconsize";
-    public static final String KEY_UMLAUTCONVERT = "convert_umlauts";
-    public static final String KEY_IGNORESPACEAFTERQUERY = "ignore_space";
-    public static final String KEY_THEME = "theme";
-    public static final String KEY_SORT = "sort";
-    public static final String KEY_SHOWKEYBOARDONSTART = "show_keyboard_on_start";
-    public static final String KEY_FINISH_ON_LAUNCH = "finish_on_LAUNCH";
-    public static final String KEY_GAP_SEARCH = "gap_search";
+    static final String KEY_LAUNCHSINGLE = "launch_single";
+    static final String KEY_SEARCHPKG = "search_pkg";
+    static final String KEY_MARKETFORALL = "marketforall";
+    static final String KEY_TEXTONLY = "textonly";
+    static final String KEY_MAXLINES = "maxlines";
+    static final String KEY_ICONSIZE = "iconsize";
+    static final String KEY_UMLAUTCONVERT = "convert_umlauts";
+    static final String KEY_IGNORESPACEAFTERQUERY = "ignore_space";
+    static final String KEY_THEME = "theme";
+    static final String KEY_SORT = "sort";
+    static final String KEY_SHOWKEYBOARDONSTART = "show_keyboard_on_start";
+    static final String KEY_FINISH_ON_LAUNCH = "finish_on_LAUNCH";
+    static final String KEY_GAP_SEARCH = "gap_search";
+    static final String KEY_ICONRES = "icon_res";
 
-    public boolean isLaunchSingleActivated();
+    boolean isLaunchSingleActivated();
 
-    public boolean isSearchPackageActivated();
+    boolean isSearchPackageActivated();
 
-    public boolean isUmlautConvertActivated();
+    boolean isUmlautConvertActivated();
 
-    public boolean isMarketForAllActivated();
+    boolean isMarketForAllActivated();
 
-    public boolean isTextOnlyActivated();
+    boolean isTextOnlyActivated();
 
-    public boolean isIgnoreSpaceAfterQueryActivated();
+    boolean isIgnoreSpaceAfterQueryActivated();
 
-    public boolean isShowKeyBoardOnStartActivated();
+    boolean isShowKeyBoardOnStartActivated();
 
-    public int getMaxLines();
+    int getMaxLines();
 
-    public String getIconSize();
+    int getIconResolution();
 
-    public String getTheme();
+    String getIconSize();
 
-    public String getSortOrder();
+    String getTheme();
 
-    public boolean isFinishOnLaunchEnabled();
+    String getSortOrder();
 
-    public boolean isGapSearchActivated();
+    boolean isFinishOnLaunchEnabled();
+
+    boolean isGapSearchActivated();
 
 }

@@ -78,6 +78,22 @@ public class FASTSettingsActivity extends PreferenceActivity {
         maxLinesPref.setEntryValues(new CharSequence[]{"0","1", "2", "3"});
         maxLinesPref.setDefaultValue("1");
 
+
+        ListPreference resolutionPref = new ListPreference(this);
+        resolutionPref.setKey(FASTSettings.KEY_ICONRES);
+        resolutionPref.setTitle(getString(R.string.icon_resolution_title));
+        resolutionPref.setSummary(getString(R.string.icon_resolution_summary));
+        resolutionPref.setEntries(new CharSequence[]{"48","96", "128", "512"});
+        resolutionPref.setEntryValues(new CharSequence[]{"48","96", "128", "512"});
+        resolutionPref.setDefaultValue("96");
+        resolutionPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                new FileHelper(App.getBaseDir()).deleteRecursive();
+                return true;
+            }
+        });
+
         ListPreference iconSizePref = new ListPreference(this);
         iconSizePref.setKey(FASTSettings.KEY_ICONSIZE);
         iconSizePref.setTitle(R.string.icon_size);
@@ -152,7 +168,9 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(autoShowKeyboard);
         root.addPreference(convertUmlauts);
         root.addPreference(allowGapSearch);
+        root.addPreference(resolutionPref);
         root.addPreference(removeCachePreference);
+
 
         return root;
     }

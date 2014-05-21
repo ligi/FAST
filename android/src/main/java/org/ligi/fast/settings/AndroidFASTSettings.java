@@ -54,6 +54,11 @@ public class AndroidFASTSettings implements FASTSettings {
         return Integer.parseInt(mSharedPreferences.getString(KEY_MAXLINES, "1"));
     }
 
+    @Override
+    public int getIconResolution() {
+        return Integer.parseInt(mSharedPreferences.getString(KEY_ICONRES, "96"));
+    }
+
     public String getIconSize() {
         return mSharedPreferences.getString(KEY_ICONSIZE, "medium");
     }
