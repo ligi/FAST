@@ -6,9 +6,11 @@ import org.junit.runner.RunWith;
 import org.ligi.fast.util.UmlautConverter;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+@Config(emulateSdk = 18) // robolectric cannot deal with 19 and i do not want to targetSDK--
 @RunWith(RobolectricTestRunner.class)
 public class TheUmlautConverter extends AppInfoTestBase {
 

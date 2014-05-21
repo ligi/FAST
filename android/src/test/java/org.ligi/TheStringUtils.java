@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import org.robolectric.annotation.Config;
+@Config(emulateSdk = 18) // robolectric cannot deal with 19 and i do not want to targetSDK--
 @RunWith(RobolectricTestRunner.class)
 public class TheStringUtils extends AppInfoTestBase {
 

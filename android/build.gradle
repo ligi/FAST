@@ -4,11 +4,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.9.+'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.0.1'
+        classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.9.+'
     }
 }
 
 apply plugin: 'android'
+apply plugin: 'android-test'
 
 repositories {
     mavenCentral()
@@ -17,14 +18,13 @@ repositories {
     }
 }
 
-
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1"
 
     defaultConfig {
-        versionCode 53
-        versionName "5.3"
+        versionCode 52
+        versionName "5.2"
         minSdkVersion 5
         targetSdkVersion 19
         packageName "org.ligi.fast"
@@ -37,19 +37,19 @@ android {
         }
     }
 
-    flavorGroups "market"
+    flavorDimensions "market"
     productFlavors {
         // no google-play services & google-analytics
         forGooglePlay {
-            flavorGroup "market"
+            flavorDimension "market"
         }
 
         forAmazon {
-            flavorGroup "market"
+            flavorDimension "market"
         }
 
         forFDroid {
-            flavorGroup "market"
+            flavorDimension "market"
         }
 
 
@@ -68,9 +68,6 @@ android {
     }
 }
 
-
-apply plugin: 'android-unit-test'
-
 dependencies {
     repositories {
         mavenCentral()
@@ -79,10 +76,9 @@ dependencies {
     compile 'org.ligi:tracedroid:1.1'
 
     testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.2'
+    testCompile 'org.robolectric:robolectric:2.3'
     testCompile "com.squareup:fest-android:1.0.7"
 }
-
 
 tasks.withType(Test) {
     scanForTestClasses = false
