@@ -17,15 +17,15 @@ public class AndroidFASTSettings implements FASTSettings {
     }
 
     public boolean isLaunchSingleActivated() {
-        return mSharedPreferences.getBoolean(KEY_LAUNCHSINGLE, false);
+        return mSharedPreferences.getBoolean(KEY_LAUNCHSINGLE, true);
     }
 
     public boolean isSearchPackageActivated() {
-        return mSharedPreferences.getBoolean(KEY_SEARCHPKG, false);
+        return mSharedPreferences.getBoolean(KEY_SEARCHPKG, true);
     }
 
     public boolean isUmlautConvertActivated() {
-        return mSharedPreferences.getBoolean(KEY_UMLAUTCONVERT, false);
+        return mSharedPreferences.getBoolean(KEY_UMLAUTCONVERT, true);
     }
 
     public boolean isMarketForAllActivated() {
@@ -33,12 +33,12 @@ public class AndroidFASTSettings implements FASTSettings {
     }
 
     public boolean isIgnoreSpaceAfterQueryActivated() {
-        return mSharedPreferences.getBoolean(KEY_IGNORESPACEAFTERQUERY, false);
+        return mSharedPreferences.getBoolean(KEY_IGNORESPACEAFTERQUERY, true);
     }
 
 
     public boolean isFinishOnLaunchEnabled() {
-        return mSharedPreferences.getBoolean(KEY_FINISH_ON_LAUNCH, false);
+        return mSharedPreferences.getBoolean(KEY_FINISH_ON_LAUNCH, true);
     }
 
     @Override
