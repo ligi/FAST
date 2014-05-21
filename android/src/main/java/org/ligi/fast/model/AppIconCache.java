@@ -90,7 +90,7 @@ public class AppIconCache {
 
                 FileOutputStream fos = new FileOutputStream(getIconCacheFile());
 
-                Point scaledSize = scaleToFitCalc(96, bitmapSizeToPoint(icon.getBitmap()));
+                Point scaledSize = scaleToFitCalc(iconCacheSpec.maxSize, bitmapSizeToPoint(icon.getBitmap()));
 
                 // we want a filter when UpScaling / not when DownScaling
                 boolean filter = icon.getBitmap().getWidth() < scaledSize.x;
