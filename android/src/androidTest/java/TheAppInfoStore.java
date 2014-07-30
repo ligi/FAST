@@ -1,42 +1,33 @@
-package org.ligi;
+import android.test.suitebuilder.annotation.SmallTest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.util.AppInfoListStore;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import org.robolectric.annotation.Config;
-@Config(emulateSdk = 18) // robolectric cannot deal with 19 and i do not want to targetSDK--
-@RunWith(RobolectricTestRunner.class)
 public class TheAppInfoStore extends AppInfoTestBase {
 
     private AppInfoListStore tested;
     private List<AppInfo> appInfoList;
 
-    @Before
+    @Override
     public void setUp() {
 
-        AppInfo appInfo1 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO1);
-        AppInfo appInfo2 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO2);
-        AppInfo appInfo3 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO3);
+        AppInfo appInfo1 = new AppInfo(getActivity(), SERIALIZED_APPINFO1);
+        AppInfo appInfo2 = new AppInfo(getActivity(), SERIALIZED_APPINFO2);
+        AppInfo appInfo3 = new AppInfo(getActivity(), SERIALIZED_APPINFO3);
 
-        tested = new AppInfoListStore(Robolectric.application);
+        tested = new AppInfoListStore(getActivity());
 
         appInfoList = asList(appInfo1, appInfo2, appInfo3);
 
     }
 
-    @Test
+    @SmallTest
     public void what_goes_in_should_come_out() {
 
         tested.save(appInfoList);
@@ -44,7 +35,7 @@ public class TheAppInfoStore extends AppInfoTestBase {
         assertThat(tested.load()).isEqualTo(appInfoList);
     }
 
-    @Test
+    @SmallTest
     public void save_twice_should_not_blow_up_things() {
 
         tested.save(appInfoList);
@@ -54,7 +45,7 @@ public class TheAppInfoStore extends AppInfoTestBase {
     }
 
 
-    @Test
+    @SmallTest
     public void empty_lists_should_work() {
 
         tested.save(Collections.EMPTY_LIST);

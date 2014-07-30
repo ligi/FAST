@@ -3,15 +3,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.10.+'
-        classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.10.0'
     }
 }
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
-apply plugin: 'android-test'
+apply plugin: 'spoon'
+
+//apply plugin: 'android-test'
 
 repositories {
     mavenCentral()
@@ -29,7 +32,7 @@ android {
         versionName "5.3"
         minSdkVersion 5
         targetSdkVersion 19
-        packageName "org.ligi.fast"
+        applicationId "org.ligi.fast"
     }
 
     buildTypes {
@@ -53,12 +56,6 @@ android {
         forFDroid {
             flavorDimension "market"
         }
-
-
-    }
-
-    defaultConfig {
-        packageName "org.ligi.fast"
     }
 
     lintOptions {
@@ -77,13 +74,6 @@ dependencies {
 
     compile 'org.ligi:tracedroid:1.1'
 
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.3'
-    testCompile "com.squareup:fest-android:1.0.7"
-}
-
-tasks.withType(Test) {
-    scanForTestClasses = false
-    include "**/*The*.class" // whatever Ant pattern matches your test class files
-    exclude '**/*$*' //exclude inner classes
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
+    androidTestCompile 'com.squareup:fest-android:1.0.7'
 }

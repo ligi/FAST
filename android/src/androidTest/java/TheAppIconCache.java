@@ -1,21 +1,13 @@
-package org.ligi;
-
 import android.graphics.Point;
+import android.test.ActivityInstrumentationTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.ligi.fast.model.AppIconCache;
 import org.ligi.fast.model.AppInfo;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.ligi.fast.ui.SearchActivity;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-
-import org.robolectric.annotation.Config;
-@Config(emulateSdk = 18) // robolectric cannot deal with 19 and i do not want to targetSDK--
-@RunWith(RobolectricTestRunner.class)
 /*
  * test the AppIconCache
  *
@@ -28,14 +20,14 @@ public class TheAppIconCache extends AppInfoTestBase {
     private AppIconCache tested;
     private Point POINT_96_96 = new Point(96, 96);
 
-    @Before
-    public void setUp() {
-        tested = new AppIconCache(Robolectric.application, new AppInfo(Robolectric.application, SERIALIZED_APPINFO));
+    @Override
+    public void setUp() throws Exception {
+        tested = new AppIconCache(getActivity(), new AppInfo(getActivity(), SERIALIZED_APPINFO));
     }
 
 
-    @Test
-    public void should_not_scale_for_equal_to_size() {
+    @SmallTest
+    public void testShouldNotScaleForEqualToSize() {
 
         Point point = tested.scaleToFitCalc(96, POINT_96_96);
 
@@ -43,7 +35,7 @@ public class TheAppIconCache extends AppInfoTestBase {
 
     }
 
-    @Test
+    @SmallTest
     public void should_not_scale_quare_to_max_square() {
 
         Point point = tested.scaleToFitCalc(96, new Point(128, 128));
@@ -51,8 +43,8 @@ public class TheAppIconCache extends AppInfoTestBase {
         assertThat(point).isEqualTo(POINT_96_96);
     }
 
-    @Test
-    public void should_scale_with_correct_aspect_ratio() {
+    @SmallTest
+    public void test_should_scale_with_correct_aspect_ratio() {
 
         Point point = tested.scaleToFitCalc(96, new Point(128, 265));
 

@@ -1,31 +1,25 @@
-package org.ligi;
+import android.test.suitebuilder.annotation.SmallTest;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.ligi.fast.util.StringUtils;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import org.robolectric.annotation.Config;
-@Config(emulateSdk = 18) // robolectric cannot deal with 19 and i do not want to targetSDK--
-@RunWith(RobolectricTestRunner.class)
 public class TheStringUtils extends AppInfoTestBase {
 
-    @Test
+    @SmallTest
     public void should_match_with_gap_search() {
         assertThat(StringUtils.getLevenshteinDistance("foobar", "fb", 4)).isEqualTo(4);
         assertThat(StringUtils.getLevenshteinDistance("foobar", "fba", 3)).isEqualTo(3);
     }
 
-    @Test
+    @SmallTest
     public void should_return_minus_one() {
         assertThat(StringUtils.getLevenshteinDistance("foobar", "bf", 4)).isEqualTo(-1);
     }
 
-    @Test
+    @SmallTest
     public void should_retrun_matched_indices() {
         ArrayList<Integer> indices = StringUtils.getMatchedIndices("foobar", "fba");
         assertThat(indices.get(0)).isEqualTo(0);

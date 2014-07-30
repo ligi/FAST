@@ -1,40 +1,31 @@
-package org.ligi;
+import android.test.suitebuilder.annotation.SmallTest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.model.DynamicAppInfoList;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import org.robolectric.annotation.Config;
-@Config(emulateSdk = 18) // robolectric cannot deal with 19 and i do not want to targetSDK--
-@RunWith(RobolectricTestRunner.class)
 public class TheAppInfoList extends AppInfoTestBase {
 
     private DynamicAppInfoList tested;
     private MutableFastSettings settings;
 
-    @Before
+    @Override
     public void setUp() {
-        AppInfo appInfo1 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO1);
-        AppInfo appInfo2 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO2);
-        AppInfo appInfo3 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO3);
+        AppInfo appInfo1 = new AppInfo(getActivity(), SERIALIZED_APPINFO1);
+        AppInfo appInfo2 = new AppInfo(getActivity(), SERIALIZED_APPINFO2);
+        AppInfo appInfo3 = new AppInfo(getActivity(), SERIALIZED_APPINFO3);
         settings = new MutableFastSettings();
         tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3), settings);
     }
 
-    @Test
+    @SmallTest
     public void count_is_returned_correctly() {
         assertThat(tested.size()).isEqualTo(3);
     }
 
-    @Test
+    @SmallTest
     public void should_query_label_correctly() {
         // invoke
         tested.setQuery("foo");
@@ -43,7 +34,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(2);
     }
 
-    @Test
+    @SmallTest
     public void should_not_search_in_package_name_when_disabled() {
         // configure
         settings.searchPackage = false;
@@ -56,7 +47,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
 
-    @Test
+    @SmallTest
     public void should_search_in_package_name_when_enabled() {
         // configure
         settings.searchPackage = true;
@@ -68,7 +59,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(3);
     }
 
-    @Test
+    @SmallTest
     public void should_ignore_space_after_query_when_active() {
         // configure
         settings.ignoreSpace = true;
@@ -81,7 +72,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
 
-    @Test
+    @SmallTest
     /**
      e.g. important because umlauts are only converted lower case
      */
@@ -96,7 +87,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(2);
     }
 
-    @Test
+    @SmallTest
     public void should_convert_query_to_lower() {
         // configure
         settings.ignoreSpace = false;
@@ -108,7 +99,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.getCurrentQuery()).isEqualTo("testcase");
     }
 
-    @Test
+    @SmallTest
     public void should_not_ignore_space_after_query_when_inactive() {
         // configure
         settings.ignoreSpace = false;
@@ -120,9 +111,9 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(0);
     }
 
-    @Test
+    @SmallTest
     public void should_respect_when_we_set_a_new_list() {
-        AppInfo appInfo4 = new AppInfo(Robolectric.application, SERIALIZED_APPINFO4);
+        AppInfo appInfo4 = new AppInfo(getActivity(), SERIALIZED_APPINFO4);
 
         // invoke
         tested.update(asList(appInfo4));
@@ -131,7 +122,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.get(0)).isEqualTo(appInfo4);
     }
 
-    @Test
+    @SmallTest
     public void should_not_explode_for_indexes_out_of_bounds() {
 
         for (int i = 0; i < 5; i++) {
@@ -139,13 +130,13 @@ public class TheAppInfoList extends AppInfoTestBase {
         }
     }
 
-    @Test
+    @SmallTest
     public void should_sort_alphabetical_if_requested() throws Exception {
-        AppInfo appInfo1 = new AppInfo(Robolectric.application, "hash;;clabel;;packageNameTest;;activityNameTest;;42");
-        AppInfo appInfo2 = new AppInfo(Robolectric.application, "hash;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
-        AppInfo appInfo3 = new AppInfo(Robolectric.application, "hash;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
-        AppInfo appInfo4 = new AppInfo(Robolectric.application, "hash;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
-        AppInfo appInfo5 = new AppInfo(Robolectric.application, "hash;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
+        AppInfo appInfo1 = new AppInfo(getActivity(), "hash;;clabel;;packageNameTest;;activityNameTest;;42");
+        AppInfo appInfo2 = new AppInfo(getActivity(), "hash;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
+        AppInfo appInfo3 = new AppInfo(getActivity(), "hash;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
+        AppInfo appInfo4 = new AppInfo(getActivity(), "hash;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
+        AppInfo appInfo5 = new AppInfo(getActivity(), "hash;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
         tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
 
         tested.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
@@ -158,7 +149,7 @@ public class TheAppInfoList extends AppInfoTestBase {
 
     }
 
-    @Test
+    @SmallTest
     public void should_match_with_gap_search() {
         settings.gapSearch = true;
 
@@ -167,7 +158,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(1);
     }
 
-    @Test
+    @SmallTest
     public void should_match_with_gap_search_even_though_package_search_is_active() {
         settings.gapSearch = true;
         settings.searchPackage = true;
@@ -177,7 +168,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(1);
     }
 
-    @Test
+    @SmallTest
     public void should_match_all_with_gap_search() {
         settings.gapSearch = true;
 
@@ -186,7 +177,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(3);
     }
 
-    @Test
+    @SmallTest
     public void should_not_match_with_gap_search() {
         settings.gapSearch = true;
 
