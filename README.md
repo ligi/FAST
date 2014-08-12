@@ -1,4 +1,4 @@
-[![Build Status](https://ligi.ci.cloudbees.com/job/FAST%20Build/badge/icon)](https://ligi.ci.cloudbees.com/job/FAST%20Build/)
+[![Build Status](https://travis-ci.org/ligi/FAST.svg?branch=master)](https://travis-ci.org/ligi/FAST)
 
 Intro
 =====
