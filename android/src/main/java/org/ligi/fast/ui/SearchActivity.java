@@ -30,8 +30,6 @@ import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
-
-import java.util.List;
 import java.util.Locale;
 
 /**
