@@ -27,7 +27,7 @@ android {
         versionCode 54
         versionName "5.4"
         minSdkVersion 5
-        targetSdkVersion 19
+        targetSdkVersion 20
         applicationId "org.ligi.fast"
     }
 
