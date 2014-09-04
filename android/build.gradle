@@ -1,26 +1,22 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
-        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.10.0'
     }
 }
 
 apply plugin: 'android-sdk-manager'
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
 //apply plugin: 'android-test'
 
 repositories {
-    mavenCentral()
-    maven {
-        url project.hasProperty('ligisMavenUrl') ? ligisMavenUrl : "https://raw.github.com/ligi/ligis-mvn-repo/master";
-    }
+    jcenter()
 }
 
 android {
@@ -68,12 +64,8 @@ android {
 }
 
 dependencies {
-    repositories {
-        mavenCentral()
-    }
-
-    compile 'org.ligi:tracedroid:1.1'
+    compile 'org.ligi:tracedroid:1.4'
 
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
-    androidTestCompile 'com.squareup:fest-android:1.0.7'
+    androidTestCompile 'com.squareup:fest-android:1.0.8'
 }
