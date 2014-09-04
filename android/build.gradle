@@ -24,8 +24,8 @@ android {
     buildToolsVersion "20"
 
     defaultConfig {
-        versionCode 53
-        versionName "5.3"
+        versionCode 54
+        versionName "5.4"
         minSdkVersion 5
         targetSdkVersion 19
         applicationId "org.ligi.fast"
