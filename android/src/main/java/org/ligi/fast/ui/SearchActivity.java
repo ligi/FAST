@@ -2,9 +2,11 @@ package org.ligi.fast.ui;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -166,6 +169,12 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
         startActivity(intent);
+
+        if (Build.VERSION.SDK_INT>18) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(searchQueryEditText.getWindowToken(), 0);
+        }
+
         if (App.getSettings().isFinishOnLaunchEnabled()) {
             finish();
         }
