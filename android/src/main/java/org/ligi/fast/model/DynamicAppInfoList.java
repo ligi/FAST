@@ -20,6 +20,7 @@ public class DynamicAppInfoList extends AppInfoList {
     private String currentQuery = "";
     private final FASTSettings settings;
     private Comparator<AppInfo> sorter = null;
+    private SortMode currentSortMode = SortMode.UNSORTED;
 
     public enum SortMode {
         UNSORTED, ALPHABETICAL, MOST_USED
@@ -40,10 +41,11 @@ public class DynamicAppInfoList extends AppInfoList {
 
         new IconCacheTask().execute(this.backingAppInfoList);
 
-        setQuery(currentQuery); // to rebuild the showing list
+        setSortMode(currentSortMode);
     }
 
     public void setSortMode(SortMode mode) {
+        currentSortMode = mode;
         if (mode.equals(SortMode.ALPHABETICAL)) {
             this.sorter = new AppInfoSortByLabelComparator();
         } else if (mode.equals(SortMode.MOST_USED)) {
