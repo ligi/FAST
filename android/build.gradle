@@ -13,8 +13,6 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
-//apply plugin: 'android-test'
-
 repositories {
     jcenter()
 }
@@ -24,17 +22,26 @@ android {
     buildToolsVersion "20"
 
     defaultConfig {
-        versionCode 54
-        versionName "5.4"
-        minSdkVersion 5
+        versionCode 55
+        versionName "5.5"
+        // tihs can be 5 but for assertj this fails - only a problem for tests
+        // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
+        minSdkVersion 7
         targetSdkVersion 20
         applicationId "org.ligi.fast"
     }
 
     buildTypes {
         release {
+            defaultConfig {
+                minSdkVersion 5
+            }
             runProguard true
             proguardFile 'proguard-project.txt'
+            applicationVariants.all { variant ->
+                def file = variant.outputFile
+                variant.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
+            }
         }
     }
 
@@ -61,11 +68,18 @@ android {
         disable "IconDensities"
         disable "ContentDescription"
     }
+
+    // needed for assertJ
+    packagingOptions {
+        exclude 'asm-license.txt'
+        exclude 'LICENSE'
+        exclude 'NOTICE'
+    }
 }
 
 dependencies {
     compile 'org.ligi:tracedroid:1.4'
 
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
-    androidTestCompile 'com.squareup:fest-android:1.0.8'
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
 }

@@ -2,7 +2,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.ligi.fast.util.UmlautConverter;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheUmlautConverter extends AppInfoTestBase {
 

@@ -6,7 +6,7 @@ import org.ligi.fast.model.AppIconCache;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.ui.SearchActivity;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /*
  * test the AppIconCache

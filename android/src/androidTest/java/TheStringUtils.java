@@ -4,7 +4,7 @@ import org.ligi.fast.util.StringUtils;
 
 import java.util.ArrayList;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheStringUtils extends AppInfoTestBase {
 

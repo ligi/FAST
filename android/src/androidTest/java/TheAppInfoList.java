@@ -4,7 +4,7 @@ import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.DynamicAppInfoList;
 
 import static java.util.Arrays.asList;
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheAppInfoList extends AppInfoTestBase {
 
