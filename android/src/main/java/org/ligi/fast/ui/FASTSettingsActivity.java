@@ -6,6 +6,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.view.View;
 import android.view.Window;
@@ -74,8 +75,8 @@ public class FASTSettingsActivity extends PreferenceActivity {
         maxLinesPref.setKey(FASTSettings.KEY_MAXLINES);
         maxLinesPref.setTitle(R.string.max_text_lines);
         maxLinesPref.setSummary(R.string.how_much_text_you_want);
-        maxLinesPref.setEntries(new CharSequence[]{"0","1", "2", "3"});
-        maxLinesPref.setEntryValues(new CharSequence[]{"0","1", "2", "3"});
+        maxLinesPref.setEntries(new CharSequence[]{"0", "1", "2", "3"});
+        maxLinesPref.setEntryValues(new CharSequence[]{"0", "1", "2", "3"});
         maxLinesPref.setDefaultValue("1");
 
 
@@ -83,8 +84,8 @@ public class FASTSettingsActivity extends PreferenceActivity {
         resolutionPref.setKey(FASTSettings.KEY_ICONRES);
         resolutionPref.setTitle(getString(R.string.icon_resolution_title));
         resolutionPref.setSummary(getString(R.string.icon_resolution_summary));
-        resolutionPref.setEntries(new CharSequence[]{"48","96", "128", "512"});
-        resolutionPref.setEntryValues(new CharSequence[]{"48","96", "128", "512"});
+        resolutionPref.setEntries(new CharSequence[]{"48", "96", "128", "512"});
+        resolutionPref.setEntryValues(new CharSequence[]{"48", "96", "128", "512"});
         resolutionPref.setDefaultValue("96");
         resolutionPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -155,21 +156,35 @@ public class FASTSettingsActivity extends PreferenceActivity {
         removeCachePreference.setSummary(R.string.remove_cache_descr);
         removeCachePreference.setOnPreferenceClickListener(new CacheRemovingOnPreferenceClickListener());
 
-        root.addPreference(themePref);
-        root.addPreference(iconSizePref);
-        root.addPreference(maxLinesPref);
-        root.addPreference(doLaunchSingleCheckBox);
-        root.addPreference(doSearchInPackage);
-        root.addPreference(finishAfterLaunch);
-        root.addPreference(marketForAllApps);
-        root.addPreference(textOnly);
-        root.addPreference(sortPref);
-        root.addPreference(ignoreSpace);
-        root.addPreference(autoShowKeyboard);
-        root.addPreference(convertUmlauts);
-        root.addPreference(allowGapSearch);
-        root.addPreference(resolutionPref);
-        root.addPreference(removeCachePreference);
+        PreferenceCategory displayCategory = new PreferenceCategory(this);
+        displayCategory.setTitle("Display");
+        root.addPreference(displayCategory);
+
+        PreferenceCategory behaviourCategory = new PreferenceCategory(this);
+        behaviourCategory.setTitle("Behaviour");
+        root.addPreference(behaviourCategory);
+
+        PreferenceCategory advancedCategory = new PreferenceCategory(this);
+        advancedCategory.setTitle("Advanced");
+        root.addPreference(advancedCategory);
+
+        displayCategory.addPreference(themePref);
+
+        displayCategory.addPreference(iconSizePref);
+        displayCategory.addPreference(maxLinesPref);
+
+        behaviourCategory.addPreference(doLaunchSingleCheckBox);
+        behaviourCategory.addPreference(doSearchInPackage);
+        behaviourCategory.addPreference(finishAfterLaunch);
+        behaviourCategory.addPreference(marketForAllApps);
+        displayCategory.addPreference(textOnly);
+        behaviourCategory.addPreference(sortPref);
+        behaviourCategory.addPreference(ignoreSpace);
+        behaviourCategory.addPreference(autoShowKeyboard);
+        advancedCategory.addPreference(convertUmlauts);
+        advancedCategory.addPreference(allowGapSearch);
+        advancedCategory.addPreference(resolutionPref);
+        advancedCategory.addPreference(removeCachePreference);
 
 
         return root;
