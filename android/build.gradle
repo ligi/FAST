@@ -33,9 +33,6 @@ android {
 
     buildTypes {
         release {
-            defaultConfig {
-                minSdkVersion 5
-            }
             runProguard true
             proguardFile 'proguard-project.txt'
             applicationVariants.all { variant ->
