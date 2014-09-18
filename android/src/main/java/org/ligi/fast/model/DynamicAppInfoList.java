@@ -52,6 +52,15 @@ public class DynamicAppInfoList extends AppInfoList {
             }
         }
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (AppInfo info : backingAppInfoList) {
+                    info.getIcon();
+                }
+            }
+        });
+
         setSortMode(currentSortMode);
     }
 
