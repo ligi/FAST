@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
 import org.ligi.axt.helpers.ViewHelper;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.App;
@@ -33,6 +34,7 @@ import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
+
 import java.util.Locale;
 
 /**
@@ -40,7 +42,6 @@ import java.util.Locale;
  */
 public class SearchActivity extends Activity implements App.PackageChangedListener {
 
-    //private List<AppInfo> pkgAppsListTemp;
     private DynamicAppInfoList appInfoList;
     private AppInfoAdapter adapter;
     private String oldSearch = "";
@@ -63,7 +64,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         appInfoListStore = new AppInfoListStore(this);
 
-        appInfoList = new DynamicAppInfoList(appInfoListStore.load(),App.getSettings());
+        appInfoList = new DynamicAppInfoList(appInfoListStore.load(), App.getSettings());
 
         adapter = new AppInfoAdapter(this, appInfoList);
 
@@ -161,8 +162,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     public void startItemAtPos(int pos) {
-		AppInfo app = adapter.getItem(pos);
-		app.incrementCallCount();
+        AppInfo app = adapter.getItem(pos);
+        app.incrementCallCount();
         Intent intent = app.getIntent();
         intent.setAction(Intent.ACTION_MAIN);
         // set flag so that next start the search app comes up and not the last started App
@@ -170,7 +171,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
         startActivity(intent);
 
-        if (Build.VERSION.SDK_INT>18) {
+        if (Build.VERSION.SDK_INT > 18) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchQueryEditText.getWindowToken(), 0);
         }
@@ -179,7 +180,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             finish();
         }
     }
-
 
 
     @Override
@@ -312,7 +312,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     protected void onStop() {
         // Need to persist the call count values, or else the sort by "most used"
         // will not work next time we open this activity.
-        //appInfoListStore.save(adapter);
+        appInfoListStore.save(appInfoList);
         super.onStop();
     }
 

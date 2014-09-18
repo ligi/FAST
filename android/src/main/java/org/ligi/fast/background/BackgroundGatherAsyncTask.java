@@ -11,11 +11,8 @@ import java.util.List;
 
 public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
 
-    private Context context;
-
     public BackgroundGatherAsyncTask(Context context, AppInfoList oldAppInfoList) {
         super(context, oldAppInfoList);
-        this.context = context;
     }
 
     @Override
@@ -26,7 +23,6 @@ public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        new AppInfoListStore(context).save(appInfoList);
         if (App.packageChangedListener != null) {
             App.packageChangedListener.onPackageChange(appInfoList);
         }

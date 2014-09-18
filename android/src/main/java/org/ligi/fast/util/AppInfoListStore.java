@@ -43,7 +43,7 @@ public class AppInfoListStore {
         }
 
 
-        String[] lines = inString.split(SEPARATOR);
+        final String[] lines = inString.split(SEPARATOR);
         for (String line : lines) {
             if (line.length() > 0) {
                 AppInfo appInfo = new AppInfo(context, line);
