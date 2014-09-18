@@ -1,7 +1,5 @@
 package org.ligi.fast.model;
 
-import android.os.AsyncTask;
-
 import org.ligi.fast.settings.FASTSettings;
 import org.ligi.fast.util.StringUtils;
 
@@ -29,6 +27,7 @@ public class DynamicAppInfoList extends AppInfoList {
     @SuppressWarnings("unchecked")
     public DynamicAppInfoList(List<AppInfo> backingAppInfoList, FASTSettings settings) {
         this.settings = settings;
+        this.backingAppInfoList=new ArrayList<AppInfo>();
         update(backingAppInfoList);
     }
 
@@ -36,10 +35,22 @@ public class DynamicAppInfoList extends AppInfoList {
     public void update(List<AppInfo> pkgAppsListAll) {
         super.update(pkgAppsListAll);
 
-        this.backingAppInfoList = new ArrayList<AppInfo>();
-        this.backingAppInfoList.addAll(pkgAppsListAll);
+        final List<AppInfo> appsToRemove = new ArrayList<AppInfo>();
+        for (AppInfo localApp : this) {
+            if (getAppWithHash(localApp.getHash(), pkgAppsListAll) == null) {
+                appsToRemove.add(localApp);
+            }
+        }
+        removeAll(appsToRemove);
 
-        new IconCacheTask().execute(this.backingAppInfoList);
+        for (AppInfo app : pkgAppsListAll) {
+            final AppInfo appWithHash = getAppWithHash(app.getHash(), backingAppInfoList);
+            if (appWithHash != null) {
+                appWithHash.mergeSafe(app);
+            } else {
+                backingAppInfoList.add(app);
+            }
+        }
 
         setSortMode(currentSortMode);
     }
@@ -61,24 +72,6 @@ public class DynamicAppInfoList extends AppInfoList {
         }
     }
 
-/*
-    public AppInfo get(int pos) {
-        if (pos >= size()) {
-            return get(0); // the first one for the rescue
-        }
-        return get(pos);
-    }
-*/
-    private static class IconCacheTask extends AsyncTask<List<AppInfo>, Void, Void> {
-        protected Void doInBackground(List<AppInfo>... params) {
-            List<AppInfo> all = params[0];
-            for (AppInfo info : all) {
-                info.getIcon();
-            }
-            return null;
-        }
-    }
-
     public void setQuery(String act_query) {
 
         currentQuery = configuredRemoveTrailingSpace(act_query);
@@ -93,7 +86,6 @@ public class DynamicAppInfoList extends AppInfoList {
         }
 
         super.update(filteredAppInfoList);
-
     }
 
     private String configuredRemoveTrailingSpace(String act_query) {
@@ -144,8 +136,8 @@ public class DynamicAppInfoList extends AppInfoList {
     private boolean isGapSearchActivateAndTrueForQuery(AppInfo info, String query) {
         if (settings.isGapSearchActivated()) {
             final String appLabelLowerCase = info.getLabel().toLowerCase(Locale.ENGLISH);
-            int diffLength = appLabelLowerCase.length() - query.length();
-            int threshold = diffLength > 0 ? diffLength : 0;
+            final int diffLength = appLabelLowerCase.length() - query.length();
+            final int threshold = diffLength > 0 ? diffLength : 0;
 
             if (StringUtils.getLevenshteinDistance(appLabelLowerCase, query, threshold) != -1) {
                 return true;
@@ -154,8 +146,16 @@ public class DynamicAppInfoList extends AppInfoList {
         return false;
     }
 
-    public List<AppInfo> getAll() {
-        return backingAppInfoList;
+    public AppInfo getAppWithHash(String hash) {
+        return getAppWithHash(hash, this);
     }
 
+    public static AppInfo getAppWithHash(String hash, List<AppInfo> appInfoList) {
+        for (AppInfo info : appInfoList) {
+            if (info.getHash().equals(hash)) {
+                return info;
+            }
+        }
+        return null;
+    }
 }

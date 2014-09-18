@@ -85,13 +85,13 @@ public class AppInfo {
 
     private String calculateTheHash() {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            final MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(packageName.getBytes());
             md.update(activityName.getBytes());
 
-            byte[] messageDigest = md.digest();
+            final byte[] messageDigest = md.digest();
 
-            StringBuilder hexString = new StringBuilder();
+            final StringBuilder hexString = new StringBuilder();
             for (byte digestByte : messageDigest) {
                 hexString.append(Integer.toHexString(0xFF & digestByte));
             }
@@ -161,5 +161,14 @@ public class AppInfo {
 
     public String getAlternatePackageName() {
         return alternatePackageName;
+    }
+
+    public void mergeSafe(AppInfo appInfo) {
+        final int localCallCount = getCallCount();
+        final int remoteCallCount = appInfo.getCallCount();
+        setCallCount(Math.max(localCallCount,remoteCallCount));
+
+        label=appInfo.getLabel();
+        calculateAlternateLabelAndPackageName();
     }
 }
