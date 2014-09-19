@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">FAST App Search Tool</string>
+    <string name="icon">Иконице</string>
+    <string name="launch_single">Аутоматско покретање</string>
+    <string name="settings">Подешавања</string>
+    <string name="share">Подели</string>
+    <string name="also_use_the_package_name_for_searching">Претраживање назива пакета као и имена апликације</string>
+    <string name="search_in_package">Претрага пакета</string>
+    <string name="auto_launch_if_only_one_app_left">Аутоматско покретање у случају једног резултата</string>
+    <string name="open_in_for_all">Увек покажи "Отвори у %s"</string>
+    <string name="even_if_installed_another_way">Иако је инсталирано са другог извора</string>
+    <string name="application_details">Детаљи о апликацији</string>
+    <string name="open_in">Отвори у</string>
+    <string name="open_as_notification">Отвори као нотификацију</string>
+    <string name="query_hint">Унесите упит овде</string>
+    <string name="text_only">Показуј само имена апликација</string>
+    <string name="show_no_icons_pure_text">Показуј само називе апликација без иконица</string>
+    <string name="max_text_lines">Линија текста</string>
+    <string name="how_much_text_you_want">Максималан број линија текста коришћен за приказ назива апликација</string>
+    <string name="create_shortcut">Направи пречицу</string>
+    <string name="icon_size">Величина иконица</string>
+    <string name="how_big_icons">Колико беличине треба да буду иконице?</string>
+    <string name="theme">Тема</string>
+    <string name="choose_your_look">Изаберите тему за FAST App Search</string>
+    <string name="sort">Сортирање</string>
+    <string name="sort_decr">Којом методом треба апликације да буду сортиране?</string>
+
+
+    <string name="help_label">Помоћ</string>
+    <string name="help_content">
+        <![CDATA[
+        <H1>Odgovori</H1>Само укуцајте део назива из имена апликације, коју желите да покренете, на врху ове апликације.
+        Тапните на апликацију за покретање или задржите прст на истој за приказивање више опција. Уколико имате Android Jelly Bean (или новији), можете да искористите Google Now гестикулацију за покретање ове апликације. Да би сазнали колико сте убрзали свој рад коришћењем ове апликације, пробајте <a href="https://play.google.com/store/apps/details?id=org.ligi.launchometer&referrer=utm_source%3Dfast%26utm_medium%3Dplay">Applaunch-O-Meter</a> апликацију која је такође бесплатно доступна.
+        <H1>Питања</H1>
+        Можете поставити питања у <a href="https://plus.google.com/b/108684152853280523320">зајединици</a> или послати е-поруку <a href="mailto:ligi@ligi.de">аутору</a>. Такође ме контактирајте уколико желите да преведете апликацију: не садржи много текста за превођење.
+        <H1>Заслуге</H1>
+        Хвала <a href="https://github.com/talexop">talexop</a> и <a href="https://github.com/pserwylo">Peter Serwylo</a> за доприносе!
+        <H1>За сам крај</H1>
+        Уколико вам се допада ова апликација, можете да размислите о дељењу. Само укуцајте FAST, задржите дуго на иконицу и одаберите "Подели". Такође би било пожељно <a href="https://play.google.com/store/apps/details?id=org.ligi.fast%3Dfast%26utm_medium%3Dplay">оцењивање ове апликације</a>.
+        ]]>
+    </string>
+    <string name="convert_umlauts">Конвертуј прегласе (мућење знакова)</string>
+    <string name="convert_umlauts_descr">Пребаци "ae" у "ä", "oe" у "ö", "ss" у "ß" и "ue" у "ü"</string>
+    <string name="allow_gap_search">Претрага унутар речи</string>
+    <string name="allow_gap_search_descr">СПаривање свих нађених слова а не само целих речи</string>
+    <string name="loadingDialogTitle">Кеширање садржаја за FAST</string>
+    <string name="ignore_space">Игнориши размак</string>
+    <string name="ignore_space_descr">Уклањање последњег размака из упита</string>
+    <string name="show_keyboard">Прикажи тастатуру</string>
+    <string name="show_keyboard_descr">Отвори тастатуру при покретању</string>
+    <string name="appActionDialog_title">FAST покретање </string>
+    <string name="remove_cache">Брисање кешираног садржаја</string>
+    <string name="remove_cache_descr">Натерај FAST да ресетује листу апликација и историју</string>
+    <string name="icon_resolution_title">Резолуција иконица</string>
+    <string name="icon_resolution_summary">Више брзине или више пиксела?</string>
+    <string-array name="sizes">
+        <item>Tiny</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Transparent dark</item>
+        <item>Transparent light</item>
+    </string-array>
+
+    <string-array name="sort_orders">
+        <item>Unsorted</item>
+        <item>Alphabetical</item>
+        <item>By usage</item>
+    </string-array>
+</resources>
