@@ -8,15 +8,13 @@
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_action_search" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxLines="2"
         android:paddingBottom="20dp" />
 
 </LinearLayout>

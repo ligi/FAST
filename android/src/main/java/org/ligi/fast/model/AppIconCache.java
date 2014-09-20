@@ -30,39 +30,37 @@ public class AppIconCache {
     }
 
     public void cacheIcon(ResolveInfo ri) {
-        PackageManager packageManager = ctx.getPackageManager();
+        final PackageManager packageManager = ctx.getPackageManager();
 
         if (packageManager == null) {
             Log.w("could not cache the Icon - PM is null");
             return;
         }
 
-        if (tryIconCaching(new IconCacheSpec() , ri, packageManager)) {
+        if (tryIconCaching(new IconCacheSpec(), ri, packageManager)) {
             return;
         }
 
         System.gc(); // try again after GC could help when in mem trouble
 
-        if (tryIconCaching(new IconCacheSpec() , ri, packageManager)) {
+        if (tryIconCaching(new IconCacheSpec(), ri, packageManager)) {
             return;
         }
 
-        IconCacheSpec downScalingImageSpec = new IconCacheSpec() {{
-            maxSize=48;
+        final IconCacheSpec downScalingImageSpec = new IconCacheSpec() {{
+            maxSize = 48;
         }};
 
         if (tryIconCaching(downScalingImageSpec, ri, packageManager)) {
             return;
-        };
+        }
 
-        IconCacheSpec reallySmallImageSpec = new IconCacheSpec() {{
-            maxSize=48;
-            quality=50;
+        final IconCacheSpec reallySmallImageSpec = new IconCacheSpec() {{
+            maxSize = 48;
+            quality = 50;
         }};
 
-        if (tryIconCaching(reallySmallImageSpec, ri, packageManager)) {
-            return;
-        }
+        tryIconCaching(reallySmallImageSpec, ri, packageManager);
 
         // too bad - we kind of tried everything ..
     }
@@ -79,33 +77,40 @@ public class AppIconCache {
     }
 
     private File getIconCacheFile() {
-        return new File(App.getBaseDir() + "/" + appInfo.getHash() + ".png");
+        final File file = new File(App.getBaseDir() + "/" + appInfo.getHash() + ".png");
+        Log.i("returning " + file.exists());
+        return file;
     }
 
     private boolean tryIconCaching(IconCacheSpec iconCacheSpec, ResolveInfo ri, PackageManager pm) {
+        if (getIconCacheFile().exists()) {
+            return true;
+        }
+
         try {
-            BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(pm);
+            final BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(pm);
             if (icon != null) {
                 createIconCacheFile();
 
-                FileOutputStream fos = new FileOutputStream(getIconCacheFile());
+                final FileOutputStream fos = new FileOutputStream(getIconCacheFile());
 
-                Point scaledSize = scaleToFitCalc(iconCacheSpec.maxSize, bitmapSizeToPoint(icon.getBitmap()));
+                final Point scaledSize = scaleToFitCalc(iconCacheSpec.maxSize, bitmapSizeToPoint(icon.getBitmap()));
 
                 // we want a filter when UpScaling / not when DownScaling
-                boolean filter = icon.getBitmap().getWidth() < scaledSize.x;
+                final boolean filter = icon.getBitmap().getWidth() < scaledSize.x;
 
-                Bitmap cacheIcon = Bitmap.createScaledBitmap(icon.getBitmap(), scaledSize.x, scaledSize.y,  filter);
+                final Bitmap cacheIcon = Bitmap.createScaledBitmap(icon.getBitmap(), scaledSize.x, scaledSize.y, filter);
 
                 cacheIcon.compress(Bitmap.CompressFormat.PNG, iconCacheSpec.quality, fos);
 
                 fos.close();
+                return true;
             }
-            return true;
+
         } catch (Exception e) {
             Log.w(" Could not cache the Icon" + e);
-            return false;
         }
+        return false;
     }
 
     private Point bitmapSizeToPoint(Bitmap bitmap) {
@@ -113,7 +118,7 @@ public class AppIconCache {
     }
 
     public Point scaleToFitCalc(int maxDist, Point point) {
-        float scale;
+        final float scale;
         if (point.x < maxDist && point.y < maxDist) {
             // nothing is over dist px -> we are good with the given value
             scale = 1f;
@@ -136,8 +141,8 @@ public class AppIconCache {
         }
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());
-            BitmapDrawable drawable = new BitmapDrawable(ctx.getResources(), fileInputStream);
+            final FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());
+            final BitmapDrawable drawable = new BitmapDrawable(ctx.getResources(), fileInputStream);
             cachedIcon = new SoftReference<Drawable>(drawable);
             return cachedIcon.get();
         } catch (Exception e) {

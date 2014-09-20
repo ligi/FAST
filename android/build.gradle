@@ -42,7 +42,7 @@ android {
         }
     }
 
-    flavorDimensions "market"
+    flavorDimensions "market","size"
     productFlavors {
         // no google-play services & google-analytics
         forGooglePlay {
@@ -55,6 +55,16 @@ android {
 
         forFDroid {
             flavorDimension "market"
+        }
+
+        withExtras {
+            flavorDimension "size"
+            applicationId "org.ligi.fast"
+        }
+
+        noExtras {
+            flavorDimension "size"
+            applicationId "org.ligi.faster"
         }
     }
 
