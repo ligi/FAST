@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">FAST</string>
+    <string name="launch_single">Automatische Ausführung</string>
+    <string name="settings">Einstellungen</string>
+    <string name="share">Teilen</string>
+    <string name="also_use_the_package_name_for_searching">Suche auch im Packagename</string>
+    <string name="search_in_package">Suche in vollständigen Packagename</string>
+    <string name="auto_launch_if_only_one_app_left">Autostart bei genau einem Ergebnis</string>
+    <string name="open_in_for_all">Öffne mit %s für alle</string>
+    <string name="even_if_installed_another_way">Auch wenn auf anderem Wege installiert</string>
+    <string name="application_details">Anwendungs-Details</string>
+    <string name="open_in">Öffne mit</string>
+    <string name="open_as_notification">Öffne als Benachrichtigung</string>
+    <string name="query_hint">Suche nach</string>
+    <string name="text_only">Nur Text</string>
+    <string name="show_no_icons_pure_text">Keine Bilder - purer Text</string>
+    <string name="max_text_lines">Maximale Textzeilen</string>
+    <string name="how_much_text_you_want">Wie viel Text darf es sein?</string>
+    <string name="create_shortcut">create shortcut</string>
+    <string name="icon_size">Icongröße</string>
+    <string name="how_big_icons">Wie groß sollen die Icons sein?</string>
+    <string-array name="sizes">
+        <item>klein</item>
+        <item>mittel</item>
+        <item>groß</item>
+        <item>riesig</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>dunkel</item>
+        <item>hell</item>
+        <item>transparent hell</item>
+        <item>transparent dunkel</item>
+    </string-array>
+
+    <string name="theme">Aussehen</string>
+    <string name="choose_your_look">Wie soll FAST aussehen?</string>
+    <string name="sort">Sortierung</string>
+    <string name="sort_decr">wie sollen die Anwendungen sortiert sein?</string>
+    <string name="convert_umlauts">Umlaute wandeln</string>
+    <string name="convert_umlauts_descr">ae zu ä; oe zu ö; ss zu ß; ue zu ü</string>
+    <string name="allow_gap_search">Lücken OK in Suche</string>
+
+    <string-array name="sort_orders">
+        <item>unsortiert</item>
+        <item>alphabetisch</item>
+        <item>Benutzung</item>
+    </string-array>
+</resources>
