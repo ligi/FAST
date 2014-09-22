@@ -88,7 +88,6 @@ public class AppInfoAdapter extends BaseAdapter {
             holder.image.setImageDrawable(drawable);
         }
 
-
         final int maxLines = App.getSettings().getMaxLines();
 
         if (maxLines==0) {
@@ -124,7 +123,7 @@ public class AppInfoAdapter extends BaseAdapter {
                     label.length());
         } else if (App.getSettings().isGapSearchActivated()) {
 
-            ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(actAppInfo.getLabel(),appInfoList.getCurrentQuery());
+            final ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(actAppInfo.getLabel(),appInfoList.getCurrentQuery());
             if (matchedIndices.size()==appInfoList.getCurrentQuery().length()) {
                 // highlight single characters of query in label for gap matched strings
                 label = actAppInfo.getLabel();
