@@ -64,7 +64,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         appInfoListStore = new AppInfoListStore(this);
 
-        appInfoList = new DynamicAppInfoList(appInfoListStore.load(), App.getSettings());
+        final AppInfoList loadedAppInfoList = appInfoListStore.load();
+        appInfoList = new DynamicAppInfoList(loadedAppInfoList, App.getSettings());
 
         adapter = new AppInfoAdapter(this, appInfoList);
 
@@ -312,7 +313,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     protected void onStop() {
         // Need to persist the call count values, or else the sort by "most used"
         // will not work next time we open this activity.
-        appInfoListStore.save(appInfoList);
+        appInfoListStore.save(appInfoList.getBackingAppInfoList());
         super.onStop();
     }
 

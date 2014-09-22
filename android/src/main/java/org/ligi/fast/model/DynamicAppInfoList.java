@@ -158,4 +158,8 @@ public class DynamicAppInfoList extends AppInfoList {
         }
         return null;
     }
+
+    public List<AppInfo> getBackingAppInfoList() {
+        return backingAppInfoList;
+    }
 }
