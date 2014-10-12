@@ -14,6 +14,7 @@
     <string name="open_as_notification">Open as Notification</string>
     <string name="query_hint">Enter query here</string>
     <string name="text_only">Only show app names</string>
+    <string name="app_gone">This App is gone :-(</string>
     <string name="show_no_icons_pure_text">Only show app names, not the icons</string>
     <string name="max_text_lines">Lines of text</string>
     <string name="how_much_text_you_want">Max number of lines used to display app name</string>

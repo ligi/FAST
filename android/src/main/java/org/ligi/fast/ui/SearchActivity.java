@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import org.ligi.axt.helpers.ViewHelper;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
@@ -163,14 +164,19 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     public void startItemAtPos(int pos) {
-        AppInfo app = adapter.getItem(pos);
+        final AppInfo app = adapter.getItem(pos);
         app.incrementCallCount();
-        Intent intent = app.getIntent();
+        final Intent intent = app.getIntent();
         intent.setAction(Intent.ACTION_MAIN);
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
-        startActivity(intent);
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this,R.string.show_no_icons_pure_text,Toast.LENGTH_LONG).show();
+        }
 
         if (Build.VERSION.SDK_INT > 18) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
