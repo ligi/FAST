@@ -3,9 +3,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.2'
+        classpath 'com.android.tools.build:gradle:0.14.1'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.10.0'
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.14.1'
     }
 }
 
@@ -18,8 +18,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20"
+    compileSdkVersion 21
+    buildToolsVersion "21"
 
     defaultConfig {
         versionCode 59
@@ -27,7 +27,7 @@ android {
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 7
-        targetSdkVersion 20
+        targetSdkVersion 21
         applicationId "org.ligi.fast"
     }
 
