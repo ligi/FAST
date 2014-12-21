@@ -28,7 +28,7 @@
     <style name="transparent_light" parent="@android:style/Theme.Holo.Wallpaper">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
-        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColor">?android:attr/colorForegroundInverse</item>
         <item name="android:textColorSecondary">?android:attr/textColorSecondaryInverse</item>
         <item name="android:windowActionBar">false</item>
     </style>
