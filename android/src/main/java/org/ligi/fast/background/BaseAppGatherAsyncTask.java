@@ -32,10 +32,10 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     }
 
     private void processCategory(final String category) {
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(category);
         try {
-            List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
+            final List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
             appCount += resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
                 final AppInfo actAppInfo = new AppInfo(ctx, info);
