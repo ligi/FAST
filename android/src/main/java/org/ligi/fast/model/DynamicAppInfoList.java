@@ -27,21 +27,19 @@ public class DynamicAppInfoList extends AppInfoList {
     @SuppressWarnings("unchecked")
     public DynamicAppInfoList(List<AppInfo> backingAppInfoList, FASTSettings settings) {
         this.settings = settings;
-        this.backingAppInfoList=new ArrayList<AppInfo>();
+        this.backingAppInfoList=new ArrayList<>();
         update(backingAppInfoList);
     }
 
     @Override
     public void update(List<AppInfo> pkgAppsListAll) {
-        super.update(pkgAppsListAll);
-
-        final List<AppInfo> appsToRemove = new ArrayList<AppInfo>();
-        for (AppInfo localApp : this) {
+        final List<AppInfo> appsToRemove = new ArrayList<>();
+        for (AppInfo localApp : backingAppInfoList) {
             if (getAppWithHash(localApp.getHash(), pkgAppsListAll) == null) {
                 appsToRemove.add(localApp);
             }
         }
-        removeAll(appsToRemove);
+        backingAppInfoList.removeAll(appsToRemove);
 
         for (AppInfo app : pkgAppsListAll) {
             final AppInfo appWithHash = getAppWithHash(app.getHash(), backingAppInfoList);
@@ -58,17 +56,17 @@ public class DynamicAppInfoList extends AppInfoList {
     public void setSortMode(SortMode mode) {
         currentSortMode = mode;
         if (mode.equals(SortMode.ALPHABETICAL)) {
-            this.sorter = new AppInfoSortByLabelComparator();
+            sorter = new AppInfoSortByLabelComparator();
         } else if (mode.equals(SortMode.MOST_USED)) {
-            this.sorter = new AppInfoSortByMostUsedComparator();
+            sorter = new AppInfoSortByMostUsedComparator();
         }
         sort();
         setQuery(currentQuery); // refresh showing
     }
 
     private void sort() {
-        if (this.sorter != null) {
-            java.util.Collections.sort(backingAppInfoList, this.sorter);
+        if (sorter != null) {
+            java.util.Collections.sort(backingAppInfoList, sorter);
         }
     }
 
@@ -144,10 +142,6 @@ public class DynamicAppInfoList extends AppInfoList {
             }
         }
         return false;
-    }
-
-    public AppInfo getAppWithHash(String hash) {
-        return getAppWithHash(hash, this);
     }
 
     public static AppInfo getAppWithHash(String hash, List<AppInfo> appInfoList) {
