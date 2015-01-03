@@ -144,7 +144,7 @@ public class DynamicAppInfoList extends AppInfoList {
         return false;
     }
 
-    public static AppInfo getAppWithHash(String hash, List<AppInfo> appInfoList) {
+    private static AppInfo getAppWithHash(String hash, List<AppInfo> appInfoList) {
         for (AppInfo info : appInfoList) {
             if (info.getHash().equals(hash)) {
                 return info;
