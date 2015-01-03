@@ -175,7 +175,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this,R.string.show_no_icons_pure_text,Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            Toast.makeText(this,"cannot start: " + e,Toast.LENGTH_LONG).show();
         }
 
         if (Build.VERSION.SDK_INT > 18) {
@@ -213,16 +214,20 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         configureAdapter();
 
         final String iconSize = App.getSettings().getIconSize();
-        if (iconSize.equals("tiny")) {
-            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_tiny));
-        } else if (iconSize.equals("small")) {
-            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_small));
-        } else if (iconSize.equals("large")) {
-            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size_large));
-        } else {
-            gridView.setColumnWidth((int) this.getResources().getDimension(R.dimen.cell_size));
-        }
+        gridView.setColumnWidth((int) getResources().getDimension(getWidthByIconSize(iconSize)));
+    }
 
+    private static int getWidthByIconSize(String iconSize) {
+        switch (iconSize) {
+            case "tiny":
+                return R.dimen.cell_size_tiny;
+            case "small":
+                return R.dimen.cell_size_small;
+            case "large":
+                return R.dimen.cell_size_large;
+            default:
+                return R.dimen.cell_size;
+        }
     }
 
     private void dealWithUserPreferencesRegardingSoftKeyboard() {
@@ -290,9 +295,9 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     private String getHomePackageName() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
-        ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        final ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return resolveInfo.activityInfo.packageName;
     }
 
@@ -320,6 +325,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         // Need to persist the call count values, or else the sort by "most used"
         // will not work next time we open this activity.
         appInfoListStore.save(appInfoList.getBackingAppInfoList());
+        App.packageChangedListener = null;
         super.onStop();
     }
 
