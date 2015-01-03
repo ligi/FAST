@@ -10,8 +10,6 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AppInfoListStore {
@@ -36,7 +34,7 @@ public class AppInfoListStore {
             return new AppInfoList();
         }
 
-        AppInfoList res = new AppInfoList();
+        final AppInfoList res = new AppInfoList();
 
         if (inString == null) {
             return res;
@@ -46,7 +44,7 @@ public class AppInfoListStore {
         final String[] lines = inString.split(SEPARATOR);
         for (String line : lines) {
             if (line.length() > 0) {
-                AppInfo appInfo = new AppInfo(context, line);
+                final AppInfo appInfo = new AppInfo(context, line);
 
                 if (appInfo.isValid()) {
                     res.add(appInfo);
@@ -59,7 +57,7 @@ public class AppInfoListStore {
     }
 
     public void save(List<AppInfo> appInfoList) {
-        StringBuilder res = new StringBuilder();
+        final StringBuilder res = new StringBuilder();
 
         for (AppInfo appInfo : appInfoList) {
             res.append(appInfo.toCacheString());
