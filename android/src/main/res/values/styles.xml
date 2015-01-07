@@ -32,6 +32,8 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="DialogTheme" parent="@android:style/Theme.Dialog" />
+
     <style name="WindowTitleBackground">
         <item name="android:background">@android:color/transparent</item>
     </style>
