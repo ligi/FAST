@@ -33,4 +33,6 @@
         <item name="android:windowActionBar">false</item>
     </style>
 
+    <style name="DialogTheme" parent="@android:style/Theme.Holo.Dialog" />
+
 </resources>

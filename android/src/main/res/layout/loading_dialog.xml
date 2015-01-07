@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/progress"
         android:layout_gravity="center_horizontal|bottom"
-        style="@android:style/Widget.ProgressBar.Horizontal" />
+        style="?android:attr/progressBarStyleHorizontal" />
 
 </LinearLayout>
