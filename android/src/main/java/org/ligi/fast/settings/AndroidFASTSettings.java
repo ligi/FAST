@@ -9,7 +9,10 @@ import android.preference.PreferenceManager;
  */
 public class AndroidFASTSettings implements FASTSettings {
 
-
+    public static final String DEFUAULT_SORT_ORDER = "unsorted";
+    public static final String DEFUAULT_THEME = "dark";
+    public static final String DEFUAULT_ICONSIZE = "medium";
+    public static final String DEFUAULT_ICON_RESOLUTION = "96";
     private final SharedPreferences mSharedPreferences;
 
     public AndroidFASTSettings(Context ctx) {
@@ -56,19 +59,19 @@ public class AndroidFASTSettings implements FASTSettings {
 
     @Override
     public int getIconResolution() {
-        return Integer.parseInt(mSharedPreferences.getString(KEY_ICONRES, "96"));
+        return Integer.parseInt(mSharedPreferences.getString(KEY_ICONRES, DEFUAULT_ICON_RESOLUTION));
     }
 
     public String getIconSize() {
-        return mSharedPreferences.getString(KEY_ICONSIZE, "medium");
+        return mSharedPreferences.getString(KEY_ICONSIZE, DEFUAULT_ICONSIZE);
     }
 
     public String getTheme() {
-        return mSharedPreferences.getString(KEY_THEME, "dark");
+        return mSharedPreferences.getString(KEY_THEME, DEFUAULT_THEME);
     }
 
     public String getSortOrder() {
-        return mSharedPreferences.getString(KEY_SORT, "unsorted");
+        return mSharedPreferences.getString(KEY_SORT, DEFUAULT_SORT_ORDER);
     }
 
     public boolean isGapSearchActivated() {
