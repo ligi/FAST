@@ -20,8 +20,8 @@
     <style name="transparent_dark" parent="@android:style/Theme.Holo.Wallpaper">
         <item name="android:windowTitleSize">@dimen/actionbar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
-        <item name="android:textColor">?android:attr/textColor</item>
-        <item name="android:textColorSecondary">?android:attr/textColorSecondary</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:windowActionBar">false</item>
     </style>
 
