@@ -1,3 +1,6 @@
+package org.ligi.fast.testing;
+
+import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
 
 public class MutableFastSettings implements FASTSettings {
@@ -7,6 +10,7 @@ public class MutableFastSettings implements FASTSettings {
     public boolean convertUmlaut = false;
     public boolean ignoreSpace = false;
     public boolean gapSearch = false;
+    public String theme = "light";
 
     @Override
     public boolean isLaunchSingleActivated() {
@@ -50,17 +54,17 @@ public class MutableFastSettings implements FASTSettings {
 
     @Override
     public String getIconSize() {
-        return null;
+        return AndroidFASTSettings.DEFUAULT_ICONSIZE;
     }
 
     @Override
     public String getTheme() {
-        return null;
+        return theme;
     }
 
     @Override
     public String getSortOrder() {
-        return null;
+        return AndroidFASTSettings.DEFUAULT_SORT_ORDER;
     }
 
 
@@ -76,7 +80,8 @@ public class MutableFastSettings implements FASTSettings {
 
     @Override
     public int getIconResolution() {
-        return 0;
+        return Integer.parseInt(AndroidFASTSettings.DEFUAULT_ICON_RESOLUTION);
     }
+
 
 }

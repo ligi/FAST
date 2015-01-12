@@ -1,3 +1,5 @@
+package org.ligi.fast.testing;
+
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.ligi.fast.model.AppInfo;

@@ -1,3 +1,5 @@
+package org.ligi.fast.testing;
+
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.test.suitebuilder.annotation.SmallTest;

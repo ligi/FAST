@@ -3,14 +3,12 @@ package org.ligi.fast;
 import android.app.Activity;
 import android.app.Application;
 
-import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
 import org.ligi.tracedroid.TraceDroid;
 
 import java.io.File;
-import java.util.List;
 
 public class App extends Application {
 
@@ -37,25 +35,43 @@ public class App extends Application {
         return settings;
     }
 
-    public static void applyTheme(Activity activity) {
 
-        if (getSettings().getTheme().equals("light")) {
-            activity.setTheme(R.style.light);
-        } else if (getSettings().getTheme().equals("dark")) {
-            activity.setTheme(R.style.dark);
-            // and transparent dark/light
-        } else if (getSettings().getTheme().equals("transparent")) {
-            activity.setTheme(R.style.transparent_dark);
-        } else if (getSettings().getTheme().equals("transparent_light")) {
-            activity.setTheme(R.style.transparent_light);
+    private static int getThemeByString(String theme) {
+
+        switch (theme) {
+            case "transparent":
+                return R.style.transparent_dark;
+
+            case "transparent_light":
+                return R.style.transparent_light;
+
+            case "dark":
+                return R.style.dark;
+
+            case "light":
+            default:
+                return R.style.light;
+
         }
     }
 
-    public final static String getStoreURL4PackageName(String pname) {
+    public static void injectSettingsForTesting(FASTSettings newSettings) {
+        settings = newSettings;
+    }
+
+    public static void applyTheme(Activity activity) {
+        applyTheme(activity, getSettings().getTheme());
+    }
+
+    public static void applyTheme(Activity activity, final String theme) {
+        activity.setTheme(getThemeByString(theme));
+    }
+
+    public static String getStoreURL4PackageName(String pname) {
         return TargetStore.STORE_URL + pname;
     }
 
-    public  static File getBaseDir() {
+    public static File getBaseDir() {
         return appInstance.getFilesDir();
     }
 }
