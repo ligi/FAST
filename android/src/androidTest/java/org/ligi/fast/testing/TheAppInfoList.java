@@ -23,12 +23,12 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void count_is_returned_correctly() {
+    public void testThatCountIsReturnedCorrectly() {
         assertThat(tested.size()).isEqualTo(3);
     }
 
     @SmallTest
-    public void should_query_label_correctly() {
+    public void testShoudQueryLabelCorrectly() {
         // invoke
         tested.setQuery("foo");
 
@@ -37,7 +37,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_not_search_in_package_name_when_disabled() {
+    public void testShouldNotSearchInPackageNameWhenDisabled() {
         // configure
         settings.searchPackage = false;
 
@@ -50,7 +50,7 @@ public class TheAppInfoList extends AppInfoTestBase {
 
 
     @SmallTest
-    public void should_search_in_package_name_when_enabled() {
+    public void testShouldSearchInPackageNameWhenEnabled() {
         // configure
         settings.searchPackage = true;
 
@@ -62,7 +62,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_ignore_space_after_query_when_active() {
+    public void testShouldIgnoreSpaceAfterQueryWhenThisSettingIsActive() {
         // configure
         settings.ignoreSpace = true;
 
@@ -78,7 +78,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     /**
      e.g. important because umlauts are only converted lower case
      */
-    public void should_ignore_case() {
+    public void testShouldIgnoreCase() {
         // configure
         settings.ignoreSpace = true;
 
@@ -90,7 +90,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_convert_query_to_lower() {
+    public void testShouldConvertQueryToLower() {
         // configure
         settings.ignoreSpace = false;
 
@@ -102,7 +102,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_not_ignore_space_after_query_when_inactive() {
+    public void testShouldNotIgnoreSpaceAfterQueryWhenSettingInactive() {
         // configure
         settings.ignoreSpace = false;
 
@@ -114,7 +114,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_respect_when_we_set_a_new_list() {
+    public void testShouldRespectWhenWeGetNewList() {
         AppInfo appInfo4 = new AppInfo(getActivity(), SERIALIZED_APPINFO4);
 
         // invoke
@@ -125,7 +125,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_not_explode_for_indexes_out_of_bounds() {
+    public void testShouldNotExplodeWhenIndexesOutOfBounds() {
 
         for (int i = 0; i < 5; i++) {
             assertThat(tested.get(i)).isNotNull();
@@ -133,7 +133,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_sort_alphabetical_if_requested() throws Exception {
+    public void testShouldSortAlphabeticalIfRequested() throws Exception {
         AppInfo appInfo1 = new AppInfo(getActivity(), "hash;;clabel;;packageNameTest;;activityNameTest;;42");
         AppInfo appInfo2 = new AppInfo(getActivity(), "hash;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
         AppInfo appInfo3 = new AppInfo(getActivity(), "hash;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
@@ -152,7 +152,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_match_with_gap_search() {
+    public void testShouldMapWithGapSearch() {
         settings.gapSearch = true;
 
         tested.setQuery("lbar");
@@ -161,7 +161,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_match_with_gap_search_even_though_package_search_is_active() {
+    public void testShouldMatchWithGapSearchEvenThoughPackageSearchIsActive() {
         settings.gapSearch = true;
         settings.searchPackage = true;
 
@@ -171,7 +171,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_match_all_with_gap_search() {
+    public void testShouldMatchWithGapSearch() {
         settings.gapSearch = true;
 
         tested.setQuery("lte");
@@ -180,7 +180,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_not_match_with_gap_search() {
+    public void testShouldNotMatchWithGapSearch() {
         settings.gapSearch = true;
 
         tested.setQuery("stl");

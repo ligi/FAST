@@ -22,17 +22,15 @@ public class TheAppInfo extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void package_name_should_be_correct_after_construct_with_resolveinfo() throws Exception {
+    public void testPackageNameShouldBeCorrectAfterConstructWithResolveInfo() throws Exception {
 
         AppInfo tested = new AppInfo(getActivity(), resolveInfo);
 
         assertThat(tested.getPackageName()).isEqualTo(resolveInfo.activityInfo.packageName);
-
     }
 
-
     @SmallTest
-    public void intent_returned_should_not_be_null() throws Exception {
+    public void testIntentReturnedShouldNotBeNull() throws Exception {
 
         AppInfo tested = new AppInfo(getActivity(), resolveInfo);
 
@@ -40,7 +38,7 @@ public class TheAppInfo extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void label_should_be_same_after_deserialize() {
+    public void testLabelShouldBeSameAfterDeserialize() {
 
         AppInfo tested = new AppInfo(getActivity(), SERIALIZED_APPINFO);
 
@@ -49,7 +47,7 @@ public class TheAppInfo extends AppInfoTestBase {
 
 
     @SmallTest
-    public void callcount_should_be_same_after_deserialize() {
+    public void testCallCountShouldBeSameAfterDeserialize() {
         AppInfo tested = new AppInfo(getActivity(), SERIALIZED_APPINFO);
 
         assertThat(tested.getCallCount()).isEqualTo(42);
@@ -57,7 +55,7 @@ public class TheAppInfo extends AppInfoTestBase {
 
 
     @SmallTest
-    public void packagename_should_be_same_after_deserialize() {
+    public void testPackageNameShoudBeSameAfterDeserialize() {
         AppInfo tested = new AppInfo(getActivity(), SERIALIZED_APPINFO);
 
         assertThat(tested.getPackageName()).isEqualTo("packageNameTest");
@@ -65,14 +63,14 @@ public class TheAppInfo extends AppInfoTestBase {
 
 
     @SmallTest
-    public void hash_should_be_same_after_deserialize() {
+    public void testHashShoouldBeSameAfterDeserialize() {
         AppInfo tested = new AppInfo(getActivity(), SERIALIZED_APPINFO);
 
         assertThat(tested.getHash()).isEqualTo("hash");
     }
 
     @SmallTest
-    public void should_be_valid_after_good_input() {
+    public void testShouldBeValidAfterGoodInput() {
         AppInfo tested = new AppInfo(getActivity(), SERIALIZED_APPINFO);
 
         assertThat(tested.isValid()).isEqualTo(true);
@@ -80,7 +78,7 @@ public class TheAppInfo extends AppInfoTestBase {
 
 
     @SmallTest
-    public void should_be_valid_after_bad_input() {
+    public void testShouldNotBeValidAfterBadInput() {
         AppInfo tested = new AppInfo(getActivity(), "BAD");
 
         assertThat(tested.isValid()).isEqualTo(false);

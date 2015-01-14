@@ -11,18 +11,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TheStringUtils extends AppInfoTestBase {
 
     @SmallTest
-    public void should_match_with_gap_search() {
+    public void testShouldMatchWithGapSearch() {
         assertThat(StringUtils.getLevenshteinDistance("foobar", "fb", 4)).isEqualTo(4);
         assertThat(StringUtils.getLevenshteinDistance("foobar", "fba", 3)).isEqualTo(3);
     }
 
     @SmallTest
-    public void should_return_minus_one() {
+    public void testShouldReturnMinusOne() {
         assertThat(StringUtils.getLevenshteinDistance("foobar", "bf", 4)).isEqualTo(-1);
     }
 
     @SmallTest
-    public void should_retrun_matched_indices() {
+    public void testShouldReturnMachedIndices() {
         ArrayList<Integer> indices = StringUtils.getMatchedIndices("foobar", "fba");
         assertThat(indices.get(0)).isEqualTo(0);
         assertThat(indices.get(1)).isEqualTo(3);

@@ -36,7 +36,7 @@ public class TheAppIconCache extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void should_not_scale_quare_to_max_square() {
+    public void testShouldNotScaleSquareToMaxSquare() {
 
         Point point = tested.scaleToFitCalc(96, new Point(128, 128));
 
@@ -44,7 +44,7 @@ public class TheAppIconCache extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void test_should_scale_with_correct_aspect_ratio() {
+    public void testShouldScaleWithCorrectAspectRatio() {
 
         Point point = tested.scaleToFitCalc(96, new Point(128, 265));
 

@@ -30,7 +30,7 @@ public class TheAppInfoStore extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void what_goes_in_should_come_out() {
+    public void testWhatGoesInShouldComeOut() {
 
         tested.save(appInfoList);
 
@@ -38,7 +38,7 @@ public class TheAppInfoStore extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void save_twice_should_not_blow_up_things() {
+    public void testSaveTwiceShouldNotExplode() {
 
         tested.save(appInfoList);
         tested.save(appInfoList);
@@ -48,7 +48,7 @@ public class TheAppInfoStore extends AppInfoTestBase {
 
 
     @SmallTest
-    public void empty_lists_should_work() {
+    public void testEmptyListsShouldWork() {
 
         tested.save(Collections.EMPTY_LIST);
 
