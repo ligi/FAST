@@ -6,9 +6,9 @@
     <string name="share">Partager</string>
     <string name="also_use_the_package_name_for_searching">"Chercher le nom du paquet mais aussi le nom de l'application"</string>
     <string name="search_in_package">Rechercher des paquets</string>
-    <string name="auto_launch_if_only_one_app_left">"Si il n'y a qu'un résultat de recherche, lancer automatiquement"</string>
+    <string name="auto_launch_if_only_one_app_left">"S'il n'y a qu'un résultat de recherche, lancer automatiquement"</string>
     <string name="open_in_for_all">"Tout le temps montrer "ouvrir dans %s""</string>
-    <string name="even_if_installed_another_way">"Même si il a été installé d'une autre manière"</string>
+    <string name="even_if_installed_another_way">"Même s'il a été installé d'une autre manière"</string>
     <string name="application_details">"Détails d'Application"</string>
     <string name="open_in">Ouvrir dans</string>
     <string name="open_as_notification">Ouvrir en tant que notification</string>
@@ -59,6 +59,6 @@ Si vous aimez cette application vous pouvez la partager, sélectionnez partager 
     <string-array name="sort_orders">
         <item>"Non trié"</item>
         <item>"Alphabétique"</item>
-        <item>"usage"</item>
+        <item>"Usage"</item>
     </string-array>
 </resources>
