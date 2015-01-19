@@ -22,7 +22,7 @@ public class TheStringUtils extends AppInfoTestBase {
     }
 
     @SmallTest
-    public void testShouldReturnMachedIndices() {
+    public void testShouldReturnMatchedIndices() {
         ArrayList<Integer> indices = StringUtils.getMatchedIndices("foobar", "fba");
         assertThat(indices.get(0)).isEqualTo(0);
         assertThat(indices.get(1)).isEqualTo(3);
