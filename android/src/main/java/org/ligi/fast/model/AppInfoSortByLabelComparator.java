@@ -5,11 +5,19 @@ import java.util.Locale;
 
 class AppInfoSortByLabelComparator implements Comparator<AppInfo> {
 
+    private final Comparator<AppInfo> sortByPin = new AppInfoSortByPinComparator();
+
     @Override
     public int compare(AppInfo lhs, AppInfo rhs) {
-        final String lhsLowerCaseLabel = lhs.getLabel().toLowerCase(Locale.ENGLISH);
-        final String rhsLowerCaseLabel = rhs.getLabel().toLowerCase(Locale.ENGLISH);
-        return lhsLowerCaseLabel.compareTo(rhsLowerCaseLabel);
+        int result = sortByPin.compare(lhs, rhs);
+        if (result == 0) {
+            final String lhsLowerCaseLabel = lhs.getLabel().toLowerCase(Locale.ENGLISH);
+            final String rhsLowerCaseLabel = rhs.getLabel().toLowerCase(Locale.ENGLISH);
+            return lhsLowerCaseLabel.compareTo(rhsLowerCaseLabel);
+        }
+        else {
+            return result;
+        }
     }
 
 }

@@ -155,7 +155,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         }
     }
 
-    private void configureAdapter() {
+    public void configureAdapter() {
         if (App.getSettings().getSortOrder().startsWith("alpha")) {
             adapter.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
         } else if (App.getSettings().getSortOrder().equals("most_used")) {
@@ -185,6 +185,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         }
 
         if (App.getSettings().isFinishOnLaunchEnabled()) {
+            Log.i(App.LOG_TAG, "Finished early.");
             finish();
         }
     }
@@ -214,6 +215,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         configureAdapter();
 
         final String iconSize = App.getSettings().getIconSize();
+
         gridView.setColumnWidth((int) getResources().getDimension(getWidthByIconSize(iconSize)));
     }
 
@@ -328,5 +330,4 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         App.packageChangedListener = null;
         super.onStop();
     }
-
 }
