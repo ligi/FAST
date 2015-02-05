@@ -5,7 +5,7 @@ import android.content.pm.ResolveInfo;
 
 public class ResolveInfoHelper {
 
-    public final ResolveInfo resolveInfo;
+    private final ResolveInfo resolveInfo;
 
     public ResolveInfoHelper(ResolveInfo resolveInfo) {
         this.resolveInfo = resolveInfo;
