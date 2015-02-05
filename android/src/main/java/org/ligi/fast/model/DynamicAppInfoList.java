@@ -59,6 +59,8 @@ public class DynamicAppInfoList extends AppInfoList {
             sorter = new AppInfoSortByLabelComparator();
         } else if (mode.equals(SortMode.MOST_USED)) {
             sorter = new AppInfoSortByMostUsedComparator();
+        } else if (mode.equals(SortMode.UNSORTED)) {
+            sorter = new AppInfoSortByPinComparator();
         }
         sort();
         setQuery(currentQuery); // refresh showing

@@ -175,6 +175,12 @@ public class AppInfo {
         final int localCallCount = getCallCount();
         final int remoteCallCount = appInfo.getCallCount();
         setCallCount(Math.max(localCallCount,remoteCallCount));
+        if (appInfo.getPinMode() != 0) {
+            setPinMode(appInfo.getPinMode());
+        }
+        else {
+            setPinMode(getPinMode());
+        }
 
         label=appInfo.getLabel();
         calculateAlternateLabelAndPackageName();

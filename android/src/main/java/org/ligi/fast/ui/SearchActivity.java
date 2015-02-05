@@ -160,6 +160,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             adapter.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
         } else if (App.getSettings().getSortOrder().equals("most_used")) {
             adapter.setSortMode(DynamicAppInfoList.SortMode.MOST_USED);
+        } else if (App.getSettings().getSortOrder().equals("unsorted")) {
+            adapter.setSortMode(DynamicAppInfoList.SortMode.UNSORTED);
         }
     }
 

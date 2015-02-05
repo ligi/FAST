@@ -48,8 +48,12 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     // each time we leave
                     if (oldAppList != null) {
                         for(AppInfo oldInfo : appInfoList) {
+                            //oldInfo doesn't actually hold new stuff!
+                            Log.d(oldInfo.getActivityName()+"("+actAppInfo.getPinMode()+"|"+oldInfo.getPinMode() +
+                                    "," + actAppInfo.getCallCount() + "|" + oldInfo.getCallCount()+")");
                             if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
                                 actAppInfo.setCallCount(oldInfo.getCallCount());
+                                actAppInfo.setPinMode(oldInfo.getPinMode());
                                 break;
                             }
                         }
