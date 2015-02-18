@@ -2,32 +2,41 @@ package org.ligi.fast.testing;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.DynamicAppInfoList;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TheAppInfoList extends AppInfoTestBase {
+public class TheAppInfoList {
+
+    protected String SERIALIZED_APPINFO = "hash1;;labelTest;;packageNameTest;;activityNameTest;;42";
+    protected String SERIALIZED_APPINFO1 = "hash2;;label1TestBarü;;packageNameTest1;;activityNameTest;;42";
+    protected String SERIALIZED_APPINFO2 = "hash3;;label2TestFoo;;packageNameTest2;;activityNameTest;;42";
+    protected String SERIALIZED_APPINFO3 = "hash4;;label3TestFoo;;packageNameTest3;;activityNameTest;;42";
+    protected String SERIALIZED_APPINFO4 = "hash5;;label4TestFoo;;packageNameTest4;;activityNameTest;;42";
+
 
     private DynamicAppInfoList tested;
     private MutableFastSettings settings;
 
-    @Override
+    @Before
     public void setUp() {
-        AppInfo appInfo1 = new AppInfo(getActivity(), SERIALIZED_APPINFO1);
-        AppInfo appInfo2 = new AppInfo(getActivity(), SERIALIZED_APPINFO2);
-        AppInfo appInfo3 = new AppInfo(getActivity(), SERIALIZED_APPINFO3);
+        AppInfo appInfo1 = new AppInfo(null, SERIALIZED_APPINFO1);
+        AppInfo appInfo2 = new AppInfo(null, SERIALIZED_APPINFO2);
+        AppInfo appInfo3 = new AppInfo(null, SERIALIZED_APPINFO3);
         settings = new MutableFastSettings();
         tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3), settings);
     }
 
-    @SmallTest
+    @Test
     public void testThatCountIsReturnedCorrectly() {
         assertThat(tested.size()).isEqualTo(3);
     }
 
-    @SmallTest
+    @Test
     public void testShoudQueryLabelCorrectly() {
         // invoke
         tested.setQuery("foo");
@@ -36,7 +45,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(2);
     }
 
-    @SmallTest
+    @Test
     public void testShouldNotSearchInPackageNameWhenDisabled() {
         // configure
         settings.searchPackage = false;
@@ -49,7 +58,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
 
-    @SmallTest
+    @Test
     public void testShouldSearchInPackageNameWhenEnabled() {
         // configure
         settings.searchPackage = true;
@@ -61,7 +70,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(3);
     }
 
-    @SmallTest
+    @Test
     public void testShouldIgnoreSpaceAfterQueryWhenThisSettingIsActive() {
         // configure
         settings.ignoreSpace = true;
@@ -74,7 +83,7 @@ public class TheAppInfoList extends AppInfoTestBase {
     }
 
 
-    @SmallTest
+    @Test
     /**
      e.g. important because umlauts are only converted lower case
      */
@@ -89,7 +98,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(2);
     }
 
-    @SmallTest
+    @Test
     public void testShouldConvertQueryToLower() {
         // configure
         settings.ignoreSpace = false;
@@ -101,7 +110,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.getCurrentQuery()).isEqualTo("testcase");
     }
 
-    @SmallTest
+    @Test
     public void testShouldNotIgnoreSpaceAfterQueryWhenSettingInactive() {
         // configure
         settings.ignoreSpace = false;
@@ -113,9 +122,9 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(0);
     }
 
-    @SmallTest
+    @Test
     public void testShouldRespectWhenWeGetNewList() {
-        AppInfo appInfo4 = new AppInfo(getActivity(), SERIALIZED_APPINFO4);
+        AppInfo appInfo4 = new AppInfo(null, SERIALIZED_APPINFO4);
 
         // invoke
         tested.update(asList(appInfo4));
@@ -124,7 +133,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.get(0)).isEqualTo(appInfo4);
     }
 
-    @SmallTest
+    @Test
     public void testShouldNotExplodeWhenIndexesOutOfBounds() {
 
         for (int i = 0; i < 5; i++) {
@@ -132,26 +141,21 @@ public class TheAppInfoList extends AppInfoTestBase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testShouldSortAlphabeticalIfRequested() throws Exception {
-        AppInfo appInfo1 = new AppInfo(getActivity(), "hash;;clabel;;packageNameTest;;activityNameTest;;42");
-        AppInfo appInfo2 = new AppInfo(getActivity(), "hash;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
-        AppInfo appInfo3 = new AppInfo(getActivity(), "hash;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
-        AppInfo appInfo4 = new AppInfo(getActivity(), "hash;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
-        AppInfo appInfo5 = new AppInfo(getActivity(), "hash;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
+        AppInfo appInfo1 = new AppInfo(null, "hash1;;clabel;;packageNameTest;;activityNameTest;;42");
+        AppInfo appInfo2 = new AppInfo(null, "hash2;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
+        AppInfo appInfo3 = new AppInfo(null, "hash3;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
+        AppInfo appInfo4 = new AppInfo(null, "hash4;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
+        AppInfo appInfo5 = new AppInfo(null, "hash5;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
         tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
 
         tested.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
 
-        assertThat(tested.get(0)).isEqualTo(appInfo2);
-        assertThat(tested.get(1)).isEqualTo(appInfo1);
-        assertThat(tested.get(2)).isEqualTo(appInfo5);
-        assertThat(tested.get(3)).isEqualTo(appInfo4);
-        assertThat(tested.get(4)).isEqualTo(appInfo3);
-
+        assertThat(tested).containsExactly(appInfo2,appInfo1,appInfo5,appInfo4,appInfo3);
     }
 
-    @SmallTest
+    @Test
     public void testShouldMapWithGapSearch() {
         settings.gapSearch = true;
 
@@ -160,7 +164,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(1);
     }
 
-    @SmallTest
+    @Test
     public void testShouldMatchWithGapSearchEvenThoughPackageSearchIsActive() {
         settings.gapSearch = true;
         settings.searchPackage = true;
@@ -170,7 +174,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(1);
     }
 
-    @SmallTest
+    @Test
     public void testShouldMatchWithGapSearch() {
         settings.gapSearch = true;
 
@@ -179,7 +183,7 @@ public class TheAppInfoList extends AppInfoTestBase {
         assertThat(tested.size()).isEqualTo(3);
     }
 
-    @SmallTest
+    @Test
     public void testShouldNotMatchWithGapSearch() {
         settings.gapSearch = true;
 

@@ -1,8 +1,6 @@
 package org.ligi.fast.testing;
 
-import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.ApplicationTestCase;
 
 import org.ligi.fast.ui.SearchActivity;
 
