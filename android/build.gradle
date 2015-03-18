@@ -22,8 +22,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22"
 
     defaultConfig {
         versionCode 61
@@ -31,7 +31,7 @@ android {
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 7
-        targetSdkVersion 21
+        targetSdkVersion 22
         applicationId "org.ligi.fast"
     }
 
