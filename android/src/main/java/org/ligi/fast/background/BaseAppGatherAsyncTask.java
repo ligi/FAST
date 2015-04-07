@@ -50,6 +50,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                         for(AppInfo oldInfo : appInfoList) {
                             if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
                                 actAppInfo.setCallCount(oldInfo.getCallCount());
+                                actAppInfo.setLastUsedTime(oldInfo.getLastUsedTime());
                                 break;
                             }
                         }

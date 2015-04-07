@@ -25,6 +25,7 @@ public class AppInfo {
     private String activityName;
     private String hash;
     private int callCount;
+    private long lastUsedTime;
     private boolean isValid = true;
 
     private final AppIconCache iconCache;
@@ -38,7 +39,7 @@ public class AppInfo {
 
         String[] app_info_str_split = cache_str.split(SEPARATOR);
 
-        if (app_info_str_split.length < 5) {
+        if (app_info_str_split.length < 6) {
             isValid = false;
             return;
         }
@@ -48,6 +49,7 @@ public class AppInfo {
         packageName = app_info_str_split[2];
         activityName = app_info_str_split[3];
         callCount = Integer.parseInt(app_info_str_split[4]);
+        lastUsedTime = Long.parseLong(app_info_str_split[5]);
 
         calculateAlternateLabelAndPackageName();
 
@@ -67,6 +69,7 @@ public class AppInfo {
             activityName = "unknown";
         }
         callCount = 0;
+        lastUsedTime = 0;
 
         hash = calculateTheHash();
         calculateAlternateLabelAndPackageName();
@@ -80,7 +83,7 @@ public class AppInfo {
 
     public String toCacheString() {
         return hash + SEPARATOR + label + SEPARATOR + packageName +
-                SEPARATOR + activityName + SEPARATOR + callCount;
+                SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + lastUsedTime;
     }
 
     private String calculateTheHash() {
@@ -147,6 +150,18 @@ public class AppInfo {
         callCount++;
     }
 
+    public long getLastUsedTime() {
+        return lastUsedTime;
+    }
+
+    public void setLastUsedTime(long usedTime) {
+        lastUsedTime = usedTime;
+    }
+
+    public void updateLastUsedTime() {
+        lastUsedTime = System.currentTimeMillis();
+    }
+
     public boolean isValid() {
         return isValid;
     }
@@ -167,6 +182,10 @@ public class AppInfo {
         final int localCallCount = getCallCount();
         final int remoteCallCount = appInfo.getCallCount();
         setCallCount(Math.max(localCallCount,remoteCallCount));
+
+        final long localLastUsedTime = getLastUsedTime();
+        final long remoteLastUsedTime = appInfo.getLastUsedTime();
+        setLastUsedTime(Math.max(localLastUsedTime, remoteLastUsedTime));
 
         label=appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
