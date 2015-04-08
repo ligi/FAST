@@ -71,5 +71,6 @@
         <item>Non ordinate</item>
         <item>Ordine alfabetico</item>
         <item>A seconda dell\'uso</item>
+        <item>Ultima usata prima</item>
     </string-array>
 </resources>
