@@ -156,6 +156,21 @@ public class TheAppInfoList {
     }
 
     @Test
+    public void testShouldSortByLastUsedIfRequested() throws Exception {
+        AppInfo appInfo1 = new AppInfo(null, "hash1;;clabel;;packageNameTest;;activityNameTest;;42;;1428491642");
+        AppInfo appInfo2 = new AppInfo(null, "hash2;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42;;0");
+        AppInfo appInfo3 = new AppInfo(null, "hash3;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42;;0");
+        AppInfo appInfo4 = new AppInfo(null, "hash4;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42;;1428491633");
+        AppInfo appInfo5 = new AppInfo(null, "hash5;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42;;1428491699");
+        tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
+
+        tested.setSortMode(DynamicAppInfoList.SortMode.LAST_USED);
+
+        // Should sort alphabetically if two AppInfo have the same lastUsedTime
+        assertThat(tested).containsExactly(appInfo5, appInfo1, appInfo4, appInfo2, appInfo3);
+    }
+
+    @Test
     public void testShouldMapWithGapSearch() {
         settings.gapSearch = true;
 
