@@ -12,11 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheAppInfoList {
 
-    protected String SERIALIZED_APPINFO = "hash1;;labelTest;;packageNameTest;;activityNameTest;;42";
-    protected String SERIALIZED_APPINFO1 = "hash2;;label1TestBarü;;packageNameTest1;;activityNameTest;;42";
-    protected String SERIALIZED_APPINFO2 = "hash3;;label2TestFoo;;packageNameTest2;;activityNameTest;;42";
-    protected String SERIALIZED_APPINFO3 = "hash4;;label3TestFoo;;packageNameTest3;;activityNameTest;;42";
-    protected String SERIALIZED_APPINFO4 = "hash5;;label4TestFoo;;packageNameTest4;;activityNameTest;;42";
+    protected String SERIALIZED_APPINFO = "hash1;;labelTest;;packageNameTest;;activityNameTest;;42;;0";
+    protected String SERIALIZED_APPINFO1 = "hash2;;label1TestBarü;;packageNameTest1;;activityNameTest;;42;;0";
+    protected String SERIALIZED_APPINFO2 = "hash3;;label2TestFoo;;packageNameTest2;;activityNameTest;;42;;0";
+    protected String SERIALIZED_APPINFO3 = "hash4;;label3TestFoo;;packageNameTest3;;activityNameTest;;42;;0";
+    protected String SERIALIZED_APPINFO4 = "hash5;;label4TestFoo;;packageNameTest4;;activityNameTest;;42;;0";
 
 
     private DynamicAppInfoList tested;
@@ -143,11 +143,11 @@ public class TheAppInfoList {
 
     @Test
     public void testShouldSortAlphabeticalIfRequested() throws Exception {
-        AppInfo appInfo1 = new AppInfo(null, "hash1;;clabel;;packageNameTest;;activityNameTest;;42");
-        AppInfo appInfo2 = new AppInfo(null, "hash2;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42");
-        AppInfo appInfo3 = new AppInfo(null, "hash3;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42");
-        AppInfo appInfo4 = new AppInfo(null, "hash4;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42");
-        AppInfo appInfo5 = new AppInfo(null, "hash5;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42");
+        AppInfo appInfo1 = new AppInfo(null, "hash1;;clabel;;packageNameTest;;activityNameTest;;42;;0");
+        AppInfo appInfo2 = new AppInfo(null, "hash2;;aabel1TestBarü;;packageNameTest1;;activityNameTest;;42;;0");
+        AppInfo appInfo3 = new AppInfo(null, "hash3;;Fabel2TestFoo;;packageNameTest2;;activityNameTest;;42;;0");
+        AppInfo appInfo4 = new AppInfo(null, "hash4;;eabel3TestFoo;;packageNameTest3;;activityNameTest;;42;;0");
+        AppInfo appInfo5 = new AppInfo(null, "hash5;;Dbel4TestFoo;;packageNameTest4;;activityNameTest;;42;;0");
         tested = new DynamicAppInfoList(asList(appInfo1, appInfo2, appInfo3, appInfo4, appInfo5), settings);
 
         tested.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
