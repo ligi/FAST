@@ -97,9 +97,9 @@ android {
 
 dependencies {
     compile 'org.ligi:tracedroid:1.4'
-    compile 'com.android.support:support-annotations:20.0.2'
+    compile 'com.android.support:support-annotations:20.0.0'
 
-    androidTestCompile 'com.android.support:support-annotations:20.0.2'
+    androidTestCompile 'com.android.support:support-annotations:20.0.0'
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
 
