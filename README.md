@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ligi/FAST.svg?branch=master)](https://travis-ci.org/ligi/FAST)
+[![Build Status](https://snap-ci.com/ligi/FAST/branch/master/build_image)](https://snap-ci.com/ligi/FAST/branch/master)
 
 Intro
 =====
