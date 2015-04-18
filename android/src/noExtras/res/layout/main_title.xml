@@ -22,7 +22,7 @@
             android:background="@drawable/edittext_bg"
             android:hint="@string/query_hint"
             android:paddingLeft="@dimen/padding_large"
-
+            android:inputType="textNoSuggestions"
             android:textColor="?android:textColor" />
 
         <ImageView
