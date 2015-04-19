@@ -53,6 +53,10 @@ public class AndroidFASTSettings implements FASTSettings {
         return mSharedPreferences.getBoolean(KEY_TEXTONLY, false);
     }
 
+    public boolean isSearchOnBottomActivated() {
+        return mSharedPreferences.getBoolean(KEY_SEARCHONBOTTOM, false);
+    }
+
     public int getMaxLines() {
         return Integer.parseInt(mSharedPreferences.getString(KEY_MAXLINES, "1"));
     }

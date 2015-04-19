@@ -65,6 +65,12 @@ public class FASTSettingsActivity extends PreferenceActivity {
         textOnly.setSummary(R.string.show_no_icons_pure_text);
         textOnly.setDefaultValue(false);
 
+        CheckBoxPreference searchOnBottom = new CheckBoxPreference(this);
+        searchOnBottom.setKey(FASTSettings.KEY_SEARCHONBOTTOM);
+        searchOnBottom.setTitle(R.string.search_on_bottom);
+        searchOnBottom.setSummary(R.string.search_on_bottom_desc);
+        searchOnBottom.setDefaultValue(false);
+
         CheckBoxPreference finishAfterLaunch = new CheckBoxPreference(this);
         finishAfterLaunch.setKey(FASTSettings.KEY_FINISH_ON_LAUNCH);
         finishAfterLaunch.setTitle("Finish on Launch");
@@ -172,6 +178,8 @@ public class FASTSettingsActivity extends PreferenceActivity {
 
         displayCategory.addPreference(iconSizePref);
         displayCategory.addPreference(maxLinesPref);
+
+        displayCategory.addPreference(searchOnBottom);
 
         behaviourCategory.addPreference(doLaunchSingleCheckBox);
         behaviourCategory.addPreference(doSearchInPackage);
