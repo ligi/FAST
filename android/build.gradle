@@ -1,18 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.3'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
-        classpath('com.stanfy.spoon:spoon-gradle-plugin:0.14.1') {
-            // https://github.com/stanfy/spoon-gradle-plugin/issues/33
-            exclude module: 'guava'
-        }
-
-    }
-}
-
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
@@ -23,7 +8,7 @@ repositories {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         versionCode 61
@@ -98,10 +83,10 @@ android {
 dependencies {
     compile 'org.ligi:tracedroid:1.4'
 
-    androidTestCompile 'com.android.support:support-annotations:20.0.0'
+    androidTestCompile 'com.android.support:support-annotations:22.1.1'
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
 
     testCompile 'com.squareup.assertj:assertj-android:1.0.0'
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }
