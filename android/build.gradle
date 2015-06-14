@@ -40,24 +40,24 @@ android {
     productFlavors {
         // no google-play services & google-analytics
         forGooglePlay {
-            flavorDimension "market"
+            dimension "market"
         }
 
         forAmazon {
-            flavorDimension "market"
+            dimension "market"
         }
 
         forFDroid {
-            flavorDimension "market"
+            dimension "market"
         }
 
         withExtras {
-            flavorDimension "size"
+            dimension "size"
             applicationId "org.ligi.fast"
         }
 
         noExtras {
-            flavorDimension "size"
+            dimension "size"
             applicationId "org.ligi.faster"
         }
     }
