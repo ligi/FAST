@@ -316,17 +316,13 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     @Override
     protected void onPause() {
+        // Need to persist the call count values, or else the sort by "most used"
+        // will not work next time we open this activity.
+        appInfoListStore.save(appInfoList.getBackingAppInfoList());
+
         App.packageChangedListener = null;
         super.onPause();
     }
 
-    @Override
-    protected void onStop() {
-        // Need to persist the call count values, or else the sort by "most used"
-        // will not work next time we open this activity.
-        appInfoListStore.save(appInfoList.getBackingAppInfoList());
-        App.packageChangedListener = null;
-        super.onStop();
-    }
 
 }
