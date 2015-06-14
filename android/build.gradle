@@ -29,10 +29,8 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-
                     def file = output.outputFile
-                    output.outputFile = new File(file.parent, file.name.replace  \
-(".apk", "-" + defaultConfig.versionName + ".apk"))
+                    output.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
                 }
             }
         }
@@ -83,8 +81,8 @@ android {
 dependencies {
     compile 'org.ligi:tracedroid:1.4'
 
-    androidTestCompile 'com.android.support:support-annotations:22.1.1'
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
+    androidTestCompile 'com.android.support:support-annotations:22.2.0'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
 
     testCompile 'com.squareup.assertj:assertj-android:1.0.0'
