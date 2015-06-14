@@ -55,7 +55,7 @@ public class TheAppInfo extends AppInfoTestBase {
 
 
     @SmallTest
-    public void testPackageNameShoudBeSameAfterDeserialize() {
+    public void testPackageNameShouldBeSameAfterDeserialize() {
         AppInfo tested = new AppInfo(getActivity(), SERIALIZED_APPINFO);
 
         assertThat(tested.getPackageName()).isEqualTo("packageNameTest");
