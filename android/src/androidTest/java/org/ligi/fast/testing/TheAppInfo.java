@@ -1,6 +1,7 @@
 package org.ligi.fast.testing;
 
 import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -19,6 +20,8 @@ public class TheAppInfo extends AppInfoTestBase {
         resolveInfo.activityInfo = new ActivityInfo();
         resolveInfo.activityInfo.packageName = "packagename";
         resolveInfo.activityInfo.name = "activityname";
+
+        resolveInfo.activityInfo.applicationInfo= new ApplicationInfo();
     }
 
     @SmallTest
