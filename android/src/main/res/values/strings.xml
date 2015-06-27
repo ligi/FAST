@@ -57,5 +57,6 @@
         <item>Unsorted</item>
         <item>Alphabetical</item>
         <item>By usage</item>
-    </string-array>
+        <item>By installation time</item>
+        </string-array>
 </resources>

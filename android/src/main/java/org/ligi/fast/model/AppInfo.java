@@ -2,6 +2,9 @@ package org.ligi.fast.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
@@ -24,6 +27,7 @@ public class AppInfo {
     private String alternatePackageName;
     private String activityName;
     private String hash;
+    private long installTime;
     private int callCount;
     private boolean isValid = true;
 
@@ -38,7 +42,7 @@ public class AppInfo {
 
         String[] app_info_str_split = cache_str.split(SEPARATOR);
 
-        if (app_info_str_split.length < 5) {
+        if (app_info_str_split.length < 6) {
             isValid = false;
             return;
         }
@@ -48,6 +52,7 @@ public class AppInfo {
         packageName = app_info_str_split[2];
         activityName = app_info_str_split[3];
         callCount = Integer.parseInt(app_info_str_split[4]);
+        installTime = Long.parseLong(app_info_str_split[5]);
 
         calculateAlternateLabelAndPackageName();
 
@@ -67,6 +72,20 @@ public class AppInfo {
             activityName = "unknown";
         }
         callCount = 0;
+        
+        PackageManager pmManager=_ctx.getPackageManager();
+        PackageInfo pi;
+
+        installTime=0;
+
+        try{
+			pi=pmManager.getPackageInfo(packageName,0);
+	        installTime=pi.lastUpdateTime;
+		}catch (NameNotFoundException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+                
 
         hash = calculateTheHash();
         calculateAlternateLabelAndPackageName();
@@ -80,7 +99,7 @@ public class AppInfo {
 
     public String toCacheString() {
         return hash + SEPARATOR + label + SEPARATOR + packageName +
-                SEPARATOR + activityName + SEPARATOR + callCount;
+                SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + installTime;
     }
 
     private String calculateTheHash() {
@@ -137,6 +156,10 @@ public class AppInfo {
 
     public int getCallCount() {
         return callCount;
+    }
+    
+    public long getInstallTime() {
+        return installTime;
     }
 
     public void setCallCount(int count) {

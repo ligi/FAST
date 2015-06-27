@@ -104,6 +104,7 @@ public class AppInfoAdapter extends BaseAdapter {
 
         if (appInfoList.getCurrentQuery().length() == 0) {
             labelView.setText(label);
+            
             return convertView;
         }
 
