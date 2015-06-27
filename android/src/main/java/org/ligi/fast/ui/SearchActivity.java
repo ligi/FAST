@@ -160,12 +160,15 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             adapter.setSortMode(DynamicAppInfoList.SortMode.ALPHABETICAL);
         } else if (App.getSettings().getSortOrder().equals("most_used")) {
             adapter.setSortMode(DynamicAppInfoList.SortMode.MOST_USED);
+        } else if (App.getSettings().getSortOrder().equals("last_used")) {
+            adapter.setSortMode(DynamicAppInfoList.SortMode.LAST_USED);
         }
     }
 
     public void startItemAtPos(int pos) {
         final AppInfo app = adapter.getItem(pos);
         app.incrementCallCount();
+        app.updateLastUsedTime();
         final Intent intent = app.getIntent();
         intent.setAction(Intent.ACTION_MAIN);
         // set flag so that next start the search app comes up and not the last started App

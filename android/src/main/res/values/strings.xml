@@ -57,5 +57,6 @@
         <item>Unsorted</item>
         <item>Alphabetical</item>
         <item>By usage</item>
+        <item>Last used</item>
     </string-array>
 </resources>

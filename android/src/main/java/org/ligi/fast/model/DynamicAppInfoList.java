@@ -21,7 +21,7 @@ public class DynamicAppInfoList extends AppInfoList {
     private SortMode currentSortMode = SortMode.UNSORTED;
 
     public enum SortMode {
-        UNSORTED, ALPHABETICAL, MOST_USED
+        UNSORTED, ALPHABETICAL, MOST_USED, LAST_USED
     }
 
     @SuppressWarnings("unchecked")
@@ -59,6 +59,8 @@ public class DynamicAppInfoList extends AppInfoList {
             sorter = new AppInfoSortByLabelComparator();
         } else if (mode.equals(SortMode.MOST_USED)) {
             sorter = new AppInfoSortByMostUsedComparator();
+        } else if (mode.equals(SortMode.LAST_USED)) {
+            sorter = new AppInfoSortByLastUsedComparator();
         }
         sort();
         setQuery(currentQuery); // refresh showing
