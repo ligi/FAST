@@ -79,7 +79,7 @@ public class AppInfo {
         installTime=0;
 
         try{
-			pi=pmManager.getPackageInfo(packageName,0);
+		pi=pmManager.getPackageInfo(packageName,0);
 	        installTime=pi.lastUpdateTime;
 		}catch (NameNotFoundException e){
 			// TODO Auto-generated catch block
