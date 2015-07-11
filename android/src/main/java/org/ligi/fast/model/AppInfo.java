@@ -7,13 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
-
+import android.os.Build;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.ligi.axt.helpers.ResolveInfoHelper;
 import org.ligi.fast.util.UmlautConverter;
 import org.ligi.tracedroid.logging.Log;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Class to Retrieve / Store Application Information needed by this App
@@ -66,7 +65,20 @@ public class AppInfo {
 
         // init attributes
         label = new ResolveInfoHelper(ri).getLabelSafely(_ctx);
-        label = label.replace("ά", "α").replaceAll("έ", "ε").replaceAll("ή", "η").replaceAll("ί", "ι").replaceAll("ό", "ο").replaceAll("ύ", "υ").replaceAll("ώ", "ω").replaceAll("Ά", "Α").replaceAll("Έ", "Ε").replaceAll("Ή", "Η").replaceAll("Ί", "Ι").replaceAll("Ό", "Ο").replaceAll("Ύ", "Υ").replaceAll("Ώ", "Ω");
+        label = label.replace("ά", "α")
+                     .replaceAll("έ", "ε")
+                     .replaceAll("ή", "η")
+                     .replaceAll("ί", "ι")
+                     .replaceAll("ό", "ο")
+                     .replaceAll("ύ", "υ")
+                     .replaceAll("ώ", "ω")
+                     .replaceAll("Ά", "Α")
+                     .replaceAll("Έ", "Ε")
+                     .replaceAll("Ή", "Η")
+                     .replaceAll("Ί", "Ι")
+                     .replaceAll("Ό", "Ο")
+                     .replaceAll("Ύ", "Υ")
+                     .replaceAll("Ώ", "Ω");
         if (ri.activityInfo != null) {
             packageName = ri.activityInfo.packageName;
             activityName = ri.activityInfo.name;
@@ -75,20 +87,21 @@ public class AppInfo {
             activityName = "unknown";
         }
         callCount = 0;
-        
-        PackageManager pmManager=_ctx.getPackageManager();
-        PackageInfo pi;
 
-        installTime=0;
+        final PackageManager pmManager = _ctx.getPackageManager();
 
-        try{
-		pi=pmManager.getPackageInfo(packageName,0);
-	        installTime=pi.lastUpdateTime;
-		}catch (NameNotFoundException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-                
+        installTime = 0;
+
+        try {
+            final PackageInfo pi = pmManager.getPackageInfo(packageName, 0);
+            if (Build.VERSION.SDK_INT >= 9) {
+                installTime = pi.lastUpdateTime;
+            }
+        } catch (NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
 
         hash = calculateTheHash();
         calculateAlternateLabelAndPackageName();
@@ -102,7 +115,7 @@ public class AppInfo {
 
     public String toCacheString() {
         return hash + SEPARATOR + label + SEPARATOR + packageName +
-                SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + installTime;
+               SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + installTime;
     }
 
     private String calculateTheHash() {
@@ -160,7 +173,7 @@ public class AppInfo {
     public int getCallCount() {
         return callCount;
     }
-    
+
     public long getInstallTime() {
         return installTime;
     }
@@ -192,9 +205,9 @@ public class AppInfo {
     public void mergeSafe(AppInfo appInfo) {
         final int localCallCount = getCallCount();
         final int remoteCallCount = appInfo.getCallCount();
-        setCallCount(Math.max(localCallCount,remoteCallCount));
+        setCallCount(Math.max(localCallCount, remoteCallCount));
 
-        label=appInfo.getLabel();
+        label = appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
     }
 }
