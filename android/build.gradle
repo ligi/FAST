@@ -18,21 +18,15 @@ android {
         minSdkVersion 7
         targetSdkVersion 22
         applicationId "org.ligi.fast"
+
+        archivesBaseName = "Fast-$versionName"
     }
 
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
-
             proguardFile 'proguard-project.txt'
-
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def file = output.outputFile
-                    output.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
-                }
-            }
         }
     }
 
