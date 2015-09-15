@@ -161,7 +161,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         public void run() {
             final Intent notifyIntent = app_info.getIntent();
 
-            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT | Notification.FLAG_AUTO_CANCEL);
+            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
             final String title=app_info.getLabel();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
