@@ -16,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 
 import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
@@ -160,14 +161,22 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         @Override
         public void run() {
             final Intent notifyIntent = app_info.getIntent();
-
-            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-            final String title=app_info.getLabel();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            final PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+            final Notification notification = new NotificationCompat.Builder(context)
+                    .setContentIntent(intent)
+                    .setContentInfo(app_info.getLabel())
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .build();
+
+            /*final String title=app_info.getLabel();
+
             Notification notification = new Notification(R.drawable.ic_launcher, title, System.currentTimeMillis());
+            */
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            notification.setLatestEventInfo(context,title,context.getString(R.string.appActionDialog_title), intent);
+            //notification.setLatestEventInfo(context,title,context.getString(R.string.appActionDialog_title), intent);
             notificationManager.notify((int) (Math.random() * Integer.MAX_VALUE), notification);
         }
     }
