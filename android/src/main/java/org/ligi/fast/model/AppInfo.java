@@ -41,23 +41,24 @@ public class AppInfo {
 
         String[] app_info_str_split = cache_str.split(SEPARATOR);
 
-        if (app_info_str_split.length < 5) {
-            isValid = false;
-            return;
+        if (app_info_str_split.length > 4) {
+            try {
+                hash = app_info_str_split[0];
+                label = app_info_str_split[1];
+                packageName = app_info_str_split[2];
+                activityName = app_info_str_split[3];
+                callCount = Integer.parseInt(app_info_str_split[4]);
+
+                if (app_info_str_split.length > 5) {
+                    installTime = Long.parseLong(app_info_str_split[5]);
+                }
+
+                calculateAlternateLabelAndPackageName();
+                return;
+            } catch (Exception ignored) {
+            }
         }
-
-        hash = app_info_str_split[0];
-        label = app_info_str_split[1];
-        packageName = app_info_str_split[2];
-        activityName = app_info_str_split[3];
-        callCount = Integer.parseInt(app_info_str_split[4]);
-
-        if (app_info_str_split.length > 5) {
-            installTime = Long.parseLong(app_info_str_split[5]);
-        }
-
-        calculateAlternateLabelAndPackageName();
-
+        isValid = false;
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
