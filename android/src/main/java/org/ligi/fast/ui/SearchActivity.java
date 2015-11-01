@@ -36,6 +36,7 @@ import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
+import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -65,88 +66,13 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         appInfoListStore = new AppInfoListStore(this);
 
-        final AppInfoList loadedAppInfoList = appInfoListStore.load();
-        appInfoList = new DynamicAppInfoList(loadedAppInfoList, App.getSettings());
-
-        adapter = new AppInfoAdapter(this, appInfoList);
-
-        configureAdapter();
-
-        gridView = (GridView) findViewById(R.id.listView);
-
-        searchQueryEditText = (EditText) findViewById(R.id.searchEditText);
-        searchQueryEditText.setSingleLine();
-        searchQueryEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        searchQueryEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
-
-        searchQueryEditText.setOnEditorActionListener(new OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if (adapter.getCount() > 0) {
-                    startItemAtPos(0);
-                }
-                return true;
-            }
-
-        });
-        searchQueryEditText.setHint(R.string.query_hint);
-
-        searchQueryEditText.addTextChangedListener(new SimpleTextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                final String editString = s.toString();
-                final boolean was_adding = oldSearch.length() < editString.length();
-                oldSearch = editString.toLowerCase(Locale.ENGLISH);
-                adapter.setActQuery(editString.toLowerCase(Locale.ENGLISH));
-                startAppWhenItItIsTheOnlyOneInList(was_adding);
-            }
-
-        });
-
-        gridView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-                                    long arg3) {
-                try {
-                    startItemAtPos(pos);
-                } catch (ActivityNotFoundException e) {
-                    // e.g. uninstalled while app running - TODO should refresh list
-                }
-            }
-
-        });
-
-        gridView.setLongClickable(true);
-
-        gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long arg3) {
-                new AppActionDialogBuilder(SearchActivity.this, adapter.getItem(pos)).show();
-                return true;
-            }
-
-        });
-
-        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
-
-
-        if (appInfoList.size() == 0) {
-            startActivityForResult(new Intent(this, LoadingDialog.class), R.id.activityResultLoadingDialog);
-        } else { // the second time - we use the old index to be fast but
-            // regenerate in background to be recent
-
-            // Use the pkgAppsListTemp in order to update data from the saved file with recent
-            // call count information (seeing as we may not have saved it recently).
-            new BackgroundGatherAsyncTask(this, appInfoList).execute();
+        try {
+            appInfoListStore.share();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        gridView.setAdapter(adapter);
+
     }
 
     private void startAppWhenItItIsTheOnlyOneInList(boolean was_adding) {
@@ -205,7 +131,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         }
     }
 
-    @Override
+/*    @Override
     protected void onResume() {
         super.onResume();
 
@@ -220,7 +146,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         final String iconSize = App.getSettings().getIconSize();
         gridView.setColumnWidth((int) getResources().getDimension(getWidthByIconSize(iconSize)));
     }
-
+*/
     private static int getWidthByIconSize(String iconSize) {
         switch (iconSize) {
             case "tiny":
@@ -318,15 +244,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         });
     }
 
-    @Override
-    protected void onPause() {
-        // Need to persist the call count values, or else the sort by "most used"
-        // will not work next time we open this activity.
-        appInfoListStore.save(appInfoList.getBackingAppInfoList());
-
-        App.packageChangedListener = null;
-        super.onPause();
-    }
 
 
 }

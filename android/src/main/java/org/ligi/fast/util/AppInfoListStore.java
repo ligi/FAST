@@ -1,9 +1,11 @@
 package org.ligi.fast.util;
 
 import android.content.Context;
+import android.content.Intent;
 
 import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
+import org.ligi.fast.R;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.tracedroid.logging.Log;
@@ -21,6 +23,19 @@ public class AppInfoListStore {
     public AppInfoListStore(Context context) {
         this.context = context;
         file = new File(App.getBaseDir(), "index.csv");
+    }
+
+    public void share() throws IOException {
+        final String cache_file_string = new FileHelper(file).loadToString();
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        //context.startActivity(intent);
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, cache_file_string);
+        sendIntent.putExtra(Intent.EXTRA_EMAIL,new String[]{"ligi@ligi.de"});
+        sendIntent.setType("text/plain");
+        context.startActivity(sendIntent);
     }
 
     public AppInfoList load() {
