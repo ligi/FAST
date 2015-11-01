@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         versionCode 65
-        versionName "6.5"
+        versionName "6.5-DIAG_SEND"
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 7
