@@ -126,7 +126,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         switch (requestCode) {
             case R.id.activityResultLoadingDialog:
-                onPackageChange(appInfoListStore.load());
+                //onPackageChange(appInfoListStore.load());
                 break;
         }
     }

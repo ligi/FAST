@@ -38,7 +38,7 @@ public class AppInfo {
 
     public AppInfo(Context ctx, String cache_str) {
         this(ctx);
-
+/*
         String[] app_info_str_split = cache_str.split(SEPARATOR);
 
         if (app_info_str_split.length > 4) {
@@ -57,7 +57,7 @@ public class AppInfo {
                 return;
             } catch (Exception ignored) {
             }
-        }
+        }*/
         isValid = false;
     }
 
