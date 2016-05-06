@@ -1,6 +1,8 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-apply plugin: 'spoon'
+apply plugin: 'de.felixschulze.gradle.spoon'
+apply plugin: 'de.mobilej.unmock'
+apply plugin: 'com.github.ben-manes.versions'
 
 repositories {
     jcenter()
@@ -8,7 +10,7 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         versionCode 64
@@ -16,7 +18,7 @@ android {
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 7
-        targetSdkVersion 22
+        targetSdkVersion 23
         applicationId "org.ligi.fast"
 
         archivesBaseName = "Fast-$versionName"
@@ -83,8 +85,8 @@ android {
 dependencies {
     compile 'org.ligi:tracedroid:1.4'
 
-    androidTestCompile 'com.android.support:support-annotations:22.2.0'
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.2.0'
+    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.5.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'

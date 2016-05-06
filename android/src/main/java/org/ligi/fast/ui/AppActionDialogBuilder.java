@@ -1,7 +1,6 @@
 package org.ligi.fast.ui;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,14 +15,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import org.ligi.fast.App;
-import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.R;
 import org.ligi.fast.TargetStore;
+import org.ligi.fast.model.AppInfo;
 import org.ligi.tracedroid.logging.Log;
-
-import java.util.ArrayList;
 
 public class AppActionDialogBuilder extends AlertDialog.Builder {
     private static final String SCHEME = "package";
@@ -56,11 +55,8 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                 @Override
                 public void run() {
                     try {
-                        context.startActivity(new Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(TargetStore.STORE_URL + app_info.getPackageName())));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TargetStore.STORE_URL + app_info.getPackageName())));
+                    } catch (android.content.ActivityNotFoundException ignored) {
                     }
                 }
             }));
@@ -117,11 +113,9 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             Uri uri = Uri.fromParts(SCHEME, packageName, null);
             intent.setData(uri);
         } else { // below 2.3
-            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22
-                    : APP_PKG_NAME_21);
+            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
             intent.setAction(Intent.ACTION_VIEW);
-            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-                    APP_DETAILS_CLASS_NAME);
+            intent.setClassName(APP_DETAILS_PACKAGE_NAME, APP_DETAILS_CLASS_NAME);
             intent.putExtra(appPkgName, packageName);
         }
         context.startActivity(intent);
@@ -139,13 +133,12 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
     private boolean isMarketApp() {
         try {
-            if (app_info.getPackageName() == null)
-                return false;
+            if (app_info.getPackageName() == null) return false;
             PackageManager packageManager = context.getPackageManager();
 
             if (packageManager == null) {
-                Log.w("strange - there was no PackageManager - might lie to the user now with false"
-                        + "as I cannot determine the correct answer to the question isMarketApp()");
+                Log.w("strange - there was no PackageManager - might lie to the user now with false" +
+                      "as I cannot determine the correct answer to the question isMarketApp()");
                 return false;
             }
 
@@ -161,13 +154,36 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         public void run() {
             final Intent notifyIntent = app_info.getIntent();
 
-            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            final String title=app_info.getLabel();
+            final String title = app_info.getLabel();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new Notification(R.drawable.ic_launcher, title, System.currentTimeMillis());
+            final Notification notification;
+
+            if (Build.VERSION.SDK_INT < 16) {
+                notification = new Notification();
+                notification.icon = R.drawable.ic_launcher;
+                try {
+                    Method deprecatedMethod = notification.getClass()
+                                                          .getMethod("setLatestEventInfo",
+                                                                     Context.class,
+                                                                     CharSequence.class,
+                                                                     CharSequence.class,
+                                                                     PendingIntent.class);
+                    deprecatedMethod.invoke(notification, context, title, context.getString(R.string.appActionDialog_title), intent);
+                } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException
+                        | InvocationTargetException e) {
+                    Log.w("Method not found", e);
+                }
+            } else {
+                // Use new API
+                Notification.Builder builder = new Notification.Builder(context).setContentIntent(intent)
+                                                                                .setSmallIcon(R.drawable.ic_launcher)
+                                                                                .setContentTitle(title);
+                notification = builder.build();
+            }
+
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            notification.setLatestEventInfo(context,title,context.getString(R.string.appActionDialog_title), intent);
             notificationManager.notify((int) (Math.random() * Integer.MAX_VALUE), notification);
         }
     }
@@ -186,19 +202,18 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
     private class CreateShortCutRunnable implements Runnable {
         @Override
         public void run() {
-            Intent shortcutIntent = new Intent();
+            final Intent shortcutIntent = new Intent();
             shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
             shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
-            Intent create_shortcut_intent = new Intent();
+            final Intent create_shortcut_intent = new Intent();
             create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
             // Sets the custom shortcut's title
             create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
 
-            BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
-            Bitmap newBitmap;
-            newBitmap = bd.getBitmap();
+            final BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
+            Bitmap newBitmap = bd.getBitmap();
             create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, newBitmap);
 
             create_shortcut_intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
