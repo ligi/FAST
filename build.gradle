@@ -8,7 +8,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.3.6'
 
-        classpath 'de.felixschulze.gradle:gradle-spoon-plugin:2.7.3'
+	classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.0'
+	
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
 
         // http://stackoverflow.com/a/33889117/322642
