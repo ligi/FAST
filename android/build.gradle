@@ -9,7 +9,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
@@ -18,7 +18,7 @@ android {
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 7
-        targetSdkVersion 23
+        targetSdkVersion 24
         applicationId "org.ligi.fast"
 
         archivesBaseName = "Fast-$versionName"
@@ -85,8 +85,8 @@ android {
 dependencies {
     compile 'org.ligi:tracedroid:1.4'
 
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.5.2'
+    androidTestCompile 'com.android.support:support-annotations:24.1.1'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.6.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
