@@ -1,4 +1,5 @@
-def flavorCombination='ForGooglePlayWithExtras'
+def flavorCombination1='ForGooglePlayWithExtras'
+def flavorCombination2='ForGooglePlayNoExtras'
 
 node {
 
@@ -8,7 +9,8 @@ node {
  stage 'UITest'
  lock('adb') {
    try {
-    sh "./gradlew clean spoon${flavorCombination}"
+    sh "./gradlew spoon${flavorCombination1}"
+    sh "./gradlew spoon${flavorCombination2}"
    } catch(err) {
     currentBuild.result = FAILURE
    } finally {
@@ -19,7 +21,8 @@ node {
 
  stage 'lint'
     try {
-     sh "./gradlew clean lint${flavorCombination}Release"
+     sh "./gradlew clean lint${flavorCombination1}Release"
+     sh "./gradlew clean lint${flavorCombination2}Release"
     } catch(err) {
      currentBuild.result = FAILURE
     } finally {
@@ -28,7 +31,8 @@ node {
     
  stage 'test'
    try {
-    sh "./gradlew clean test${flavorCombination}DebugUnitTest"
+    sh "./gradlew clean test${flavorCombination1}DebugUnitTest"
+    sh "./gradlew clean test${flavorCombination2}DebugUnitTest"
    } catch(err) {
     currentBuild.result = FAILURE
    } finally {
@@ -38,7 +42,8 @@ node {
 
 
  stage 'assemble'
-  sh "./gradlew clean assemble${flavorCombination}Release"
+  sh "./gradlew clean assemble${flavorCombination1}Release"
+  sh "./gradlew clean assemble${flavorCombination2}Release"
   archive 'android/build/outputs/apk/*'
   archive 'android/build/outputs/mapping/*/release/mapping.txt'
 
