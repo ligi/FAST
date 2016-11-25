@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="org.ligi.fast">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+          package="org.ligi.fast">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-sdk tools:overrideLibrary="com.jraska.falcon.spooncompat , com.jraska.falcon , org.ligi.trulesk , android.support.v4"/>
+
 </manifest>

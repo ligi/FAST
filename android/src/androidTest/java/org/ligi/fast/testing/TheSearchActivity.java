@@ -1,45 +1,55 @@
 package org.ligi.fast.testing;
 
-import android.test.suitebuilder.annotation.SmallTest;
-
-import com.squareup.spoon.Spoon;
-
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.ligi.fast.App;
+import org.ligi.fast.ui.SearchActivity;
+import org.ligi.trulesk.TruleskActivityRule;
 
-public class TheSearchActivity extends AppInfoTestBase {
+public class TheSearchActivity {
 
-    MutableFastSettings newSettings = new MutableFastSettings();
+    @Rule
+    public TruleskActivityRule<SearchActivity> rule = new TruleskActivityRule<>(SearchActivity.class, false);
 
-    @Override
+    AndroidTestMutableFastSettings newSettings = new AndroidTestMutableFastSettings();
+
+    @Before
     public void setUp() {
         App.injectSettingsForTesting(newSettings);
     }
 
-    @SmallTest
+    @Test
     public void testShouldWorkWithLightTheme() {
         newSettings.theme = "light";
-        Spoon.screenshot(getActivity(), "theme_" + newSettings.theme);
+        rule.launchActivity(null);
+
+        rule.screenShot("theme_" + newSettings.theme);
     }
 
-
-
-    @SmallTest
+    @Test
     public void testShouldWorkWithDarkTheme() {
         newSettings.theme = "dark";
-        Spoon.screenshot(getActivity(), "theme_" + newSettings.theme);
+        rule.launchActivity(null);
+
+        rule.screenShot("theme_" + newSettings.theme);
     }
 
 
-    @SmallTest
+    @Test
     public void testShouldWorkWithTransparentLightTheme() {
         newSettings.theme = "transparent_light";
-        Spoon.screenshot(getActivity(), "theme_" + newSettings.theme);
+        rule.launchActivity(null);
+
+        rule.screenShot("theme_" + newSettings.theme);
     }
 
 
-    @SmallTest
+    @Test
     public void testShouldWorkWithTransparentTheme() {
         newSettings.theme = "transparent";
-        Spoon.screenshot(getActivity(), "theme" + newSettings.theme);
+        rule.launchActivity(null);
+
+        rule.screenShot("theme_" + newSettings.theme);
     }
 }

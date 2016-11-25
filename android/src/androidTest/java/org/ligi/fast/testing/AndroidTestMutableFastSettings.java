@@ -3,7 +3,7 @@ package org.ligi.fast.testing;
 import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
 
-public class MutableFastSettings implements FASTSettings {
+public class AndroidTestMutableFastSettings implements FASTSettings {
 
     public boolean launchSingle = false;
     public boolean searchPackage = false;
