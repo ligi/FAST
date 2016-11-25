@@ -43,6 +43,8 @@ node {
 
  stage 'assemble'
   sh "./gradlew clean assemble${flavorCombination1}Release"
+  archive 'android/build/outputs/apk/*'
+  archive 'android/build/outputs/mapping/*/release/mapping.txt'
   sh "./gradlew clean assemble${flavorCombination2}Release"
   archive 'android/build/outputs/apk/*'
   archive 'android/build/outputs/mapping/*/release/mapping.txt'
