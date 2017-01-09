@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">FAST App Search Tool</string>
+    <string name="icon">アイコン</string>
+    <string name="launch_single">自動起動</string>
+    <string name="settings">設定</string>
+    <string name="share">共有</string>
+    <string name="also_use_the_package_name_for_searching">パッケージ名もアプリ名と同様に検索</string>
+    <string name="search_in_package">パッケージを検索</string>
+    <string name="auto_launch_if_only_one_app_left">検索結果が一つの場合自動起動</string>
+    <string name="open_in_for_all">常に "開く... %s" を表示</string>
+    <string name="even_if_installed_another_way">別の場所からインストールされた場合も</string>
+    <string name="application_details">アプリケーション詳細</string>
+    <string name="open_in">開く...</string>
+    <string name="open_as_notification">通知として開く</string>
+    <string name="query_hint">ここに問い合わせを入力</string>
+    <string name="text_only">アプリ名のみ表示</string>
+    <string name="app_gone">このアプリはなくなりました :-(</string>
+    <string name="show_no_icons_pure_text">アプリ名のみアイコンなしで表示</string>
+    <string name="max_text_lines">テキストの行数</string>
+    <string name="how_much_text_you_want">アプリ名を表示するために使用する最大行数</string>
+    <string name="create_shortcut">ショートカットを作成</string>
+    <string name="icon_size">アイコンサイズ</string>
+    <string name="how_big_icons">アイコンの大きさは?</string>
+    <string name="theme">テーマ</string>
+    <string name="choose_your_look">FAST App Search の外観を選択</string>
+    <string name="sort">並び替え</string>
+    <string name="sort_decr">アプリの並び替え方法は?</string>
+    <string name="help_label">ヘルプ</string>
+    <string name="help_content">
+        <![CDATA[
+        <H1>回答</H1>上部に起動したいアプリの名前の一部を入力してください。 アプリをクリックして起動するか、
+        アプリを長押しして追加のオプションを表示します。 Android Jelly Bean (またはそれ以降) の電話をお使いの場合は、Google Now
+        ジェスチャーを使用してこのアプリを起動することもできます。 このアプリでどれくらい早くできるかを知るには、同じく無料で利用できる <a href="https://play.google.com/store/apps/details?id=org.ligi.launchometer&referrer=utm_source%3Dfast%26utm_medium%3Dplay">Applaunch-O-Meter</a> をお試しください。
+        <H1>質問</H1>
+        <a href="https://plus.google.com/b/108684152853280523320">コミュニティ</a> で質問、または <a href="mailto:ligi@ligi.de">作者</a> にメールすることができます。 このアプリを翻訳したい、またはして欲しい場合、私に連絡することもできます - 簡単です。
+        <H1>クレジット</H1>
+        <a href="https://github.com/talexop">talexop</a> と <a href="https://github.com/pserwylo">Peter Serwylo</a> のプルリクエストに感謝します!
+        ]]>
+    </string>
+    <string name="convert_umlauts">ウムラウトを変換</string>
+    <string name="convert_umlauts_descr">ae → ä, oe → ö, ss → ß and ue → ü に変換します</string>
+    <string name="allow_gap_search">語句の一部を検索</string>
+    <string name="allow_gap_search_descr">語句全体ではなく一致するすべての文字</string>
+    <string name="loadingDialogTitle">キャッシュして高速に提供</string>
+    <string name="ignore_space">空白を無視</string>
+    <string name="ignore_space_descr">問い合わせで最後の空白を除去します</string>
+    <string name="show_keyboard">キーボードを表示</string>
+    <string name="show_keyboard_descr">開始時にキーボードを表示します</string>
+    <string name="appActionDialog_title">FAST 起動 </string>
+    <string name="remove_cache">キャッシュをクリア</string>
+    <string name="remove_cache_descr">強制的に FAST がアプリのリストと履歴をリセットします</string>
+    <string name="icon_resolution_title">アイコンの解像度</string>
+    <string name="icon_resolution_summary">スピードかピクセル数か?</string>
+    <string-array name="sizes">
+        <item>極小</item>
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>ダーク</item>
+        <item>ライト</item>
+        <item>トランスペアレント ダーク</item>
+        <item>トランスペアレント ライト</item>
+    </string-array>
+
+    <string-array name="sort_orders">
+        <item>並び替えなし</item>
+        <item>アルファベット</item>
+        <item>使用状況</item>
+        <item>インストール時間</item>
+        </string-array>
+</resources>
