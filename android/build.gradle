@@ -86,7 +86,7 @@ android {
 dependencies {
     compile 'com.github.ligi:tracedroid:1.4'
 
-    androidTestCompile 'com.github.ligi:trulesk:0.9'
+    androidTestCompile 'com.github.ligi:trulesk:0.16'
     androidTestCompile 'com.android.support:support-annotations:25.0.1'
     androidTestCompile 'com.squareup.spoon:spoon-client:1.6.4'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
