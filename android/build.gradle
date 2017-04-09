@@ -59,6 +59,12 @@ android {
         }
     }
 
+    android.variantFilter { variant ->
+        def market = variant.getFlavors().get(0).name
+        def size = variant.getFlavors().get(1).name
+        variant.setIgnore(project.hasProperty("singleFlavor") && ((market != 'forGooglePlay') || (size != 'noExtras')))
+    }
+
     // ugly but the best workaround I found for getting the permission for spoon screenshot writing to SD-Card
     // http://stackoverflow.com/questions/25276537/how-do-i-change-android-permission-settings-when-running-tests
     sourceSets {
