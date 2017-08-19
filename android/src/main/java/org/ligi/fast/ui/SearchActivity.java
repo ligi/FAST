@@ -174,6 +174,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         intent.setAction(Intent.ACTION_MAIN);
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
         Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
 
         try {
