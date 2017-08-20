@@ -65,6 +65,12 @@ public class FASTSettingsActivity extends PreferenceActivity {
         textOnly.setSummary(R.string.show_no_icons_pure_text);
         textOnly.setDefaultValue(false);
 
+        CheckBoxPreference noHidden = new CheckBoxPreference(this);
+        noHidden.setKey(FASTSettings.KEY_SHOW_HIDDEN);
+        noHidden.setTitle(R.string.show_even_hidden);
+        noHidden.setSummary(R.string.show_even_hidden_summary);
+        noHidden.setDefaultValue(false);
+
         CheckBoxPreference finishAfterLaunch = new CheckBoxPreference(this);
         finishAfterLaunch.setKey(FASTSettings.KEY_FINISH_ON_LAUNCH);
         finishAfterLaunch.setTitle("Finish on Launch");
@@ -178,6 +184,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         behaviourCategory.addPreference(finishAfterLaunch);
         behaviourCategory.addPreference(marketForAllApps);
         displayCategory.addPreference(textOnly);
+        displayCategory.addPreference(noHidden);
         behaviourCategory.addPreference(sortPref);
         behaviourCategory.addPreference(ignoreSpace);
         behaviourCategory.addPreference(autoShowKeyboard);

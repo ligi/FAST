@@ -14,8 +14,12 @@
     <string name="open_as_notification">Open as Notification</string>
     <string name="query_hint">Enter query here</string>
     <string name="text_only">Only show app names</string>
+    <string name="hide_app">Hide</string>
+    <string name="unhide_app">Unhide</string>
     <string name="app_gone">This App is gone :-(</string>
     <string name="show_no_icons_pure_text">Only show app names, not the icons</string>
+    <string name="show_even_hidden">Show hidden apps</string>
+    <string name="show_even_hidden_summary">Sorted to end of list</string>
     <string name="max_text_lines">Lines of text</string>
     <string name="how_much_text_you_want">Max number of lines used to display app name</string>
     <string name="create_shortcut">Create shortcut</string>
@@ -39,6 +43,8 @@
     <string name="remove_cache_descr">Force FAST to reset app list and history</string>
     <string name="icon_resolution_title">Icon Resolution</string>
     <string name="icon_resolution_summary">More speed or more pixels?</string>
+    <string name="pin_app">Pin</string>
+    <string name="unpin_app">Unpin</string>
     <string-array name="sizes">
         <item>Tiny</item>
         <item>Small</item>

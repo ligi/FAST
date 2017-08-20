@@ -83,5 +83,8 @@ public class MutableFastSettings implements FASTSettings {
         return Integer.parseInt(AndroidFASTSettings.DEFUAULT_ICON_RESOLUTION);
     }
 
-
+    @Override
+    public boolean isShowHiddenActivated() {
+        return false;
+    }
 }

@@ -29,6 +29,7 @@ public class AppInfo {
     private long installTime;
     private int callCount;
     private boolean isValid = true;
+    private int pinMode;
 
     private final AppIconCache iconCache;
 
@@ -51,6 +52,13 @@ public class AppInfo {
 
                 if (app_info_str_split.length > 5) {
                     installTime = Long.parseLong(app_info_str_split[5]);
+                }
+
+                if (app_info_str_split.length < 6) {
+                    pinMode = 0;
+                }
+                else {
+                    pinMode = Integer.parseInt(app_info_str_split[5]);
                 }
 
                 calculateAlternateLabelAndPackageName();
@@ -116,7 +124,7 @@ public class AppInfo {
 
     public String toCacheString() {
         return hash + SEPARATOR + label + SEPARATOR + packageName +
-               SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + installTime;
+               SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + installTime + SEPARATOR + pinMode;
     }
 
     private String calculateTheHash() {
@@ -207,8 +215,22 @@ public class AppInfo {
         final int localCallCount = getCallCount();
         final int remoteCallCount = appInfo.getCallCount();
         setCallCount(Math.max(localCallCount, remoteCallCount));
+        if (appInfo.getPinMode() != 0) {
+            setPinMode(appInfo.getPinMode());
+        }
+        else {
+            setPinMode(getPinMode());
+        }
 
         label = appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
+    }
+
+    public int getPinMode() {
+        return pinMode;
+    }
+
+    public void setPinMode(int pinMode) {
+        this.pinMode = pinMode;
     }
 }

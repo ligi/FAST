@@ -78,4 +78,8 @@ public class AndroidFASTSettings implements FASTSettings {
         return mSharedPreferences.getBoolean(KEY_GAP_SEARCH, true);
     }
 
+    public boolean isShowHiddenActivated() {
+        return mSharedPreferences.getBoolean(KEY_SHOW_HIDDEN, false);
+    }
+
 }

@@ -48,6 +48,55 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
+        if (app_info.getPinMode() == 0) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.pin_app), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setPinMode(1);
+                    ((SearchActivity)context).configureAdapter();
+                }
+            }));
+            fkt_map.add(new LabelAndCode(context.getString(R.string.hide_app), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setPinMode(-1);
+                    ((SearchActivity)context).configureAdapter();
+                }
+            }));
+        }
+        else if (app_info.getPinMode() == 1) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.unpin_app), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setPinMode(0);
+                    ((SearchActivity)context).configureAdapter();
+                }
+            }));
+            fkt_map.add(new LabelAndCode(context.getString(R.string.hide_app), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setPinMode(-1);
+                    ((SearchActivity)context).configureAdapter();
+                }
+            }));
+        }
+        else {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.pin_app), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setPinMode(1);
+                    ((SearchActivity)context).configureAdapter();
+                }
+            }));
+            fkt_map.add(new LabelAndCode(context.getString(R.string.unhide_app), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setPinMode(0);
+                    ((SearchActivity)context).configureAdapter();
+                }
+            }));
+        }
+
         fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
 
         if (App.getSettings().isMarketForAllActivated() || isMarketApp()) {
