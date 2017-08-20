@@ -9,7 +9,6 @@ import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.tracedroid.logging.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +49,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                         for(AppInfo oldInfo : appInfoList) {
                             if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
                                 actAppInfo.setCallCount(oldInfo.getCallCount());
+                                actAppInfo.setPinMode(oldInfo.getPinMode());
                                 break;
                             }
                         }

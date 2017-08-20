@@ -62,6 +62,8 @@ public class DynamicAppInfoList extends AppInfoList {
             sorter = new AppInfoSortByMostUsedComparator();
         } else if (mode.equals(SortMode.LAST_INSTALLED)) {
             sorter = new AppInfoSortByLastInstalled();
+        } else {
+            sorter = new AppInfoSortByPinComparator();
         }
         setQuery(currentQuery); // refresh showing
     }
@@ -100,6 +102,10 @@ public class DynamicAppInfoList extends AppInfoList {
     }
 
     private boolean appInfoMatchesQuery(AppInfo info, String query) {
+        if (!settings.isShowHiddenActivated() && info.getPinMode() == -1) {
+            return false;
+        }
+
         if (info.getLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
             return true;
         }

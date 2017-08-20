@@ -19,6 +19,7 @@ public interface FASTSettings {
     static final String KEY_FINISH_ON_LAUNCH = "finish_on_LAUNCH";
     static final String KEY_GAP_SEARCH = "gap_search";
     static final String KEY_ICONRES = "icon_res";
+    static final String KEY_SHOW_HIDDEN = "show_hidden";
 
     boolean isLaunchSingleActivated();
 
@@ -47,5 +48,7 @@ public interface FASTSettings {
     boolean isFinishOnLaunchEnabled();
 
     boolean isGapSearchActivated();
+
+    boolean isShowHiddenActivated();
 
 }
