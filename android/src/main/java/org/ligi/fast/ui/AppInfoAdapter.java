@@ -93,7 +93,7 @@ public class AppInfoAdapter extends BaseAdapter {
         if (maxLines==0) {
             labelView.setVisibility(View.GONE);
         } else {
-            labelView.setMaxLines(maxLines);
+            labelView.setLines(maxLines);
             labelView.setVisibility(View.VISIBLE);
         }
 
