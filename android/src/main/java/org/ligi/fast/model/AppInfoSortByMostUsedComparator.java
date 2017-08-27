@@ -15,8 +15,8 @@ public class AppInfoSortByMostUsedComparator implements Comparator<AppInfo> {
         if (result == 0) {
             if (lhs.getCallCount() == rhs.getCallCount()) {
                 //result = sortByLabel.compare(lhs, rhs);
-                final String lhsLowerCaseLabel = lhs.getLabel().toLowerCase(Locale.ENGLISH);
-                final String rhsLowerCaseLabel = rhs.getLabel().toLowerCase(Locale.ENGLISH);
+                final String lhsLowerCaseLabel = lhs.getDisplayLabel().toLowerCase(Locale.ENGLISH);
+                final String rhsLowerCaseLabel = rhs.getDisplayLabel().toLowerCase(Locale.ENGLISH);
                 result = lhsLowerCaseLabel.compareTo(rhsLowerCaseLabel);
             } else if (lhs.getCallCount() < rhs.getCallCount()) {
                 result = 1;

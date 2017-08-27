@@ -97,7 +97,7 @@ public class AppInfoAdapter extends BaseAdapter {
             labelView.setVisibility(View.VISIBLE);
         }
 
-        String label = actAppInfo.getLabel();
+        String label = actAppInfo.getDisplayLabel();
         String highlight_label = label;
 
         int query_index = label.toLowerCase(Locale.ENGLISH).indexOf(appInfoList.getCurrentQuery());
@@ -124,10 +124,10 @@ public class AppInfoAdapter extends BaseAdapter {
                     label.length());
         } else if (App.getSettings().isGapSearchActivated()) {
 
-            final ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(actAppInfo.getLabel(),appInfoList.getCurrentQuery());
+            final ArrayList<Integer> matchedIndices = StringUtils.getMatchedIndices(actAppInfo.getDisplayLabel(),appInfoList.getCurrentQuery());
             if (matchedIndices.size()==appInfoList.getCurrentQuery().length()) {
                 // highlight single characters of query in label for gap matched strings
-                label = actAppInfo.getLabel();
+                label = actAppInfo.getDisplayLabel();
             } // otherwise must be in package
 
             highlight_label="";

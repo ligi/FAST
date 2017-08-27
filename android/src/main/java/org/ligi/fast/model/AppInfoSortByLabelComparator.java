@@ -11,8 +11,8 @@ class AppInfoSortByLabelComparator implements Comparator<AppInfo> {
     public int compare(AppInfo lhs, AppInfo rhs) {
         int result = sortByPin.compare(lhs, rhs);
         if (result == 0) {
-            final String lhsLowerCaseLabel = lhs.getLabel().toLowerCase(Locale.ENGLISH);
-            final String rhsLowerCaseLabel = rhs.getLabel().toLowerCase(Locale.ENGLISH);
+            final String lhsLowerCaseLabel = lhs.getDisplayLabel().toLowerCase(Locale.ENGLISH);
+            final String rhsLowerCaseLabel = rhs.getDisplayLabel().toLowerCase(Locale.ENGLISH);
             return lhsLowerCaseLabel.compareTo(rhsLowerCaseLabel);
         }
         else {

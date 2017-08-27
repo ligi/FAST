@@ -22,6 +22,7 @@ public class AppInfo {
 
     private String label;
     private String alternateLabel;
+    private String overrideLabel;
     private String packageName;
     private String alternatePackageName;
     private String activityName;
@@ -29,7 +30,8 @@ public class AppInfo {
     private long installTime;
     private int callCount;
     private boolean isValid = true;
-    private int pinMode;
+    private int pinMode = 0;
+    private int labelMode = 0;
 
     private final AppIconCache iconCache;
 
@@ -52,13 +54,15 @@ public class AppInfo {
 
                 if (app_info_str_split.length > 5) {
                     installTime = Long.parseLong(app_info_str_split[5]);
-                }
-
-                if (app_info_str_split.length < 6) {
-                    pinMode = 0;
-                }
-                else {
-                    pinMode = Integer.parseInt(app_info_str_split[5]);
+                    if (app_info_str_split.length > 6) {
+                        pinMode = Integer.parseInt(app_info_str_split[6]);
+                        if (app_info_str_split.length > 7) {
+                            labelMode = Integer.parseInt(app_info_str_split[7]);
+                            if (app_info_str_split.length > 8) {
+                                overrideLabel = app_info_str_split[8];
+                            }
+                        }
+                    }
                 }
 
                 calculateAlternateLabelAndPackageName();
@@ -123,7 +127,10 @@ public class AppInfo {
     }
 
     public String toCacheString() {
-               SEPARATOR + activityName + SEPARATOR + callCount + SEPARATOR + installTime + SEPARATOR + pinMode;
+        return hash + SEPARATOR + label + SEPARATOR + packageName +
+                SEPARATOR + activityName + SEPARATOR + callCount +
+                SEPARATOR + installTime + SEPARATOR + pinMode +
+                SEPARATOR + labelMode + SEPARATOR + overrideLabel;
     }
 
     private String calculateTheHash() {
@@ -174,8 +181,20 @@ public class AppInfo {
         return packageName;
     }
 
+    /**
+     * Please keep in mind that this might now return unexpected values
+     * @return the user-set label if it is set, default otherwise
+     */
+    public String getDisplayLabel() {
+        if (labelMode == 0) {
+            return label;
+        } else {
+            return overrideLabel;
+        }
+    }
+
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public int getCallCount() {
@@ -202,6 +221,18 @@ public class AppInfo {
         return hash;
     }
 
+    /**
+     * Please keep in mind that this might now return unexpected values
+     * @return the user-set label if it is set, alternateLabel otherwise
+     */
+    public String getAlternateDisplayLabel() {
+        if (labelMode == 0) {
+            return alternateLabel;
+        } else {
+            return overrideLabel;
+        }
+    }
+
     public String getAlternateLabel() {
         return alternateLabel;
     }
@@ -221,6 +252,11 @@ public class AppInfo {
             setPinMode(getPinMode());
         }
 
+        if (appInfo.getLabelMode() == 1) {
+            setLabelMode(1);
+            setOverrideLabel(appInfo.getOverrideLabel());
+        }
+
         label = appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
     }
@@ -231,5 +267,21 @@ public class AppInfo {
 
     public void setPinMode(int pinMode) {
         this.pinMode = pinMode;
+    }
+
+    public int getLabelMode() {
+        return this.labelMode;
+    }
+
+    public void setLabelMode(int mode) {
+        this.labelMode = mode;
+    }
+
+    public String getOverrideLabel() {
+        return overrideLabel;
+    }
+
+    public void setOverrideLabel(String label) {
+        this.overrideLabel = label;
     }
 }
