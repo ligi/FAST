@@ -48,6 +48,35 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
+        fkt_map.add(new LabelAndCode(context.getString(R.string.change_label), new Runnable() {
+            @Override
+            public void run() {
+                new SetLabelDialogBuilder(context, app_info).show();
+                ((SearchActivity) context).configureAdapter();
+            }
+        }));
+
+        if (app_info.getLabelMode() == 1) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.reset_label), new Runnable() {
+                @Override
+                public void run() {
+                    app_info.setOverrideLabel(null);
+                    app_info.setLabelMode(0);
+                    ((SearchActivity) context).configureAdapter();
+                }
+            }));
+        }
+
+        if (app_info.getLabelMode() == 2) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.remove_alias), new Runnable() {
+                @Override
+                public void run() {
+                    ((SearchActivity) context).removeEntry(app_info);
+                    ((SearchActivity) context).configureAdapter();
+                }
+            }));
+        }
+
         if (app_info.getPinMode() == 0) {
             fkt_map.add(new LabelAndCode(context.getString(R.string.pin_app), new Runnable() {
                 @Override
@@ -205,7 +234,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
             PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            final String title = app_info.getLabel();
+            final String title = app_info.getDisplayLabel();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             final Notification notification;
 
@@ -252,14 +281,14 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         @Override
         public void run() {
             final Intent shortcutIntent = new Intent();
-            shortcutIntent.setClassName(app_info.getPackageName(), app_info.getLabel());
+            shortcutIntent.setClassName(app_info.getPackageName(), app_info.getDisplayLabel());
             shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             shortcutIntent.addCategory(Intent.ACTION_PICK_ACTIVITY);
             final Intent create_shortcut_intent = new Intent();
             create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
             // Sets the custom shortcut's title
-            create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getLabel());
+            create_shortcut_intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, app_info.getDisplayLabel());
 
             final BitmapDrawable bd = (BitmapDrawable) (app_info.getIcon());
             Bitmap newBitmap = bd.getBitmap();

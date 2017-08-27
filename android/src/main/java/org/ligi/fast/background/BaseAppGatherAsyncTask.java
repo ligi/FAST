@@ -52,9 +52,14 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                             Log.d(oldInfo.getActivityName()+"("+actAppInfo.getPinMode()+"|"+oldInfo.getPinMode() +
                                     "," + actAppInfo.getCallCount() + "|" + oldInfo.getCallCount()+")");
                             if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
-                                actAppInfo.setCallCount(oldInfo.getCallCount());
-                                actAppInfo.setPinMode(oldInfo.getPinMode());
-                                break;
+                                if (oldInfo.getLabelMode() == 2) {
+                                    appInfoList.add(oldInfo);
+                                } else {
+                                    actAppInfo.setCallCount(oldInfo.getCallCount());
+                                    actAppInfo.setPinMode(oldInfo.getPinMode());
+                                    actAppInfo.setLabelMode(oldInfo.getLabelMode());
+                                    actAppInfo.setOverrideLabel(oldInfo.getOverrideLabel());
+                                }
                             }
                         }
                     }

@@ -47,7 +47,7 @@ public class LoadingDialog extends Activity {
                 getProgressBar().setProgress(actAppIndex);
 
                 setIcon(values[0].getIcon());
-                setText(values[0].getLabel());
+                setText(values[0].getDisplayLabel());
 
             }
 

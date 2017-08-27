@@ -330,4 +330,12 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         App.packageChangedListener = null;
         super.onPause();
     }
+
+    public void addEntry(AppInfo new_entry) {
+        appInfoList.getBackingAppInfoList().add(new_entry);
+    }
+
+    public void removeEntry(AppInfo entry) {
+        appInfoList.getBackingAppInfoList().remove(entry);
+    }
 }

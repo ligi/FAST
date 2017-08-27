@@ -44,7 +44,14 @@ public class DynamicAppInfoList extends AppInfoList {
         for (AppInfo app : pkgAppsListAll) {
             final AppInfo appWithHash = getAppWithHash(app.getHash(), backingAppInfoList);
             if (appWithHash != null) {
-                appWithHash.mergeSafe(app);
+                if (app.getLabelMode() == 2) {
+                    final AppInfoList aliasesWithHash = getAliasesWithHash(app.getHash(), backingAppInfoList);
+                    if (!aliasesWithHash.contains(app)) {
+                        backingAppInfoList.add(app);
+                    }
+                } else {
+                    appWithHash.mergeSafe(app);
+                }
             } else {
                 backingAppInfoList.add(app);
             }
@@ -106,13 +113,13 @@ public class DynamicAppInfoList extends AppInfoList {
             return false;
         }
 
-        if (info.getLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
+        if (info.getDisplayLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
             return true;
         }
 
         if (settings.isUmlautConvertActivated()
-                && info.getAlternateLabel() != null
-                && info.getAlternateLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
+                && info.getAlternateDisplayLabel() != null
+                && info.getAlternateDisplayLabel().toLowerCase(Locale.ENGLISH).contains(query)) {
             return true;
         }
 
@@ -139,7 +146,7 @@ public class DynamicAppInfoList extends AppInfoList {
 
     private boolean isGapSearchActivateAndTrueForQuery(AppInfo info, String query) {
         if (settings.isGapSearchActivated()) {
-            final String appLabelLowerCase = info.getLabel().toLowerCase(Locale.ENGLISH);
+            final String appLabelLowerCase = info.getDisplayLabel().toLowerCase(Locale.ENGLISH);
             final int diffLength = appLabelLowerCase.length() - query.length();
             final int threshold = diffLength > 0 ? diffLength : 0;
 
@@ -152,11 +159,21 @@ public class DynamicAppInfoList extends AppInfoList {
 
     private static AppInfo getAppWithHash(String hash, List<AppInfo> appInfoList) {
         for (AppInfo info : appInfoList) {
-            if (info.getHash().equals(hash)) {
+            if (info.getLabelMode() < 2 && info.getHash().equals(hash)) {
                 return info;
             }
         }
         return null;
+    }
+
+    private static AppInfoList getAliasesWithHash(String hash, List<AppInfo> appInfoList) {
+        AppInfoList aliasesWithHash = new AppInfoList();
+        for (AppInfo info : appInfoList) {
+            if (info.getLabelMode() == 2 && info.getHash().equals(hash)) {
+                aliasesWithHash.add(info);
+            }
+        }
+        return aliasesWithHash;
     }
 
     public List<AppInfo> getBackingAppInfoList() {

@@ -14,6 +14,14 @@
     <string name="open_as_notification">Open as Notification</string>
     <string name="query_hint">Enter query here</string>
     <string name="text_only">Only show app names</string>
+    <string name="no_hidden">Show hidden apps</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_label">Change Label</string>
+    <string name="change_label_of">Change Label of %s</string>
+    <string name="reset_label">Reset Label</string>
+    <string name="remove_alias">Remove Alias</string>
+    <string name="as_new_entry">Add as new entry</string>
+    <string name="hide_original_entry">Hide original entry</string>
     <string name="hide_app">Hide</string>
     <string name="unhide_app">Unhide</string>
     <string name="app_gone">This App is gone :-(</string>
