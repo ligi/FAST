@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 
 public class AppIconCache {
+    private final BitmapIconConverter bitmapIconConverter = new BitmapIconConverter();
 
     private final Context ctx;
     private final AppInfo appInfo;
@@ -94,13 +94,7 @@ public class AppIconCache {
 
                 final FileOutputStream fos = new FileOutputStream(getIconCacheFile());
 
-                final Point scaledSize = scaleToFitCalc(iconCacheSpec.maxSize, bitmapSizeToPoint(icon.getBitmap()));
-
-                // we want a filter when UpScaling / not when DownScaling
-                final boolean filter = icon.getBitmap().getWidth() < scaledSize.x;
-
-                final Bitmap cacheIcon = Bitmap.createScaledBitmap(icon.getBitmap(), scaledSize.x, scaledSize.y, filter);
-
+                final Bitmap cacheIcon = bitmapIconConverter.toScaledBitmap(icon, iconCacheSpec);
                 cacheIcon.compress(Bitmap.CompressFormat.PNG, iconCacheSpec.quality, fos);
 
                 fos.close();
@@ -112,27 +106,6 @@ public class AppIconCache {
         }
         return false;
     }
-
-    private Point bitmapSizeToPoint(Bitmap bitmap) {
-        return new Point(bitmap.getWidth(), bitmap.getHeight());
-    }
-
-    public Point scaleToFitCalc(int maxDist, Point point) {
-        final float scale;
-        if (point.x < maxDist && point.y < maxDist) {
-            // nothing is over dist px -> we are good with the given value
-            scale = 1f;
-        } else {
-
-            if (point.x > point.y) {
-                scale = (float) maxDist / point.x;
-            } else {
-                scale = (float) maxDist / point.y;
-            }
-        }
-        return new Point((int) (point.x * scale), (int) (point.y * scale));
-    }
-
 
     public Drawable getIcon() {
         // return the cached Icon if we have one
