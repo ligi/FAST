@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 
 public class AppIconCache {
-    private final BitmapIconConverter bitmapIconConverter = new BitmapIconConverter();
+    private final IconConverter iconConverter = new IconConverter();
 
     private final Context ctx;
     private final AppInfo appInfo;
@@ -88,13 +88,13 @@ public class AppIconCache {
         }
 
         try {
-            final BitmapDrawable icon = (BitmapDrawable) ri.loadIcon(pm);
+            final Drawable icon = ri.loadIcon(pm);
             if (icon != null) {
                 createIconCacheFile();
 
                 final FileOutputStream fos = new FileOutputStream(getIconCacheFile());
 
-                final Bitmap cacheIcon = bitmapIconConverter.toScaledBitmap(icon, iconCacheSpec);
+                final Bitmap cacheIcon = iconConverter.toScaledBitmap(icon, iconCacheSpec);
                 cacheIcon.compress(Bitmap.CompressFormat.PNG, iconCacheSpec.quality, fos);
 
                 fos.close();
