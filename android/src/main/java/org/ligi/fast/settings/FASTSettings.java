@@ -9,6 +9,7 @@ public interface FASTSettings {
     static final String KEY_SEARCHPKG = "search_pkg";
     static final String KEY_MARKETFORALL = "marketforall";
     static final String KEY_TEXTONLY = "textonly";
+    static final String KEY_SEARCHONBOTTOM = "searchonbottom";
     static final String KEY_MAXLINES = "maxlines";
     static final String KEY_ICONSIZE = "iconsize";
     static final String KEY_UMLAUTCONVERT = "convert_umlauts";
@@ -29,6 +30,8 @@ public interface FASTSettings {
     boolean isMarketForAllActivated();
 
     boolean isTextOnlyActivated();
+
+    boolean isSearchOnBottomActivated();
 
     boolean isIgnoreSpaceAfterQueryActivated();
 

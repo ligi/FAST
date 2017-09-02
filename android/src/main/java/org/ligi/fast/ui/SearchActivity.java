@@ -57,11 +57,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
-        setContentView(R.layout.activity_search);
-
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
+        dealWithUserPreferencesRegardingSearchBarPlacement();
 
         appInfoListStore = new AppInfoListStore(this);
 
@@ -232,6 +228,19 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             default:
                 return R.dimen.cell_size;
         }
+    }
+
+
+    private void dealWithUserPreferencesRegardingSearchBarPlacement() {
+        if (App.getSettings().isSearchOnBottomActivated()) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.activity_search_alt);
+        } else {
+            requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+            setContentView(R.layout.activity_search);
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
+        }
+
     }
 
     private void dealWithUserPreferencesRegardingSoftKeyboard() {

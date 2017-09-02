@@ -39,6 +39,8 @@
     <string name="remove_cache_descr">Force FAST to reset app list and history</string>
     <string name="icon_resolution_title">Icon Resolution</string>
     <string name="icon_resolution_summary">More speed or more pixels?</string>
+    <string name="search_on_bottom">Search bar on bottom</string>
+    <string name="search_on_bottom_desc">Moves the search bar to the bottom of the screen</string>
     <string-array name="sizes">
         <item>Tiny</item>
         <item>Small</item>
