@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android'
 repositories {
     jcenter()
     maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.google.com' }
 }
 
 android {
