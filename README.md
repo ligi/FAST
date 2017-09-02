@@ -13,10 +13,13 @@ Just type in a fraction of the name of the App you want to launch - most of the 
 Howto
 =====
 
-A single click launches the App - a long click gives you 3 Options:
+A single click launches the App - a long click gives you 6 Options:
  1. Go to the App details
- 2. Open the App in Google Play
- 3. Open the App as a Notification for FAST access at a later time
+ 2. Customize its Label or create additional entries for the App
+ 3. Pin the App to top
+ 4. Hide the App
+ 5. Open the App as a Notification for FAST access at a later time
+ 6. Open the App in Google Play
 
 
 License
@@ -27,7 +30,7 @@ The App is <a href="http://gplv3.fsf.org/">GPLv3</a>
 Credits
 =======
 
-Thanks to  <a href="https://github.com/talexop">talexop</a>, <a href="https://github.com/pserwylo">Peter Serwylo</a> and <a href="http://www.petervasil.net">Peter Vasil</a> for contributions!
+Thanks to <a href="https://github.com/talexop">talexop</a>, <a href="https://github.com/pserwylo">Peter Serwylo</a>, <a href="http://www.petervasil.net">Peter Vasil</a>, <a href="https://github.com/ShadowKyogre">ShadowKyogre</a> and <a href="https://github.com/SebiderSushi">SebiderSushi</a> for contributions!
 
 Questions
 =========
