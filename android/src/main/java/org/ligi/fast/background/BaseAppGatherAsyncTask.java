@@ -47,10 +47,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     // we saved the package list. An alternative would be to save the package list
                     // each time we leave
                     if (oldAppList != null) {
-                        for(AppInfo oldInfo : appInfoList) {
-                            //oldInfo doesn't actually hold new stuff!
-                            Log.d(oldInfo.getActivityName()+"("+actAppInfo.getPinMode()+"|"+oldInfo.getPinMode() +
-                                    "," + actAppInfo.getCallCount() + "|" + oldInfo.getCallCount()+")");
+                        for(AppInfo oldInfo : oldAppList) {
                             if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
                                 if (oldInfo.getLabelMode() == 2) {
                                     appInfoList.add(oldInfo);
