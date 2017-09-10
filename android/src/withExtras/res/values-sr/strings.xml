@@ -71,5 +71,7 @@
         <item>Unsorted</item>
         <item>Alphabetical</item>
         <item>By usage</item>
+        <item>Latest first</item>
+        <item>Oldest first</item>
     </string-array>
 </resources>

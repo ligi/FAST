@@ -54,5 +54,7 @@
         <item>Αταξηνόμητα</item>
         <item>Αλφαβητικά</item>
         <item>χρήση</item>
+        <item>Latest first</item>
+        <item>Oldest first</item>
     </string-array>
 </resources>
