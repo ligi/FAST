@@ -69,6 +69,7 @@
         <item>並び替えなし</item>
         <item>アルファベット</item>
         <item>使用状況</item>
-        <item>インストール時間</item>
+        <item>Latest first</item>
+        <item>Oldest first</item>
         </string-array>
 </resources>

@@ -2,21 +2,17 @@ package org.ligi.fast.model;
 
 import java.util.Comparator;
 
-public class AppInfoSortByLastInstalled implements Comparator<AppInfo> {
-
-    private final Comparator<AppInfo> sortByLabel = new AppInfoSortByLabelComparator();
-
+class AppInfoSortLatestFirst implements Comparator<AppInfo> {
     @Override
     public int compare(AppInfo lhs, AppInfo rhs) {
         int result = 0;
 
-        
         if (lhs.getInstallTime() == rhs.getInstallTime()) {
-            result = sortByLabel.compare(lhs, rhs);
+            result = new AppInfoSortByLabelComparator().compare(lhs, rhs);
         } else if (lhs.getInstallTime() < rhs.getInstallTime()) {
-            result = -1;
-        } else if (lhs.getInstallTime() > rhs.getInstallTime()) {
             result = 1;
+        } else {
+            result = -1;
         }
 
         return result;

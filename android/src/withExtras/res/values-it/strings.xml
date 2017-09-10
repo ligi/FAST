@@ -71,5 +71,7 @@
         <item>Non ordinate</item>
         <item>Ordine alfabetico</item>
         <item>A seconda dell\'uso</item>
+        <item>Latest first</item>
+        <item>Oldest first</item>
     </string-array>
 </resources>

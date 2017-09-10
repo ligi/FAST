@@ -114,7 +114,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         sortPref.setTitle(getString(R.string.sort));
         sortPref.setSummary(getString(R.string.sort_decr));
         sortPref.setEntries(R.array.sort_orders);
-        sortPref.setEntryValues(new CharSequence[]{"unsorted", "alpha", "most_used", "last_installed"});
+        sortPref.setEntryValues(new CharSequence[]{"unsorted", "alpha", "most_used", "latest_first", "oldest_first"});
         sortPref.setDefaultValue("unsorted");
 
         ListPreference themePref = new ListPreference(this);
