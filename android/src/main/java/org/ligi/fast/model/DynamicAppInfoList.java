@@ -21,7 +21,7 @@ public class DynamicAppInfoList extends AppInfoList {
     private SortMode currentSortMode = SortMode.UNSORTED;
 
     public enum SortMode {
-        UNSORTED, ALPHABETICAL, MOST_USED, LAST_INSTALLED
+        UNSORTED, ALPHABETICAL, MOST_USED, LATEST_FIRST, OLDEST_FIRST
     }
 
     @SuppressWarnings("unchecked")
@@ -67,7 +67,9 @@ public class DynamicAppInfoList extends AppInfoList {
             sorter = new AppInfoSortByLabelComparator();
         } else if (mode.equals(SortMode.MOST_USED)) {
             sorter = new AppInfoSortByMostUsedComparator();
-        } else if (mode.equals(SortMode.LAST_INSTALLED)) {
+        } else if (mode.equals(SortMode.LATEST_FIRST)) {
+            sorter = new AppInfoSortByLastInstalled(true);
+        } else if (mode.equals(SortMode.OLDEST_FIRST)) {
             sorter = new AppInfoSortByLastInstalled();
         } else {
             sorter = new AppInfoSortByPinComparator();

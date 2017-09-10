@@ -45,5 +45,7 @@
         <item>unsortiert</item>
         <item>alphabetisch</item>
         <item>Benutzung</item>
+        <item>Neueste zuerst</item>
+        <item>Älteste zuerst</item>
     </string-array>
 </resources>

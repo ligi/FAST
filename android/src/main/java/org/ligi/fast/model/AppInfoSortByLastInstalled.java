@@ -5,18 +5,29 @@ import java.util.Comparator;
 public class AppInfoSortByLastInstalled implements Comparator<AppInfo> {
 
     private final Comparator<AppInfo> sortByLabel = new AppInfoSortByLabelComparator();
+    private final Comparator<AppInfo> sortByPin = new AppInfoSortByPinComparator();
+    private int a = -1, b = 1;
+
+    AppInfoSortByLastInstalled() {}
+
+    AppInfoSortByLastInstalled(boolean descending) {
+        if (descending) {
+            a = 1;
+            b = -1;
+        }
+    }
 
     @Override
     public int compare(AppInfo lhs, AppInfo rhs) {
-        int result = 0;
+        int result = sortByPin.compare(lhs, rhs);;
 
         
         if (lhs.getInstallTime() == rhs.getInstallTime()) {
             result = sortByLabel.compare(lhs, rhs);
         } else if (lhs.getInstallTime() < rhs.getInstallTime()) {
-            result = -1;
+            result = a;
         } else if (lhs.getInstallTime() > rhs.getInstallTime()) {
-            result = 1;
+            result = b;
         }
 
         return result;
