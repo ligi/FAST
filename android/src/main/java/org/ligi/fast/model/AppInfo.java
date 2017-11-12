@@ -178,7 +178,7 @@ public class AppInfo {
     }
 
     public String getActivityName() {
-        return packageName;
+        return activityName;
     }
 
     /**
