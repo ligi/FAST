@@ -10,6 +10,7 @@
     <string name="open_in_for_all">"Tout le temps montrer "ouvrir dans %s""</string>
     <string name="even_if_installed_another_way">"Même s'il a été installé d'une autre manière"</string>
     <string name="application_details">"Détails d'Application"</string>
+    <string name="uninstall">Désinstaller</string>
     <string name="open_in">Ouvrir dans</string>
     <string name="open_as_notification">Ouvrir en tant que notification</string>
     <string name="query_hint">Rechercher...</string>

@@ -9,6 +9,7 @@
     <string name="open_in_for_all">Öffne mit %s für alle</string>
     <string name="even_if_installed_another_way">Auch wenn auf anderem Wege installiert</string>
     <string name="application_details">Anwendungs-Details</string>
+    <string name="uninstall">Deinstallieren</string>
     <string name="open_in">Öffne mit</string>
     <string name="open_as_notification">Öffne als Benachrichtigung</string>
     <string name="query_hint">Suche nach</string>

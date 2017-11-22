@@ -10,6 +10,7 @@
     <string name="open_in_for_all">Άνοιγμα με το %s για όλα</string>
     <string name="even_if_installed_another_way">ακόμα και αν έχει εγκατασταθεί διαφορετικά</string>
     <string name="application_details">Πληροφορίες εφαρμογής</string>
+    <string name="uninstall">εγκατάσταση</string>
     <string name="open_in">Άνοιγμα με</string>
     <string name="open_as_notification">Άνοιγμα ως ειδοποίηση</string>
     <string name="query_hint">Αναζήτηση</string>

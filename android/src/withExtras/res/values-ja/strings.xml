@@ -10,6 +10,7 @@
     <string name="open_in_for_all">常に "開く... %s" を表示</string>
     <string name="even_if_installed_another_way">別の場所からインストールされた場合も</string>
     <string name="application_details">アプリケーション詳細</string>
+    <string name="uninstall">アンインストールする</string>
     <string name="open_in">開く...</string>
     <string name="open_as_notification">通知として開く</string>
     <string name="query_hint">ここに問い合わせを入力</string>

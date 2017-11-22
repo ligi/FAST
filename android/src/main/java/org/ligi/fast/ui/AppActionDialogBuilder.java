@@ -48,6 +48,15 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }
         }));
 
+        fkt_map.add(new LabelAndCode(context.getString(R.string.uninstall), new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(Intent.ACTION_DELETE,
+                        Uri.fromParts("package", app_info.getPackageName(), null));
+                context.startActivity(intent);
+            }
+        }));
+
         fkt_map.add(new LabelAndCode(context.getString(R.string.change_label), new Runnable() {
             @Override
             public void run() {
