@@ -10,6 +10,7 @@
     <string name="open_in_for_all">Увек покажи "Отвори у %s"</string>
     <string name="even_if_installed_another_way">Иако је инсталирано са другог извора</string>
     <string name="application_details">Детаљи о апликацији</string>
+    <string name="uninstall">деинсталирате</string>
     <string name="open_in">Отвори у</string>
     <string name="open_as_notification">Отвори као нотификацију</string>
     <string name="query_hint">Унесите упит овде</string>

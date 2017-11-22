@@ -10,6 +10,7 @@
     <string name="open_in_for_all">Mostra sempre "Apri in %s"</string>
     <string name="even_if_installed_another_way">Anche se è installata da qualche altra fonte</string>
     <string name="application_details">Dettagli applicazioni</string>
+    <string name="uninstall">Disinstallare</string>
     <string name="open_in">Apri in</string>
     <string name="open_as_notification">Apri come Notifica</string>
     <string name="query_hint">Cerca qui</string>

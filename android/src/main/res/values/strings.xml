@@ -10,6 +10,7 @@
     <string name="open_in_for_all">Always show "Open in %s"</string>
     <string name="even_if_installed_another_way">Even if installed from somewhere else</string>
     <string name="application_details">Application Details</string>
+    <string name="uninstall">Uninstall</string>
     <string name="open_in">Open in</string>
     <string name="open_as_notification">Open as Notification</string>
     <string name="query_hint">Enter query here</string>
