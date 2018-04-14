@@ -15,8 +15,8 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        versionCode 67
-        versionName "6.7"
+        versionCode 68
+        versionName "6.8"
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 9
