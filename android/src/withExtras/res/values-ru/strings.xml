@@ -1,0 +1,76 @@
+<resources>
+    <string name="icon">Иконка</string>
+    <string name="launch_single">Автозапуск</string>
+    <string name="settings">Настройки</string>
+    <string name="share">Поделиться</string>
+    <string name="also_use_the_package_name_for_searching">Поиск не только по названию приложения, но и по имени пакета</string>
+    <string name="search_in_package">Искать по имени пакета</string>
+    <string name="auto_launch_if_only_one_app_left">Автозапуск при единственном результате поиска</string>
+    <string name="open_in_for_all">Всегда показывать "Открыть в %s"</string>
+    <string name="even_if_installed_another_way">Даже если установлено из другого источника</string>
+    <string name="application_details">Сведения о приложении</string>
+    <string name="uninstall">Удалить</string>
+    <string name="open_in">Открыть в</string>
+    <string name="open_as_notification">Открыть через уведомление</string>
+    <string name="query_hint">Введите запрос</string>
+    <string name="text_only">Показывать только названия приложений</string>
+    <string name="no_hidden">Показывать скрытые приложения</string>
+    <string name="cancel">Отмена</string>
+    <string name="change_label">Изменить название</string>
+    <string name="change_label_of">Изменить название для %s</string>
+    <string name="reset_label">Сбросить название</string>
+    <string name="remove_alias">Удалить алиас</string>
+    <string name="as_new_entry">Добавить как новый ярлык</string>
+    <string name="hide_original_entry">Скрыть исходный ярлык</string>
+    <string name="hide_app">Скрыть</string>
+    <string name="unhide_app">Убрать из скрытых</string>
+    <string name="app_gone">Этого приложения нет :-(</string>
+    <string name="show_no_icons_pure_text">Показывать только названия приложений, без иконок</string>
+    <string name="show_even_hidden">Показывать скрытые приложения</string>
+    <string name="show_even_hidden_summary">В конце списка приложений</string>
+    <string name="max_text_lines">Количество строк</string>
+    <string name="how_much_text_you_want">Максимальное число строк для отображения названия приложения</string>
+    <string name="create_shortcut">Создать быструю ссылку</string>
+    <string name="icon_size">Размер иконки</string>
+    <string name="how_big_icons">Насколько большими должны быть иконки приложений</string>
+    <string name="theme">Тема</string>
+    <string name="choose_your_look">Измените внешний вид FAST App Search</string>
+    <string name="sort">Сортировка</string>
+    <string name="sort_decr">Определяет, каким образом сортировать приложения</string>
+    <string name="convert_umlauts">Замена умлаутов</string>
+    <string name="convert_umlauts_descr">Заменяет ae на ä, oe на ö, ss на ß и ue на ü</string>
+    <string name="allow_gap_search">Искать в словах</string>
+    <string name="allow_gap_search_descr">Соответствие запроса не только целым словам, но и всем буквам</string>
+    <string name="loadingDialogTitle">Получаем приложения...</string>
+    <string name="ignore_space">Игнорировать пробел</string>
+    <string name="ignore_space_descr">Убирает последний пробел при поиске</string>
+    <string name="show_keyboard">Показывать клавиатуру</string>
+    <string name="show_keyboard_descr">Открывать клавиатуру при запуске</string>
+    <string name="appActionDialog_title">FAST Launch </string>
+    <string name="remove_cache">Очистить кэш</string>
+    <string name="remove_cache_descr">Сброс списка приложений и истории</string>
+    <string name="icon_resolution_title">Разрешение иконок</string>
+    <string name="icon_resolution_summary">Измените для улучшения скорости работы или качества иконок</string>
+    <string name="pin_app">Закрепить</string>
+    <string name="unpin_app">Открепить</string>
+    <string-array name="sizes">
+        <item>Очень маленький</item>
+        <item>Маленький</item>
+        <item>Средний</item>
+        <item>Большой</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>Тëмная</item>
+        <item>Светлая</item>
+        <item>Прозрачная тëмная</item>
+        <item>Прозрачная светлая</item>
+    </string-array>
+
+    <string-array name="sort_orders">
+        <item>Без сортировки</item>
+        <item>Алфавитный порядок</item>
+        <item>По использованию</item>
+        <item>По времени установки</item>
+        </string-array>
+</resources>
