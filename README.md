@@ -1,4 +1,5 @@
-<img src="https://user-images.githubusercontent.com/38007519/39509218-a22242ca-4e0f-11e8-9ed0-ec4150b14c68.png">
+<a href="https://play.google.com/store/apps/details?id=org.ligi.fast" target="_blank">
+<img src="https://i.imgsafe.org/12/1265d5cb26.png"></a>
 
 **Find and Launch Applications FAST** and for free with a small App that needs no permission!
 Just type in a fraction of the name of the App you want to launch - most of the time 3 chars are enough.
