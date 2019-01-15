@@ -55,6 +55,7 @@
     <string name="pin_app">Pin</string>
     <string name="unpin_app">Unpin</string>
     <string-array name="sizes">
+        <item>Tinier</item>
         <item>Tiny</item>
         <item>Small</item>
         <item>Medium</item>

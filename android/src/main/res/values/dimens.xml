@@ -6,6 +6,9 @@
     <dimen name="cell_size">92dp</dimen>
     <dimen name="icon_size">64dp</dimen>
 
+    <dimen name="cell_size_tinier">30dp</dimen>
+    <dimen name="icon_size_tinier">28dp</dimen>
+
     <dimen name="cell_size_tiny">52dp</dimen>
     <dimen name="icon_size_tiny">32dp</dimen>
 
