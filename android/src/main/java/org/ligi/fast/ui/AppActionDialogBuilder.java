@@ -193,10 +193,18 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
                                                 String packageName) {
         Intent intent = new Intent();
         final int apiLevel = Build.VERSION.SDK_INT;
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (apiLevel >= 9) { // above 2.3
             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts(SCHEME, packageName, null);
             intent.setData(uri);
+            if (apiLevel >= 11) {
+                // These flags give every new activity a separate entry on the recents screen instead
+                // of replacing the most recent one of the same type. The latter does exist since api
+                // level 1 but below android 3.0 the recents screen only displays the most recent
+                // 8 items - at least on some screen sizes - and does not allow removing them.
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            }
         } else { // below 2.3
             final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
             intent.setAction(Intent.ACTION_VIEW);
