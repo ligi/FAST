@@ -2,12 +2,15 @@ package org.ligi.fast.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.ligi.axt.helpers.ResolveInfoHelper;
@@ -116,13 +119,17 @@ public class AppInfo {
         }
         callCount = 0;
 
-        final PackageManager pmManager = _ctx.getPackageManager();
-
         installTime = 0;
 
         try {
-            final PackageInfo pi = pmManager.getPackageInfo(packageName, 0);
-            if (Build.VERSION.SDK_INT >= 9) {
+            PackageManager pm = _ctx.getPackageManager();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+                ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+                String appFile = appInfo.sourceDir;
+                lastUpdateTime = new File(appFile).lastModified();
+                installTime = lastUpdateTime;
+            } else {
+                PackageInfo pi = pm.getPackageInfo(packageName, 0);
                 lastUpdateTime = pi.lastUpdateTime;
                 installTime = pi.firstInstallTime;
             }
@@ -272,7 +279,11 @@ public class AppInfo {
             setOverrideLabel(appInfo.getOverrideLabel());
         }
 
-        installTime = appInfo.getInstallTime();
+        // Because we fall back to lastUpdateTime when setting installTime below gingerbread our
+        // best bet is to just never update it value to keep it close to the first install time.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            installTime = appInfo.getInstallTime();
+        }
         lastUpdateTime = appInfo.getLastUpdateTime();
         label = appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
