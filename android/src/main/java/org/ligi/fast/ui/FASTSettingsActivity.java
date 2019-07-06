@@ -15,6 +15,7 @@ import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.TargetStore;
+import org.ligi.fast.background.BackgroundGatherAsyncTask;
 import org.ligi.fast.settings.FASTSettings;
 
 /**
@@ -210,6 +211,11 @@ public class FASTSettingsActivity extends PreferenceActivity {
 
     public void helpClicked(View v) {
         HelpDialog.show(this);
+    }
+
+    public void refreshClicked(View v) {
+        new BackgroundGatherAsyncTask(getApplicationContext()).execute();
+        onBackPressed();
     }
 
     private class CacheRemovingOnPreferenceClickListener implements Preference.OnPreferenceClickListener {

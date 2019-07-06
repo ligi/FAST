@@ -4,15 +4,15 @@ import android.content.Context;
 
 import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.util.AppInfoListStore;
-
-import java.util.List;
 
 public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
 
-    public BackgroundGatherAsyncTask(Context context, AppInfoList oldAppInfoList) {
-        super(context, oldAppInfoList);
+    private Context context;
+
+    public BackgroundGatherAsyncTask(Context context) {
+        super(context);
+        this.context = context;
     }
 
     @Override
@@ -25,7 +25,9 @@ public class BackgroundGatherAsyncTask extends BaseAppGatherAsyncTask {
         super.onPostExecute(result);
         if (App.packageChangedListener != null) {
             App.packageChangedListener.onPackageChange(appInfoList);
+        } else {
+            new AppInfoListStore(context).save(appInfoList);
         }
+        context = null;
     }
-
 }

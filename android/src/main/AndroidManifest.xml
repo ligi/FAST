@@ -70,13 +70,16 @@
 
         <receiver android:name=".background.AppInstallOrRemoveReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
-                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
                 <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".background.LocaleChangeReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
         </receiver>
     </application>

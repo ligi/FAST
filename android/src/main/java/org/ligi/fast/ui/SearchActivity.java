@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ChangedPackages;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
@@ -29,13 +31,18 @@ import org.ligi.axt.helpers.ViewHelper;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
+import org.ligi.fast.background.AppInstallOrRemoveReceiver;
 import org.ligi.fast.background.BackgroundGatherAsyncTask;
+import org.ligi.fast.background.ChangedPackagesAsyncTask;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -43,11 +50,13 @@ import java.util.Locale;
  */
 public class SearchActivity extends Activity implements App.PackageChangedListener {
 
+    private AppInstallOrRemoveReceiver mAppReceiver;
     private DynamicAppInfoList appInfoList;
     private AppInfoAdapter adapter;
     private String oldSearch = "";
     private EditText searchQueryEditText;
     private GridView gridView;
+    private Context mContext;
 
     private AppInfoListStore appInfoListStore;
 
@@ -69,6 +78,46 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         appInfoList = new DynamicAppInfoList(loadedAppInfoList, App.getSettings());
 
         adapter = new AppInfoAdapter(this, appInfoList);
+        App.backingAppInfoList = new WeakReference<>(appInfoList.getBackingAppInfoList());
+
+        mContext = this;
+        // Although this will also be done in onResume(), it is not guaranteed
+        // that it happens before the ChangedPackagesAsyncTask will try to save
+        App.packageChangedListener = this;
+
+        // Since on Android 8 Oreo the BroadcastReceiver won't run while FAST itself not running,
+        // update the App List as needed now at app start
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int lastKnownSequenceNumber = App.getSettings().getSequenceNumber();
+            if (lastKnownSequenceNumber == App.getSettings().DEFAULT_KNOWN_PM_SEQUENCE_NUMBER) {
+                // First launch of FAST after boot
+                // Since changes between last app shutdown and device shutdown could be possible and
+                // won't be returned by the package manager anymore there's a full refresh needed.
+                App.getSettings().putSequenceNumber(0);
+                new BackgroundGatherAsyncTask(getApplicationContext()).execute();
+            } else {
+                ChangedPackages changedPackages =
+                        getApplicationContext().getPackageManager()
+                                .getChangedPackages(lastKnownSequenceNumber);
+                if (changedPackages != null) {
+                    App.getSettings().putSequenceNumber(changedPackages.getSequenceNumber());
+                    new ChangedPackagesAsyncTask(getApplicationContext(), changedPackages.getPackageNames()).execute();
+                }
+            }
+        }
+
+        // Since starting at API level 26 Oreo most implicit Broadcasts can't be
+        // registered in the Manifest anymore, register to them now at app start
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //Register App Install Receiver
+            mAppReceiver = new AppInstallOrRemoveReceiver();
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+            filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+            filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+            filter.addDataScheme("package");
+            mContext.registerReceiver(mAppReceiver, filter);
+        }
 
         configureAdapter();
 
@@ -111,11 +160,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
                                     long arg3) {
-                try {
-                    startItemAtPos(pos);
-                } catch (ActivityNotFoundException e) {
-                    // e.g. uninstalled while app running - TODO should refresh list
-                }
+                startItemAtPos(pos);
             }
 
         });
@@ -138,12 +183,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         if (appInfoList.size() == 0) {
             startActivityForResult(new Intent(this, LoadingDialog.class), R.id.activityResultLoadingDialog);
-        } else { // the second time - we use the old index to be fast but
-            // regenerate in background to be recent
-
-            // Use the pkgAppsListTemp in order to update data from the saved file with recent
-            // call count information (seeing as we may not have saved it recently).
-            new BackgroundGatherAsyncTask(this, appInfoList).execute();
         }
 
         gridView.setAdapter(adapter);
@@ -180,8 +219,10 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(this,"cannot start: " + e,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "\"" + app.getDisplayLabel() + "\"\nis no longer there - Refreshing data...", Toast.LENGTH_LONG).show();
+            List<String> packages = new ArrayList<>();
+            packages.add(app.getPackageName());
+            new ChangedPackagesAsyncTask(getApplicationContext(), packages).execute();
         }
 
         if (Build.VERSION.SDK_INT > 18) {
@@ -310,9 +351,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     @Override
     public void onPackageChange(final AppInfoList newAppInfoList) {
-        // TODO we should also do a cleanup of cached icons here
         // we might not come from UI Thread
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -329,6 +368,14 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         App.packageChangedListener = null;
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.backingAppInfoList = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            mContext.unregisterReceiver(mAppReceiver);
     }
 
     public void addEntry(AppInfo new_entry) {

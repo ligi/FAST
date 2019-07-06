@@ -2,6 +2,7 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.settings.AndroidFASTSettings;
@@ -9,6 +10,7 @@ import org.ligi.fast.settings.FASTSettings;
 import org.ligi.tracedroid.TraceDroid;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 
 public class App extends Application {
 
@@ -22,6 +24,7 @@ public class App extends Application {
     }
 
     public static PackageChangedListener packageChangedListener;
+    public static WeakReference<AppInfoList> backingAppInfoList;
 
     @Override
     public void onCreate() {
@@ -29,6 +32,8 @@ public class App extends Application {
         appInstance = this;
         TraceDroid.init(this);
         settings = new AndroidFASTSettings(App.this);
+
+        Log.d(LOG_TAG, "onCreate");
     }
 
     public static FASTSettings getSettings() {

@@ -73,17 +73,11 @@ public class AppIconCache {
 
     @SuppressWarnings("ResultOfMethodCallIgnored") // as we do not care if it is new or old
     private boolean createIconCacheFile() throws IOException {
-        return getIconCacheFile().createNewFile();
-    }
-
-    private File getIconCacheFile() {
-        final File file = new File(App.getBaseDir() + "/" + appInfo.getHash() + ".png");
-        Log.i("returning " + file.exists());
-        return file;
+        return appInfo.getIconCacheFile().createNewFile();
     }
 
     private boolean tryIconCaching(IconCacheSpec iconCacheSpec, ResolveInfo ri, PackageManager pm) {
-        if (getIconCacheFile().exists()) {
+        if (appInfo.getIconCacheFile().exists()) {
             return true;
         }
 
@@ -92,7 +86,7 @@ public class AppIconCache {
             if (icon != null) {
                 createIconCacheFile();
 
-                final FileOutputStream fos = new FileOutputStream(getIconCacheFile());
+                final FileOutputStream fos = new FileOutputStream(appInfo.getIconCacheFile());
 
                 final Bitmap cacheIcon = iconConverter.toScaledBitmap(icon, iconCacheSpec);
                 cacheIcon.compress(Bitmap.CompressFormat.PNG, iconCacheSpec.quality, fos);
@@ -114,12 +108,12 @@ public class AppIconCache {
         }
 
         try {
-            final FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());
+            final FileInputStream fileInputStream = new FileInputStream(appInfo.getIconCacheFile());
             final BitmapDrawable drawable = new BitmapDrawable(ctx.getResources(), fileInputStream);
             cachedIcon = new SoftReference<Drawable>(drawable);
             return cachedIcon.get();
         } catch (Exception e) {
-            Log.w("Could not load the cached Icon" + getIconCacheFile().getAbsolutePath() + " reason " + e);
+            Log.w("Could not load the cached Icon" + appInfo.getIconCacheFile().getAbsolutePath() + " reason " + e);
         }
 
         // if we came here we we could not return the cached Icon - ty to rescue situation

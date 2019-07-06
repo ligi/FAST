@@ -20,6 +20,9 @@ public interface FASTSettings {
     static final String KEY_GAP_SEARCH = "gap_search";
     static final String KEY_ICONRES = "icon_res";
     static final String KEY_SHOW_HIDDEN = "show_hidden";
+    static final String KEY_KNOWN_BOOT_COUNT = "known_boot_count";
+    static final String KEY_KNOWN_PM_SEQUENCE_NUMBER = "known_pm_sequence_number";
+    static final int DEFAULT_KNOWN_PM_SEQUENCE_NUMBER = -1;
 
     boolean isLaunchSingleActivated();
 
@@ -51,4 +54,7 @@ public interface FASTSettings {
 
     boolean isShowHiddenActivated();
 
+    int getSequenceNumber();
+
+    void putSequenceNumber(int sequenceNumber);
 }

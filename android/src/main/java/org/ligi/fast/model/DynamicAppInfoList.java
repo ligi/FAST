@@ -3,8 +3,8 @@ package org.ligi.fast.model;
 import org.ligi.fast.settings.FASTSettings;
 import org.ligi.fast.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,7 +13,7 @@ import java.util.Locale;
  */
 public class DynamicAppInfoList extends AppInfoList {
 
-    private List<AppInfo> backingAppInfoList;
+    private AppInfoList backingAppInfoList;
 
     private String currentQuery = "";
     private final FASTSettings settings;
@@ -27,36 +27,37 @@ public class DynamicAppInfoList extends AppInfoList {
     @SuppressWarnings("unchecked")
     public DynamicAppInfoList(List<AppInfo> backingAppInfoList, FASTSettings settings) {
         this.settings = settings;
-        this.backingAppInfoList=new ArrayList<>();
+        this.backingAppInfoList = new AppInfoList();
         update(backingAppInfoList);
     }
 
     @Override
     public void update(List<AppInfo> pkgAppsListAll) {
-        final List<AppInfo> appsToRemove = new ArrayList<>();
-        for (AppInfo localApp : backingAppInfoList) {
-            if (getAppWithHash(localApp.getHash(), pkgAppsListAll) == null) {
-                appsToRemove.add(localApp);
+        if (pkgAppsListAll != backingAppInfoList) {
+            Iterator<AppInfo> iterator = backingAppInfoList.iterator();
+            while (iterator.hasNext()) {
+                AppInfo localApp = iterator.next();
+                if (getAppWithHash(localApp.getHash(), pkgAppsListAll) == null) {
+                    iterator.remove();
+                }
             }
-        }
-        backingAppInfoList.removeAll(appsToRemove);
 
-        for (AppInfo app : pkgAppsListAll) {
-            final AppInfo appWithHash = getAppWithHash(app.getHash(), backingAppInfoList);
-            if (appWithHash != null) {
-                if (app.getLabelMode() == 2) {
-                    final AppInfoList aliasesWithHash = getAliasesWithHash(app.getHash(), backingAppInfoList);
-                    if (!aliasesWithHash.contains(app)) {
-                        backingAppInfoList.add(app);
+            for (AppInfo app : pkgAppsListAll) {
+                final AppInfo appWithHash = getAppWithHash(app.getHash(), backingAppInfoList);
+                if (appWithHash != null) {
+                    if (app.getLabelMode() == 2) {
+                        AppInfoList aliasesWithHash = getAliasesWithHash(app.getHash(), backingAppInfoList);
+                        if (!aliasesWithHash.contains(app)) {
+                            backingAppInfoList.add(app);
+                        }
+                    } else {
+                        appWithHash.mergeSafe(app);
                     }
                 } else {
-                    appWithHash.mergeSafe(app);
+                    backingAppInfoList.add(app);
                 }
-            } else {
-                backingAppInfoList.add(app);
             }
         }
-
         setSortMode(currentSortMode);
     }
 
@@ -87,11 +88,11 @@ public class DynamicAppInfoList extends AppInfoList {
                 filteredAppInfoList.add(info);
             }
         }
-        
+
         if (sorter != null) {
             java.util.Collections.sort(filteredAppInfoList, sorter);
         }
-        
+
         super.update(filteredAppInfoList);
     }
 
@@ -176,7 +177,7 @@ public class DynamicAppInfoList extends AppInfoList {
         return aliasesWithHash;
     }
 
-    public List<AppInfo> getBackingAppInfoList() {
+    public AppInfoList getBackingAppInfoList() {
         return backingAppInfoList;
     }
 }

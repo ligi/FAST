@@ -8,9 +8,11 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.ligi.axt.helpers.ResolveInfoHelper;
+import org.ligi.fast.App;
 import org.ligi.fast.util.UmlautConverter;
 import org.ligi.tracedroid.logging.Log;
 
@@ -197,12 +199,20 @@ public class AppInfo {
         return this.label;
     }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     public int getCallCount() {
         return callCount;
     }
 
     public long getInstallTime() {
         return installTime;
+    }
+
+    public void setInstallTime(long installTime) {
+        this.installTime = installTime;
     }
 
     public void setCallCount(int count) {
@@ -283,5 +293,9 @@ public class AppInfo {
 
     public void setOverrideLabel(String label) {
         this.overrideLabel = label;
+    }
+
+    public File getIconCacheFile() {
+        return new File(App.getBaseDir() + "/" + this.hash + ".png");
     }
 }
