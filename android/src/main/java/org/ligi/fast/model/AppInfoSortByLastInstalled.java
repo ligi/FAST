@@ -14,9 +14,9 @@ public class AppInfoSortByLastInstalled implements Comparator<AppInfo> {
         if (lhs.getInstallTime() == rhs.getInstallTime()) {
             result = sortByLabel.compare(lhs, rhs);
         } else if (lhs.getInstallTime() < rhs.getInstallTime()) {
-            result = -1;
-        } else if (lhs.getInstallTime() > rhs.getInstallTime()) {
             result = 1;
+        } else if (lhs.getInstallTime() > rhs.getInstallTime()) {
+            result = -1;
         }
 
         return result;
