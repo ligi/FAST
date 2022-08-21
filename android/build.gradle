@@ -32,6 +32,9 @@ android {
             shrinkResources true
             proguardFile 'proguard-project.txt'
         }
+        debug {
+            applicationIdSuffix '.debug'
+        }
     }
 
     flavorDimensions "market", "size"
