@@ -43,6 +43,7 @@
         <activity android:name=".ui.FASTSettingsActivity" />
         <activity
             android:name=".ui.LoadingDialog"
+            android:configChanges="orientation"
             android:theme="@style/DialogTheme" />
         <activity
             android:name=".ui.SearchActivity"

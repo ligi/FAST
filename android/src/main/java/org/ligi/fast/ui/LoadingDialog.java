@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.ligi.axt.helpers.ActivityHelper;
 import org.ligi.fast.R;
 import org.ligi.fast.background.BaseAppGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
@@ -62,7 +61,6 @@ public class LoadingDialog extends Activity {
         }.execute();
 
         setWindowWidth();
-        new ActivityHelper(this).disableRotation();
     }
 
     // we cannot use the new getSize function - or we would get a NoSuchMethod error on newer devices
