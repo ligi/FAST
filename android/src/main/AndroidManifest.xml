@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.ligi.fast">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
     from experiments with shortcut - but dropped this feature for the feature of no needed permission

@@ -1,7 +1,7 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.2.60'
+        kotlin_version = '1.7.20'
     }
 
     repositories {
@@ -13,11 +13,11 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'de.mobilej.unmock:UnMockPlugin:0.6.4'
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'com.github.bjoernq:unmockplugin:0.7.9'
 
+        //TODO deprecated?
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
-
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.43.0'
     }
 }

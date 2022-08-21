@@ -11,8 +11,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    namespace 'org.ligi.fast'
+    compileSdkVersion 33
 
     defaultConfig {
         versionCode 68
@@ -74,32 +74,37 @@ android {
         }
     }
 
-    lintOptions {
-        disable "MissingTranslation"
-        disable "TypographyEllipsis"
-        disable "IconLocation"
-        disable "IconDensities"
-        disable "ContentDescription"
+    lint {
+        disable 'MissingTranslation', 'TypographyEllipsis', 'IconLocation', 'IconDensities', 'ContentDescription'
     }
 
     // needed for assertJ
     packagingOptions {
-        exclude 'asm-license.txt'
-        exclude 'LICENSE'
-        exclude 'NOTICE'
+        resources {
+            excludes += ['asm-license.txt', 'LICENSE', 'NOTICE']
+        }
     }
 }
 
 dependencies {
-    compile 'com.github.ligi:tracedroid:1.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    androidTestCompile 'com.github.ligi:trulesk:0.21'
-    androidTestCompile 'com.android.support:support-annotations:26.0.2'
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.7.1'
-    androidTestCompile 'com.squareup.assertj:assertj-android:1.2.0'
+    //TODO update raises minSdkLevel
+    implementation 'com.github.ligi:tracedroid:1.4'
 
-    testCompile 'com.squareup.assertj:assertj-android:1.2.0'
-    testCompile 'junit:junit:4.12'
+    //TODO update raises minSdkLevel and requires AndroidX
+    androidTestImplementation 'com.github.ligi:trulesk:0.21'
+    //TODO deprecated?
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    //TODO deprecated?
+    androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
+    //TODO deprecated
+    androidTestImplementation 'com.squareup.assertj:assertj-android:1.2.0'
+
+    //TODO deprecated
+    testImplementation 'com.squareup.assertj:assertj-android:1.2.0'
+    //TODO migrate to v5
+    testImplementation 'junit:junit:4.13.2'
 }
 
 spoon {
