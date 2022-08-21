@@ -1,46 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/actionbar_height"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="2dp">
+        android:background="@drawable/hightlight"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="homePressed"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/hightlight"
-            android:onClick="homePressed">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="fitEnd"
-                android:src="@drawable/back"
-                />
-
-            <ImageView style="@style/actionbar_icon" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:textSize="24sp"
-            android:text="@string/settings"
-            android:id="@+id/textView"
-            android:paddingLeft="@dimen/padding_large" />
+            android:scaleType="fitEnd"
+            android:src="@drawable/back" />
 
+        <ImageView style="@style/actionbar_icon" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:text="@string/settings"
+        android:textSize="24sp" />
 </LinearLayout>
