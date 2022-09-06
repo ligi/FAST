@@ -35,6 +35,7 @@ public class AppInfo {
     private final AppIconCache iconCache;
     private String label;
     private long installTime;
+    private long lastUpdateTime;
 
     // Runtime state
     private String alternateDisplayLabel;
@@ -66,9 +67,16 @@ public class AppInfo {
                             labelMode = Integer.parseInt(app_info_str_split[7]);
                             if (app_info_str_split.length > 8) {
                                 overrideLabel = app_info_str_split[8];
+                                if (app_info_str_split.length > 9) {
+                                    lastUpdateTime = Long.parseLong(app_info_str_split[9]);
+                                }
                             }
                         }
                     }
+                }
+
+                if (lastUpdateTime < installTime) {
+                    lastUpdateTime = installTime;
                 }
 
                 calculateAlternateLabelAndPackageName();
@@ -115,7 +123,8 @@ public class AppInfo {
         try {
             final PackageInfo pi = pmManager.getPackageInfo(packageName, 0);
             if (Build.VERSION.SDK_INT >= 9) {
-                installTime = pi.lastUpdateTime;
+                lastUpdateTime = pi.lastUpdateTime;
+                installTime = pi.firstInstallTime;
             }
         } catch (NameNotFoundException e) {
             isValid = false; // Package does not exist
@@ -136,7 +145,8 @@ public class AppInfo {
         return hash + SEPARATOR + label + SEPARATOR + packageName +
                 SEPARATOR + activityName + SEPARATOR + callCount +
                 SEPARATOR + installTime + SEPARATOR + pinMode +
-                SEPARATOR + labelMode + SEPARATOR + overrideLabel;
+                SEPARATOR + labelMode + SEPARATOR + overrideLabel +
+                SEPARATOR + lastUpdateTime;
     }
 
     private String calculateTheHash() {
@@ -212,6 +222,10 @@ public class AppInfo {
         return installTime;
     }
 
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
     public void setCallCount(int count) {
         callCount = count;
     }
@@ -259,6 +273,7 @@ public class AppInfo {
         }
 
         installTime = appInfo.getInstallTime();
+        lastUpdateTime = appInfo.getLastUpdateTime();
         label = appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
     }
