@@ -54,24 +54,23 @@
     <string name="icon_resolution_summary">More speed or more pixels?</string>
     <string name="pin_app">Pin</string>
     <string name="unpin_app">Unpin</string>
+
     <string-array name="sizes">
         <item>Tiny</item>
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-
     <string-array name="themes">
         <item>Dark</item>
         <item>Light</item>
         <item>Transparent dark</item>
         <item>Transparent light</item>
     </string-array>
-
     <string-array name="sort_orders">
         <item>Unsorted</item>
         <item>Alphabetical</item>
         <item>By usage</item>
         <item>By installation time</item>
-        </string-array>
+    </string-array>
 </resources>
