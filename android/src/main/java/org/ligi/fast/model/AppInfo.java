@@ -258,6 +258,7 @@ public class AppInfo {
             setOverrideLabel(appInfo.getOverrideLabel());
         }
 
+        installTime = appInfo.getInstallTime();
         label = appInfo.getLabel();
         calculateAlternateLabelAndPackageName();
     }
