@@ -21,7 +21,7 @@ android {
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 9
         targetSdkVersion 26
-        applicationId "org.ligi.fast"
+        applicationId "org.ligi"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         archivesBaseName = "Fast-$versionName"
     }
@@ -51,12 +51,12 @@ android {
 
         withExtras {
             dimension "size"
-            applicationId "org.ligi.fast"
+            applicationIdSuffix ".fast"
         }
 
         noExtras {
             dimension "size"
-            applicationId "org.ligi.faster"
+            applicationIdSuffix ".faster"
         }
     }
 
