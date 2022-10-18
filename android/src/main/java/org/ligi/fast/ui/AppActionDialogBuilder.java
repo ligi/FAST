@@ -134,7 +134,9 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }));
         }
 
-        fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
+        if (Build.VERSION.SDK_INT < 26) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
+        }
 
         if (App.getSettings().isMarketForAllActivated() || isMarketApp()) {
             fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
@@ -232,6 +234,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         }
     }
 
+    //TODO adjust for notification channel requirement on api 26+
     private class OpenAsNotificationRunnable implements Runnable {
         @Override
         public void run() {
