@@ -154,7 +154,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             @Override
             public void run() {
                 try {
-                    String message = "check out this app: " + App.getStoreURL4PackageName(app_info.getPackageName());
+                    String message = app_info.getLabel() + " - " + App.getStoreURL4PackageName(app_info.getPackageName());
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");
                     share.putExtra(Intent.EXTRA_TEXT, message);
