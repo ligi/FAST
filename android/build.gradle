@@ -20,7 +20,7 @@ android {
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 9
-        targetSdkVersion 26
+        targetSdkVersion 32
         applicationId "org.ligi"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         archivesBaseName = "Fast-$versionName"
