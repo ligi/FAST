@@ -118,8 +118,7 @@ public class AppInfo {
                 installTime = pi.lastUpdateTime;
             }
         } catch (NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            isValid = false; // Package does not exist
         }
 
 
