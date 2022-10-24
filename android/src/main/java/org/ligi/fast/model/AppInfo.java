@@ -37,7 +37,7 @@ public class AppInfo {
     private long installTime;
 
     // Runtime state
-    private String alternateLabel;
+    private String alternateDisplayLabel;
     private String alternatePackageName;
     private boolean isValid = true;
 
@@ -128,7 +128,7 @@ public class AppInfo {
     }
 
     private void calculateAlternateLabelAndPackageName() {
-        alternateLabel = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(label);
+        alternateDisplayLabel = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(getDisplayLabel());
         alternatePackageName = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(packageName);
     }
 
@@ -188,11 +188,12 @@ public class AppInfo {
     }
 
     /**
-     * Please keep in mind that this might now return unexpected values
-     * @return the user-set label if it is set, default otherwise
+     * The label that is meant to be displayed to the user.
+     *
+     * @return the user-set label if present, default otherwise
      */
     public String getDisplayLabel() {
-        if (labelMode == 0) {
+        if (labelMode == 0 || overrideLabel == null) {
             return label;
         } else {
             return overrideLabel;
@@ -228,19 +229,13 @@ public class AppInfo {
     }
 
     /**
-     * Please keep in mind that this might now return unexpected values
-     * @return the user-set label if it is set, alternateLabel otherwise
+     * The sanitized version of {@link #getDisplayLabel()}}
+     * Umlauts are converted and accents are stripped from characters.
+     *
+     * @return sanitized display label. null if it would be equal to {@link #getDisplayLabel()}.
      */
     public String getAlternateDisplayLabel() {
-        if (labelMode == 0) {
-            return alternateLabel;
-        } else {
-            return overrideLabel;
-        }
-    }
-
-    public String getAlternateLabel() {
-        return alternateLabel;
+        return alternateDisplayLabel;
     }
 
     public String getAlternatePackageName() {
@@ -304,5 +299,6 @@ public class AppInfo {
 
     public void setOverrideLabel(String label) {
         this.overrideLabel = label;
+        calculateAlternateLabelAndPackageName();
     }
 }
