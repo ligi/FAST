@@ -42,7 +42,6 @@ public class AppInfo {
 
     // Runtime state
     private String alternateDisplayLabel;
-    private String alternatePackageName;
     private boolean isValid = true;
 
     private AppInfo(Context ctx) {
@@ -82,7 +81,7 @@ public class AppInfo {
                     lastUpdateTime = installTime;
                 }
 
-                calculateAlternateLabelAndPackageName();
+                calculateAlternateLabel();
                 return;
             } catch (Exception ignored) {
             }
@@ -139,13 +138,12 @@ public class AppInfo {
 
 
         hash = calculateTheHash();
-        calculateAlternateLabelAndPackageName();
+        calculateAlternateLabel();
         iconCache.cacheIcon(ri);
     }
 
-    private void calculateAlternateLabelAndPackageName() {
+    private void calculateAlternateLabel() {
         alternateDisplayLabel = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(getDisplayLabel());
-        alternatePackageName = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(packageName);
     }
 
     public String toCacheString() {
@@ -259,10 +257,6 @@ public class AppInfo {
         return alternateDisplayLabel;
     }
 
-    public String getAlternatePackageName() {
-        return alternatePackageName;
-    }
-
     public void mergeSafe(AppInfo appInfo) {
         final int localCallCount = getCallCount();
         final int remoteCallCount = appInfo.getCallCount();
@@ -286,7 +280,7 @@ public class AppInfo {
         }
         lastUpdateTime = appInfo.getLastUpdateTime();
         label = appInfo.getLabel();
-        calculateAlternateLabelAndPackageName();
+        calculateAlternateLabel();
     }
 
     public int getPinMode() {
@@ -326,6 +320,6 @@ public class AppInfo {
 
     public void setOverrideLabel(String label) {
         this.overrideLabel = label;
-        calculateAlternateLabelAndPackageName();
+        calculateAlternateLabel();
     }
 }

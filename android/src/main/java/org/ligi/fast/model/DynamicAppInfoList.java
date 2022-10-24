@@ -130,12 +130,6 @@ public class DynamicAppInfoList extends AppInfoList {
         // also search in package name when activated
         // TBD should we also do gap search in package name?
         if (settings.isSearchPackageActivated()) {
-            if (settings.isUmlautConvertActivated()
-                    && info.getAlternatePackageName() != null
-                    && info.getAlternatePackageName().toLowerCase(Locale.ENGLISH).contains(query)) {
-                return true;
-            }
-
             return info.getPackageName().toLowerCase(Locale.ENGLISH).contains(query);
         }
 
