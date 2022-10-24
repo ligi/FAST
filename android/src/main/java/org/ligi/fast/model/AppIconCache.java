@@ -13,10 +13,12 @@ import org.ligi.tracedroid.logging.Log;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.ref.SoftReference;
 
 public class AppIconCache {
+    private static final Bitmap.CompressFormat COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
+    private static final String CACHE_FILE_ENDING = ".png";
+
     private final IconConverter iconConverter = new IconConverter();
 
     private final Context ctx;
@@ -27,6 +29,31 @@ public class AppIconCache {
     public AppIconCache(Context ctx, AppInfo appInfo) {
         this.ctx = ctx;
         this.appInfo = appInfo;
+    }
+
+    private static File getIconCacheFile(AppInfo appInfo) {
+        return new File(App.getBaseDir() + "/" + appInfo.getHash() + CACHE_FILE_ENDING);
+    }
+
+    private static void invalidateIconCacheFile(File file) {
+        if (!file.setLastModified(0)) {
+            Log.w("Unable to invalidate " + file.getAbsolutePath());
+        }
+    }
+
+    /**
+     * Notify the icon cache that a cached file needs to be updated the next time {@link #cacheIcon(ResolveInfo)}
+     * is called. Until then, the outdated files will be kept as a fallback.
+     */
+    public static void invalidateIconCache() {
+        if (App.getBaseDir().exists()) {
+            File[] iconFiles = App.getBaseDir().listFiles(pathname -> pathname.getName().endsWith(CACHE_FILE_ENDING));
+            if (iconFiles != null) {
+                for (File iconFile : iconFiles) {
+                    invalidateIconCacheFile(iconFile);
+                }
+            }
+        }
     }
 
     public void cacheIcon(ResolveInfo ri) {
@@ -70,38 +97,31 @@ public class AppIconCache {
         public int quality = 100;
     }
 
-
-    private boolean createIconCacheFile() throws IOException {
-        return getIconCacheFile().createNewFile();
-    }
-
     private File getIconCacheFile() {
-        final File file = new File(App.getBaseDir() + "/" + appInfo.getHash() + ".png");
-        return file;
+        return getIconCacheFile(this.appInfo);
     }
 
     private boolean tryIconCaching(IconCacheSpec iconCacheSpec, ResolveInfo ri, PackageManager pm) {
-        if (getIconCacheFile().exists()) {
+        if (getIconCacheFile().exists() && getIconCacheFile().lastModified() > appInfo.getLastUpdateTime()) {
             return true;
         }
-
-        try {
-            final Drawable icon = ri.loadIcon(pm);
-            if (icon != null) {
-                createIconCacheFile();
-
-                final FileOutputStream fos = new FileOutputStream(getIconCacheFile());
-
-                final Bitmap cacheIcon = iconConverter.toScaledBitmap(icon, iconCacheSpec);
-                cacheIcon.compress(Bitmap.CompressFormat.PNG, iconCacheSpec.quality, fos);
-
-                fos.close();
-                return true;
-            }
-
-        } catch (Exception e) {
-            Log.w(" Could not cache the Icon" + e);
+        final Drawable icon = ri.loadIcon(pm);
+        if (icon == null) {
+            Log.w("Could not cache icon: PackageManager.loadIcon() returned null");
+            return false;
         }
+        final File iconFile = getIconCacheFile();
+        final Bitmap cacheIcon = iconConverter.toScaledBitmap(icon, iconCacheSpec);
+        try {
+            iconFile.createNewFile();
+            final FileOutputStream fos = new FileOutputStream(iconFile);
+            cacheIcon.compress(COMPRESS_FORMAT, iconCacheSpec.quality, fos);
+            fos.close();
+            return true;
+        } catch (Exception e) {
+            Log.w("Could not cache icon: " + e);
+        }
+        invalidateIconCacheFile(iconFile);
         return false;
     }
 
