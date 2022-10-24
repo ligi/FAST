@@ -30,7 +30,7 @@ public class AppInfo {
 
     // User generated data
     private String overrideLabel;
-    private int callCount;
+    private int callCount = 0;
     private int pinMode = 0;
     private int labelMode = 0;
 
@@ -82,18 +82,12 @@ public class AppInfo {
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
         this(_ctx);
-
-        // init attributes
         label = new ResolveInfoHelper(ri).getLabelSafely(_ctx);
         if (ri.activityInfo == null) {
             return;
         }
         packageName = ri.activityInfo.packageName;
         activityName = ri.activityInfo.name;
-        callCount = 0;
-
-        installTime = 0;
-
         try {
             PackageManager pm = _ctx.getPackageManager();
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
@@ -109,10 +103,10 @@ public class AppInfo {
         } catch (NameNotFoundException e) {
             return; // Package does not exist
         }
-
-
         hash = calculateTheHash();
         isValid = true;
+
+        // All static attributes done, call everything that depends on them now
         calculateAlternateLabel();
         iconCache.cacheIcon(ri);
     }
