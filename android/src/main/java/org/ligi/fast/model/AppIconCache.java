@@ -77,7 +77,6 @@ public class AppIconCache {
 
     private File getIconCacheFile() {
         final File file = new File(App.getBaseDir() + "/" + appInfo.getHash() + ".png");
-        Log.i("returning " + file.exists());
         return file;
     }
 
