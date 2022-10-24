@@ -15,10 +15,6 @@ public class ViewHelper {
         this.view = view;
     }
 
-    public <T extends View> T findById(int id) {
-        return (T) view.findViewById(id);
-    }
-
     public void hideKeyBoard() {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
