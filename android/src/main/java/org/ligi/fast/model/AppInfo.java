@@ -102,6 +102,7 @@ public class AppInfo {
             packageName = ri.activityInfo.packageName;
             activityName = ri.activityInfo.name;
         } else {
+            isValid = false;
             packageName = "unknown";
             activityName = "unknown";
         }
