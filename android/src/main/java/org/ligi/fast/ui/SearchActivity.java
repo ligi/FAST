@@ -29,13 +29,15 @@ import org.ligi.axt.helpers.ViewHelper;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
-import org.ligi.fast.background.BackgroundGatherAsyncTask;
+import org.ligi.fast.background.PackageChangeReceiver;
+import org.ligi.fast.background.BaseAppGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -43,6 +45,7 @@ import java.util.Locale;
  */
 public class SearchActivity extends Activity implements App.PackageChangedListener {
 
+    private PackageChangeReceiver mPackageChangeReceiver;
     private DynamicAppInfoList appInfoList;
     private AppInfoAdapter adapter;
     private String oldSearch = "";
@@ -65,8 +68,16 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         appInfoListStore = new AppInfoListStore(this);
 
-        final AppInfoList loadedAppInfoList = appInfoListStore.load();
-        appInfoList = new DynamicAppInfoList(loadedAppInfoList, App.getSettings());
+        appInfoList = new DynamicAppInfoList(appInfoListStore.load(), App.getSettings());
+        App.registerPackageChangedListener(appInfoList.getBackingAppInfoList());
+        if (appInfoList.size() == 0) {
+            startActivity(new Intent(this, LoadingDialog.class));
+        } else {
+            new BaseAppGatherAsyncTask(this).execute();
+        }
+
+        mPackageChangeReceiver = new PackageChangeReceiver();
+        mPackageChangeReceiver.register(this);
 
         adapter = new AppInfoAdapter(this, appInfoList);
 
@@ -111,11 +122,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
                                     long arg3) {
-                try {
-                    startItemAtPos(pos);
-                } catch (ActivityNotFoundException e) {
-                    // e.g. uninstalled while app running - TODO should refresh list
-                }
+                startItemAtPos(pos);
             }
 
         });
@@ -134,17 +141,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         });
 
         TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
-
-
-        if (appInfoList.size() == 0) {
-            startActivityForResult(new Intent(this, LoadingDialog.class), R.id.activityResultLoadingDialog);
-        } else { // the second time - we use the old index to be fast but
-            // regenerate in background to be recent
-
-            // Use the pkgAppsListTemp in order to update data from the saved file with recent
-            // call count information (seeing as we may not have saved it recently).
-            new BackgroundGatherAsyncTask(this, appInfoList).execute();
-        }
 
         gridView.setAdapter(adapter);
     }
@@ -175,14 +171,13 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         // set flag so that next start the search app comes up and not the last started App
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
 
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
             //TODO localize
-            Toast.makeText(this,"cannot start: " + e,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "\"" + app.getDisplayLabel() + "\"\nis no longer there - Refreshing data...", Toast.LENGTH_LONG).show();
+            new BaseAppGatherAsyncTask(this, Collections.singletonList(app.getPackageName())).execute();
         }
 
         if (Build.VERSION.SDK_INT > 18) {
@@ -196,23 +191,12 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         }
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case R.id.activityResultLoadingDialog:
-                onPackageChange(appInfoListStore.load());
-                break;
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
 
-        App.packageChangedListener = this;
+        App.unregisterPackageChangedListener(appInfoList.getBackingAppInfoList());
+        App.registerPackageChangedListener(this);
 
         searchQueryEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
@@ -310,15 +294,11 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     @Override
-    public void onPackageChange(final AppInfoList newAppInfoList) {
+    public void onPackageChange(List<String> changedPackages, List<AppInfo> list) {
         // TODO we should also do a cleanup of cached icons here
-        // we might not come from UI Thread
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.updateList(newAppInfoList);
-            }
+        runOnUiThread(() -> {
+            appInfoList.getBackingAppInfoList().onPackageChange(changedPackages, list);
+            configureAdapter();
         });
     }
 
@@ -328,8 +308,16 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         // will not work next time we open this activity.
         appInfoListStore.save(appInfoList.getBackingAppInfoList());
 
-        App.packageChangedListener = null;
+        App.unregisterPackageChangedListener(this);
+        App.registerPackageChangedListener(appInfoList.getBackingAppInfoList());
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mPackageChangeReceiver);
+        mPackageChangeReceiver = null;
+        super.onDestroy();
     }
 
     public void addEntry(AppInfo new_entry) {

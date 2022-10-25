@@ -35,7 +35,7 @@ public class AppInfo {
     private int labelMode = 0;
 
     // Dynamic information that can be regenerated
-    private final AppIconCache iconCache;
+    private AppIconCache iconCache;
     private String label;
     private long installTime;
     private long lastUpdateTime;
@@ -159,16 +159,16 @@ public class AppInfo {
         return toCacheString().equals(other.toCacheString());
     }
 
+    public boolean isSameActivity(AppInfo appInfo) {
+        return this.hash.equals(appInfo.hash);
+    }
+
     public Drawable getIcon() {
         return iconCache.getIcon();
     }
 
     public String getPackageName() {
         return packageName;
-    }
-
-    public String getActivityName() {
-        return activityName;
     }
 
     /**
@@ -222,29 +222,20 @@ public class AppInfo {
         return alternateDisplayLabel;
     }
 
-    public void mergeSafe(AppInfo appInfo) {
-        final int localCallCount = getCallCount();
-        final int remoteCallCount = appInfo.getCallCount();
-        setCallCount(Math.max(localCallCount, remoteCallCount));
-        if (appInfo.getPinMode() != 0) {
-            setPinMode(appInfo.getPinMode());
-        }
-        else {
-            setPinMode(getPinMode());
-        }
-
-        if (appInfo.getLabelMode() == 1) {
-            setLabelMode(1);
-            setOverrideLabel(appInfo.getOverrideLabel());
-        }
-
+    /**
+     * Update activity info while preserving user generated data and settings
+     *
+     * @param currentInfo up to date info about the activity
+     */
+    public void updateInfo(AppInfo currentInfo) {
+        this.iconCache = currentInfo.iconCache;
         // Because we fall back to lastUpdateTime when setting installTime below gingerbread our
-        // best bet is to just never update it value to keep it close to the first install time.
+        // best bet is to just never update this value to keep it close to the first install time.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            installTime = appInfo.getInstallTime();
+            this.installTime = currentInfo.installTime;
         }
-        lastUpdateTime = appInfo.getLastUpdateTime();
-        label = appInfo.getLabel();
+        this.lastUpdateTime = currentInfo.lastUpdateTime;
+        this.label = currentInfo.label;
         calculateAlternateLabel();
     }
 

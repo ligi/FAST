@@ -14,7 +14,6 @@ import android.widget.TextView;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.model.DynamicAppInfoList;
 import org.ligi.fast.util.StringUtils;
 
@@ -158,11 +157,6 @@ public class AppInfoAdapter extends BaseAdapter {
 
     public void setSortMode(final DynamicAppInfoList.SortMode sortMode) {
         appInfoList.setSortMode(sortMode);
-        notifyDataSetChanged();
-    }
-
-    public void updateList(AppInfoList list) {
-        appInfoList.update(list);
         notifyDataSetChanged();
     }
 }
