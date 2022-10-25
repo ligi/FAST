@@ -51,7 +51,6 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
-            android:excludeFromRecents="true"
             android:configChanges="orientation">
 
             <meta-data
