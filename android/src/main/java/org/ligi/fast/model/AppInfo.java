@@ -52,40 +52,32 @@ public class AppInfo {
         this(ctx);
 
         String[] app_info_str_split = cache_str.split(SEPARATOR);
-
-        if (app_info_str_split.length > 4) {
-            try {
-                hash = app_info_str_split[0];
-                label = app_info_str_split[1];
-                packageName = app_info_str_split[2];
-                activityName = app_info_str_split[3];
-                callCount = Integer.parseInt(app_info_str_split[4]);
-
-                if (app_info_str_split.length > 5) {
-                    installTime = Long.parseLong(app_info_str_split[5]);
-                    if (app_info_str_split.length > 6) {
-                        pinMode = Integer.parseInt(app_info_str_split[6]);
-                        if (app_info_str_split.length > 7) {
-                            labelMode = Integer.parseInt(app_info_str_split[7]);
-                            if (app_info_str_split.length > 8) {
-                                overrideLabel = app_info_str_split[8];
-                                if (app_info_str_split.length > 9) {
-                                    lastUpdateTime = Long.parseLong(app_info_str_split[9]);
-                                }
-                            }
-                        }
-                    }
-                }
-                isValid = true;
-
-                if (lastUpdateTime < installTime) {
-                    lastUpdateTime = installTime;
-                }
-
-                calculateAlternateLabel();
-            } catch (Exception ignored) {
+        int highest_index = Math.min(app_info_str_split.length - 1, 9);
+        try {
+            switch (highest_index) {
+                case 9: lastUpdateTime = Long.parseLong(app_info_str_split[9]);
+                case 8: overrideLabel = app_info_str_split[8];
+                case 7: labelMode = Integer.parseInt(app_info_str_split[7]);
+                case 6: pinMode = Integer.parseInt(app_info_str_split[6]);
+                case 5: installTime = Long.parseLong(app_info_str_split[5]);
+                case 4: callCount = Integer.parseInt(app_info_str_split[4]);
+                case 3: // Minimal set of values in a valid entry
+                    activityName = app_info_str_split[3];
+                    packageName = app_info_str_split[2];
+                    label = app_info_str_split[1];
+                    hash = app_info_str_split[0];
+                    isValid = true;
+                    break;
             }
+        } catch (Exception ignored) {
         }
+        if (!isValid) {
+            return;
+        }
+        if (lastUpdateTime < installTime) {
+            lastUpdateTime = installTime;
+        }
+        calculateAlternateLabel();
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
