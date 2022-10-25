@@ -42,7 +42,7 @@ public class AppInfo {
 
     // Runtime state
     private String alternateDisplayLabel;
-    private boolean isValid = true;
+    private boolean isValid = false;
 
     private AppInfo(Context ctx) {
         iconCache = new AppIconCache(ctx, this);
@@ -76,17 +76,16 @@ public class AppInfo {
                         }
                     }
                 }
+                isValid = true;
 
                 if (lastUpdateTime < installTime) {
                     lastUpdateTime = installTime;
                 }
 
                 calculateAlternateLabel();
-                return;
             } catch (Exception ignored) {
             }
         }
-        isValid = false;
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
@@ -94,14 +93,11 @@ public class AppInfo {
 
         // init attributes
         label = new ResolveInfoHelper(ri).getLabelSafely(_ctx);
-        if (ri.activityInfo != null) {
-            packageName = ri.activityInfo.packageName;
-            activityName = ri.activityInfo.name;
-        } else {
-            isValid = false;
-            packageName = "unknown";
-            activityName = "unknown";
+        if (ri.activityInfo == null) {
+            return;
         }
+        packageName = ri.activityInfo.packageName;
+        activityName = ri.activityInfo.name;
         callCount = 0;
 
         installTime = 0;
@@ -119,11 +115,12 @@ public class AppInfo {
                 installTime = pi.firstInstallTime;
             }
         } catch (NameNotFoundException e) {
-            isValid = false; // Package does not exist
+            return; // Package does not exist
         }
 
 
         hash = calculateTheHash();
+        isValid = true;
         calculateAlternateLabel();
         iconCache.cacheIcon(ri);
     }
