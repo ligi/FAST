@@ -231,10 +231,6 @@ public class AppInfo {
         return lastUpdateTime;
     }
 
-    public void setCallCount(int count) {
-        callCount = count;
-    }
-
     public void incrementCallCount() {
         callCount++;
     }
@@ -312,10 +308,6 @@ public class AppInfo {
      */
     public void setLabelMode(int mode) {
         this.labelMode = mode;
-    }
-
-    public String getOverrideLabel() {
-        return overrideLabel;
     }
 
     public void setOverrideLabel(String label) {
