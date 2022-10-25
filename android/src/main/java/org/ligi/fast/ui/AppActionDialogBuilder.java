@@ -240,7 +240,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         public void run() {
             final Intent notifyIntent = app_info.getIntent();
 
-            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent .FLAG_IMMUTABLE);
 
             final String title = app_info.getDisplayLabel();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
