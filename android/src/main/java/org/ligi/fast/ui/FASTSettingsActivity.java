@@ -72,6 +72,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
 
         CheckBoxPreference finishAfterLaunch = new CheckBoxPreference(this);
         finishAfterLaunch.setKey(FASTSettings.KEY_FINISH_ON_LAUNCH);
+        //TODO localize
         finishAfterLaunch.setTitle("Finish on Launch");
         finishAfterLaunch.setTitle("Finish FAST on App-Launch");
         finishAfterLaunch.setDefaultValue(false);

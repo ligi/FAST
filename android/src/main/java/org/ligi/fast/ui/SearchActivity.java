@@ -181,6 +181,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
+            //TODO localize
             Toast.makeText(this,"cannot start: " + e,Toast.LENGTH_LONG).show();
         }
 
