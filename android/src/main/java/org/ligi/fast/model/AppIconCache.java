@@ -115,6 +115,7 @@ public class AppIconCache {
         try {
             final FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());
             final BitmapDrawable drawable = new BitmapDrawable(ctx.getResources(), fileInputStream);
+            fileInputStream.close();
             cachedIcon = new SoftReference<Drawable>(drawable);
             return cachedIcon.get();
         } catch (Exception e) {
