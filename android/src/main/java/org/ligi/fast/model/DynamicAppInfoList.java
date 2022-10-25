@@ -24,7 +24,6 @@ public class DynamicAppInfoList extends AppInfoList {
         UNSORTED, ALPHABETICAL, MOST_USED, LAST_INSTALLED
     }
 
-    @SuppressWarnings("unchecked")
     public DynamicAppInfoList(List<AppInfo> backingAppInfoList, FASTSettings settings) {
         this.settings = settings;
         this.backingAppInfoList=new ArrayList<>();

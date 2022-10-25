@@ -71,7 +71,6 @@ public class AppIconCache {
     }
 
 
-    @SuppressWarnings("ResultOfMethodCallIgnored") // as we do not care if it is new or old
     private boolean createIconCacheFile() throws IOException {
         return getIconCacheFile().createNewFile();
     }

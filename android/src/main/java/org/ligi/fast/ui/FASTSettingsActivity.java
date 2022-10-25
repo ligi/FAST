@@ -37,7 +37,6 @@ public class FASTSettingsActivity extends PreferenceActivity {
     }
 
     private PreferenceScreen createPreferenceHierarchy() {
-        @SuppressWarnings("deprecation")
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
                 this);
 
