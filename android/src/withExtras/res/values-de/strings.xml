@@ -41,8 +41,8 @@
     <string name="no_hidden">Verborgene Anwendungen anzeigen</string>
     <string name="pin_app">Anheften</string>
     <string name="remove_alias">Alias löschen</string>
-    <string name="remove_cache">Zwischenspeicher leeren</string>
-    <string name="remove_cache_descr">Verlauf und Anwendungliste zurücksetzen</string>
+    <string name="remove_cache">Appliste und Icons löschen</string>
+    <string name="remove_cache_descr">Setzt Icons, Benutzungsdaten und Anpassungen zurück</string>
     <string name="reset_label">Titel zurücksetzen</string>
     <string name="show_even_hidden">Verborgene Anwendungen anzeigen</string>
     <string name="show_even_hidden_summary">Sortiert ans Ende der Liste</string>

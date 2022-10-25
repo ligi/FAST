@@ -48,8 +48,8 @@
     <string name="show_keyboard">Show keyboard</string>
     <string name="show_keyboard_descr">Open the keyboard on startup</string>
     <string name="appActionDialog_title">FAST Launch </string>
-    <string name="remove_cache">Clear cache</string>
-    <string name="remove_cache_descr">Force FAST to reset app list and history</string>
+    <string name="remove_cache">Delete app list and icon cache</string>
+    <string name="remove_cache_descr">Resets app icons, usage data and customizations</string>
     <string name="icon_resolution_title">Icon Resolution</string>
     <string name="icon_resolution_summary">More speed or more pixels?</string>
     <string name="pin_app">Pin</string>
