@@ -156,25 +156,6 @@ public class DynamicAppInfoList extends AppInfoList {
         return false;
     }
 
-    private static AppInfo getAppWithHash(String hash, List<AppInfo> appInfoList) {
-        for (AppInfo info : appInfoList) {
-            if (info.getLabelMode() < 2 && info.getHash().equals(hash)) {
-                return info;
-            }
-        }
-        return null;
-    }
-
-    private static AppInfoList getAliasesWithHash(String hash, List<AppInfo> appInfoList) {
-        AppInfoList aliasesWithHash = new AppInfoList();
-        for (AppInfo info : appInfoList) {
-            if (info.getLabelMode() == 2 && info.getHash().equals(hash)) {
-                aliasesWithHash.add(info);
-            }
-        }
-        return aliasesWithHash;
-    }
-
     public List<AppInfo> getBackingAppInfoList() {
         return backingAppInfoList;
     }
