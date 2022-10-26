@@ -20,20 +20,26 @@ import org.ligi.tracedroid.logging.Log;
 public class AppInfo {
     private static final String SEPARATOR = ";;";
 
-    private String label;
-    private String alternateLabel;
-    private String overrideLabel;
+    // Static information, identifies this activity
     private String packageName;
-    private String alternatePackageName;
     private String activityName;
     private String hash;
-    private long installTime;
+
+    // User generated data
+    private String overrideLabel;
     private int callCount;
-    private boolean isValid = true;
     private int pinMode = 0;
     private int labelMode = 0;
 
+    // Dynamic information that can be regenerated
     private final AppIconCache iconCache;
+    private String label;
+    private long installTime;
+
+    // Runtime state
+    private String alternateLabel;
+    private String alternatePackageName;
+    private boolean isValid = true;
 
     private AppInfo(Context ctx) {
         iconCache = new AppIconCache(ctx, this);
