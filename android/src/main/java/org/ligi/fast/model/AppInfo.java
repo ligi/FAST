@@ -269,10 +269,25 @@ public class AppInfo {
         this.pinMode = pinMode;
     }
 
+    /**
+     * The label mode controls which label to display to the user and identifies aliases.
+     * An alias is an independent entry for this activity with its own override label, call count
+     * and pin mode. An alias uses the user-set label if available.
+     * Valid label modes are:
+     *  0 - use the default label
+     *  1 - use the user-set label if available
+     *  2 - this is an alias
+     *
+     * @return the current label mode for this record
+     */
     public int getLabelMode() {
         return this.labelMode;
     }
 
+    /**
+     * @see #getLabelMode()
+     * @param mode the new label mode for this record
+     */
     public void setLabelMode(int mode) {
         this.labelMode = mode;
     }
