@@ -20,6 +20,7 @@ public interface FASTSettings {
     static final String KEY_GAP_SEARCH = "gap_search";
     static final String KEY_ICONRES = "icon_res";
     static final String KEY_SHOW_HIDDEN = "show_hidden";
+    static final String KEY_LAST_ICON_MASK = "last_icon_mask";
 
     boolean isLaunchSingleActivated();
 
@@ -51,4 +52,7 @@ public interface FASTSettings {
 
     boolean isShowHiddenActivated();
 
+    String getLastIconShape();
+
+    void putLastIconShape(String v);
 }
