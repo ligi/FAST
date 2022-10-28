@@ -45,7 +45,6 @@ public class PackageChangeReceiver extends BroadcastReceiver {
                 if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
                     App.getPackageChangedListener().onPackageChange(Collections.singletonList(packageName), null);
                 }
-                //TODO trim icon cache
                 break;
         }
     }

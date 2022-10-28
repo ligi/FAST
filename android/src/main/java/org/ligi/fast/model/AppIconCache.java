@@ -6,6 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 
 import org.ligi.fast.App;
 import org.ligi.tracedroid.logging.Log;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.ref.SoftReference;
+import java.util.Iterator;
+import java.util.List;
 
 public class AppIconCache {
     private static final Bitmap.CompressFormat COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
@@ -51,6 +54,36 @@ public class AppIconCache {
             if (iconFiles != null) {
                 for (File iconFile : iconFiles) {
                     invalidateIconCacheFile(iconFile);
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete all icon cache files that are not referenced in the current app info list.
+     * If no app info list is provided all currently cached icons will be deleted.
+     *
+     * @param currentAppInfo The complete and up-to-date app info list. Treated as empty if null.
+     */
+    public static void trimIconCache(@Nullable List<AppInfo> currentAppInfo) {
+        if (App.getBaseDir().exists()) {
+            File[] iconFiles = App.getBaseDir().listFiles(pathname -> pathname.getName().endsWith(CACHE_FILE_ENDING));
+            if (iconFiles != null) {
+                next_file:
+                for (File iconFile : iconFiles) {
+                    if (currentAppInfo != null) {
+                        for (Iterator<AppInfo> iterator = currentAppInfo.iterator(); iterator.hasNext(); ) {
+                            String referencedPath = getIconCacheFile(iterator.next()).getAbsolutePath();
+                            String cachedPath = iconFile.getAbsolutePath();
+                            if (cachedPath.equals(referencedPath)) {
+                                iterator.remove();
+                                continue next_file;
+                            }
+                        }
+                    }
+                    if (!iconFile.delete()) {
+                        Log.w("Unable to delete " + iconFile.getAbsolutePath());
+                    }
                 }
             }
         }

@@ -50,7 +50,6 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
     @Override
     protected void onPostExecute(Void result) {
         App.getPackageChangedListener().onPackageChange(mChangedPackageNames, appInfoList);
-        //TODO trim icon cache
     }
 
     /**

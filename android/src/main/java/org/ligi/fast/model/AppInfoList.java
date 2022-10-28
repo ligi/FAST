@@ -68,5 +68,6 @@ public class AppInfoList extends ArrayList<AppInfo> implements App.PackageChange
 
         this.clear();
         this.addAll(updatedAppInfoList);
+        new Thread(() -> AppIconCache.trimIconCache(updatedAppInfoList)).start();
     }
 }

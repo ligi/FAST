@@ -295,7 +295,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     @Override
     public void onPackageChange(List<String> changedPackages, List<AppInfo> list) {
-        // TODO we should also do a cleanup of cached icons here
         runOnUiThread(() -> {
             appInfoList.getBackingAppInfoList().onPackageChange(changedPackages, list);
             configureAdapter();
