@@ -59,7 +59,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         fkt_map.add(new LabelAndCode(context.getString(R.string.change_label), new Runnable() {
             @Override
             public void run() {
-                new SetLabelDialogBuilder(context, app_info).show();
+                new SetLabelDialogBuilder(context, app_info).show().setCanceledOnTouchOutside(false);
                 ((SearchActivity) context).configureAdapter();
             }
         }));
