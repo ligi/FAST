@@ -38,8 +38,8 @@
     <string name="choose_your_look">Choose the look of FAST App Search</string>
     <string name="sort">Sort</string>
     <string name="sort_decr">How should the apps be sorted?</string>
-    <string name="convert_umlauts">Convert umlauts</string>
-    <string name="convert_umlauts_descr">Change ae to ä, oe to ö, ss to ß and ue to ü</string>
+    <string name="convert_umlauts">Regular characters match accented ones as well</string>
+    <string name="convert_umlauts_descr">Special matches: ae=ä, oe=ö, ue=ü and ss=ß</string>
     <string name="allow_gap_search">Search within words</string>
     <string name="allow_gap_search_descr">Matches all letters, not just whole words</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>

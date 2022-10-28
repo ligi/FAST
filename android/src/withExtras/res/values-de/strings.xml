@@ -23,8 +23,8 @@
     <string name="choose_your_look">Wie soll FAST aussehen?</string>
     <string name="sort">Sortierung</string>
     <string name="sort_decr">Wie sollen die Anwendungen sortiert sein?</string>
-    <string name="convert_umlauts">Umlaute wandeln</string>
-    <string name="convert_umlauts_descr">ae zu ä; oe zu ö; ss zu ß; ue zu ü</string>
+    <string name="convert_umlauts">Ergebnisse mit Akzenten einbeziehen</string>
+    <string name="convert_umlauts_descr">Sonderbehandlung von Umlauten: ae=ä, oe=ö, ue=ü und ss=ß</string>
     <string name="allow_gap_search">Buchstabensuche</string>
     <string name="allow_gap_search_descr">Zeige Einträge mit den gesuchten Buchstaben</string>
     <string name="app_gone">Anwendung konnte nicht mehr gefunden werden</string>
