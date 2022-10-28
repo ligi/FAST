@@ -15,6 +15,7 @@ import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.TargetStore;
+import org.ligi.fast.model.AppIconCache;
 import org.ligi.fast.settings.FASTSettings;
 
 /**
@@ -96,7 +97,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         resolutionPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                new FileHelper(App.getBaseDir()).deleteRecursive();
+                AppIconCache.invalidateIconCache();
                 return true;
             }
         });
