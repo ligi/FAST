@@ -1,5 +1,6 @@
 package org.ligi.fast.settings;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -82,4 +83,14 @@ public class AndroidFASTSettings implements FASTSettings {
         return mSharedPreferences.getBoolean(KEY_SHOW_HIDDEN, false);
     }
 
+    public String getLastIconShape() {
+        return mSharedPreferences.getString(KEY_LAST_ICON_MASK, null);
+    }
+
+    @TargetApi(26)
+    public void putLastIconShape(String value) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(FASTSettings.KEY_LAST_ICON_MASK, value);
+        editor.apply();
+    }
 }

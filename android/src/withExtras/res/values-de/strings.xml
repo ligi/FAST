@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">FAST</string>
     <string name="launch_single">Automatische Ausführung</string>
     <string name="settings">Einstellungen</string>
     <string name="share">Teilen</string>
-    <string name="also_use_the_package_name_for_searching">Suche auch im Packagename</string>
-    <string name="search_in_package">Suche in vollständigen Packagename</string>
+    <string name="also_use_the_package_name_for_searching">Durchsucht auch die Paketnamen</string>
+    <string name="search_in_package">Paketsuche</string>
     <string name="auto_launch_if_only_one_app_left">Autostart bei genau einem Ergebnis</string>
     <string name="open_in_for_all">Öffne mit %s für alle</string>
     <string name="even_if_installed_another_way">Auch wenn auf anderem Wege installiert</string>
@@ -20,31 +19,54 @@
     <string name="create_shortcut">create shortcut</string>
     <string name="icon_size">Icongröße</string>
     <string name="how_big_icons">Wie groß sollen die Icons sein?</string>
+    <string name="theme">Aussehen</string>
+    <string name="choose_your_look">Wie soll FAST aussehen?</string>
+    <string name="sort">Sortierung</string>
+    <string name="sort_decr">Wie sollen die Anwendungen sortiert sein?</string>
+    <string name="convert_umlauts">Ergebnisse mit Akzenten einbeziehen</string>
+    <string name="convert_umlauts_descr">Sonderbehandlung von Umlauten: ae=ä, oe=ö, ue=ü und ss=ß</string>
+    <string name="allow_gap_search">Buchstabensuche</string>
+    <string name="allow_gap_search_descr">Zeige Einträge mit den gesuchten Buchstaben</string>
+    <string name="app_gone">Anwendung konnte nicht mehr gefunden werden</string>
+    <string name="as_new_entry">Als Alias anlegen</string>
+    <string name="cancel">Abbruch</string>
+    <string name="change_label">Umbenennen</string>
+    <string name="change_label_of">%s umbenennen</string>
+    <string name="hide_app">Verbergen</string>
+    <string name="icon_resolution_summary">Priorisiere Auflösung oder Geschwindigkeit</string>
+    <string name="icon_resolution_title">Auflösung der Anwendungssymbole</string>
+    <string name="ignore_space_descr">Ignoriere Leerzeichen am Ende der Anfrage</string>
+    <string name="ignore_space">Leerzeichen ignorieren</string>
+    <string name="loadingDialogTitle">Anwendungen werden geladen</string>
+    <string name="no_hidden">Verborgene Anwendungen anzeigen</string>
+    <string name="pin_app">Anheften</string>
+    <string name="remove_alias">Alias löschen</string>
+    <string name="remove_cache">Appliste und Icons löschen</string>
+    <string name="remove_cache_descr">Setzt Icons, Benutzungsdaten und Anpassungen zurück</string>
+    <string name="reset_label">Titel zurücksetzen</string>
+    <string name="show_even_hidden">Verborgene Anwendungen anzeigen</string>
+    <string name="show_even_hidden_summary">Sortiert ans Ende der Liste</string>
+    <string name="show_keyboard">Automatische Tastatur</string>
+    <string name="show_keyboard_descr">Tastatur wird automatisch aktiviert</string>
+    <string name="unhide_app">Einblenden</string>
+    <string name="unpin_app">Ablösen</string>
+
     <string-array name="sizes">
         <item>klein</item>
         <item>mittel</item>
         <item>groß</item>
         <item>riesig</item>
     </string-array>
-
     <string-array name="themes">
         <item>dunkel</item>
         <item>hell</item>
-        <item>transparent hell</item>
         <item>transparent dunkel</item>
+        <item>transparent hell</item>
     </string-array>
-
-    <string name="theme">Aussehen</string>
-    <string name="choose_your_look">Wie soll FAST aussehen?</string>
-    <string name="sort">Sortierung</string>
-    <string name="sort_decr">wie sollen die Anwendungen sortiert sein?</string>
-    <string name="convert_umlauts">Umlaute wandeln</string>
-    <string name="convert_umlauts_descr">ae zu ä; oe zu ö; ss zu ß; ue zu ü</string>
-    <string name="allow_gap_search">Lücken OK in Suche</string>
-
     <string-array name="sort_orders">
         <item>unsortiert</item>
         <item>alphabetisch</item>
-        <item>Benutzung</item>
+        <item>nach Benutzung</item>
+        <item>nach Installationsdatum</item>
     </string-array>
 </resources>

@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.ligi.axt.helpers.ActivityHelper;
 import org.ligi.fast.R;
 import org.ligi.fast.background.BaseAppGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.fast.util.AppInfoListStore;
 
 /**
  * Dialog to make the waiting time for the initial index building nicer for the user
@@ -54,18 +52,14 @@ public class LoadingDialog extends Activity {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                new AppInfoListStore(LoadingDialog.this).save(appInfoList);
                 setResult(RESULT_OK);
                 finish();
             }
-
         }.execute();
 
         setWindowWidth();
-        new ActivityHelper(this).disableRotation();
     }
 
-    @SuppressWarnings("deprecation")
     // we cannot use the new getSize function - or we would get a NoSuchMethod error on newer devices
     private void setWindowWidth() {
         WindowManager.LayoutParams params = getWindow().getAttributes();

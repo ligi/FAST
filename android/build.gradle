@@ -5,14 +5,14 @@ apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'kotlin-android'
 
 repositories {
-    jcenter()
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.google.com' }
+    maven { url "https://plugins.gradle.org/m2/" }
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    namespace 'org.ligi.fast'
+    compileSdkVersion 33
 
     defaultConfig {
         versionCode 68
@@ -20,8 +20,8 @@ android {
         // this can be 5 but for assertj this fails - only a problem for tests
         // http://stackoverflow.com/questions/25753751/increase-minsdk-for-androidtest
         minSdkVersion 9
-        targetSdkVersion 26
-        applicationId "org.ligi.fast"
+        targetSdkVersion 32
+        applicationId "org.ligi"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         archivesBaseName = "Fast-$versionName"
     }
@@ -31,6 +31,9 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFile 'proguard-project.txt'
+        }
+        debug {
+            applicationIdSuffix '.debug'
         }
     }
 
@@ -51,12 +54,12 @@ android {
 
         withExtras {
             dimension "size"
-            applicationId "org.ligi.fast"
+            applicationIdSuffix ".fast"
         }
 
         noExtras {
             dimension "size"
-            applicationId "org.ligi.faster"
+            applicationIdSuffix ".faster"
         }
     }
 
@@ -66,40 +69,37 @@ android {
         variant.setIgnore(project.hasProperty("singleFlavor") && ((market != 'forGooglePlay') || (size != 'noExtras')))
     }
 
-    // ugly but the best workaround I found for getting the permission for spoon screenshot writing to SD-Card
-    // http://stackoverflow.com/questions/25276537/how-do-i-change-android-permission-settings-when-running-tests
-    sourceSets {
-        debug {
-            manifest.srcFile 'src/androidTest/AndroidManifest.xml'
-        }
-    }
-
-    lintOptions {
-        disable "MissingTranslation"
-        disable "TypographyEllipsis"
-        disable "IconLocation"
-        disable "IconDensities"
-        disable "ContentDescription"
+    lint {
+        disable 'MissingTranslation', 'TypographyEllipsis', 'IconLocation', 'IconDensities', 'ContentDescription'
     }
 
     // needed for assertJ
     packagingOptions {
-        exclude 'asm-license.txt'
-        exclude 'LICENSE'
-        exclude 'NOTICE'
+        resources {
+            excludes += ['asm-license.txt', 'LICENSE', 'NOTICE']
+        }
     }
 }
 
 dependencies {
-    compile 'com.github.ligi:tracedroid:1.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    androidTestCompile 'com.github.ligi:trulesk:0.21'
-    androidTestCompile 'com.android.support:support-annotations:26.0.2'
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.7.1'
-    androidTestCompile 'com.squareup.assertj:assertj-android:1.2.0'
+    //TODO update raises minSdkLevel
+    implementation 'com.github.ligi:tracedroid:1.4'
 
-    testCompile 'com.squareup.assertj:assertj-android:1.2.0'
-    testCompile 'junit:junit:4.12'
+    //TODO update raises minSdkLevel and requires AndroidX
+    androidTestImplementation 'com.github.ligi:trulesk:0.21'
+    //TODO deprecated?
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    //TODO deprecated?
+    androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
+    //TODO deprecated
+    androidTestImplementation 'com.squareup.assertj:assertj-android:1.2.0'
+
+    //TODO deprecated
+    testImplementation 'com.squareup.assertj:assertj-android:1.2.0'
+    //TODO migrate to v5
+    testImplementation 'junit:junit:4.13.2'
 }
 
 spoon {

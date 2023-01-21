@@ -11,6 +11,7 @@ public class AndroidTestMutableFastSettings implements FASTSettings {
     public boolean ignoreSpace = false;
     public boolean gapSearch = false;
     public String theme = "light";
+    public String lastIconShape = "";
 
     @Override
     public boolean isLaunchSingleActivated() {
@@ -86,5 +87,15 @@ public class AndroidTestMutableFastSettings implements FASTSettings {
     @Override
     public boolean isShowHiddenActivated() {
         return false;
+    }
+
+    @Override
+    public String getLastIconShape() {
+        return lastIconShape;
+    }
+
+    @Override
+    public void putLastIconShape(String v) {
+        lastIconShape = v;
     }
 }

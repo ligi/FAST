@@ -2,13 +2,17 @@ package org.ligi.fast;
 
 import android.app.Activity;
 import android.app.Application;
+import android.support.annotation.Nullable;
 
+import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
+import org.ligi.fast.util.AppInfoListStore;
 import org.ligi.tracedroid.TraceDroid;
 
 import java.io.File;
+import java.util.List;
 
 public class App extends Application {
 
@@ -18,10 +22,55 @@ public class App extends Application {
     public static final String LOG_TAG = "FAST App Search";
 
     public interface PackageChangedListener {
-        public void onPackageChange(AppInfoList appInfoList);
+        /**
+         * Update information held about one or more packages.
+         * The app info list is expected to be complete for every changed package. Any existing
+         * records will only be kept if they still apply to the new list.
+         *
+         * @param packageNames The names of all packages affected in this change
+         * @param appInfoList  The full list or activities to track for those packages
+         */
+        void onPackageChange(@Nullable List<String> packageNames, @Nullable List<AppInfo> appInfoList);
     }
 
-    public static PackageChangedListener packageChangedListener;
+    public static class OfflinePackageChangedListener implements PackageChangedListener {
+        @Override
+        public void onPackageChange(@Nullable List<String> packageNames, @Nullable List<AppInfo> appInfoList) {
+            AppInfoListStore store = new AppInfoListStore(appInstance);
+            AppInfoList savedList = store.load();
+            savedList.onPackageChange(packageNames, appInfoList);
+            store.save(savedList);
+        }
+    }
+
+    private static PackageChangedListener packageChangedListener;
+
+    /*TODO
+     * The {@link OfflinePackageChangedListener} is currently an unused fallback.
+     * FAST no longer registers implicit broadcasts to update the app list while it isn't running
+     * because this is discouraged by google and on api 26+ only allowed for exempted broadcasts.
+     * The SearchActivity lifecycle currently ensures the following things:
+     *  - The Activity unconditionally fetches a complete, up-to-date app list onCreate()
+     *  - There is always a PackageChangedListener registered between onCreate() and onDestroy()
+     *  - User-generated data is saved in onPause()
+     *  As a result, it is redundant to update the app list while FAST isn't running.
+     * However, it could be desirable to update the icon cache while FAST isn't running.
+     * Again, this would only work below api 26. And while an argument could be made that older
+     * apis tend to run on older and weaker devices that need an up-to-date icon cache right on
+     * startup, but the argument also goes the other way in that taking up system resources in the
+     * background is even more an issue if it impacts other running apps.
+     */
+    public static PackageChangedListener getPackageChangedListener() {
+        return packageChangedListener == null ? new OfflinePackageChangedListener() : packageChangedListener;
+    }
+
+    public static void registerPackageChangedListener(PackageChangedListener packageChangedListener) {
+        App.packageChangedListener = packageChangedListener;
+    }
+
+    public static void unregisterPackageChangedListener(PackageChangedListener packageChangedListener) {
+        App.packageChangedListener = null;
+    }
 
     @Override
     public void onCreate() {

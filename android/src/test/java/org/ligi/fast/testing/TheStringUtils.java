@@ -1,7 +1,5 @@
 package org.ligi.fast.testing;
 
-import android.test.suitebuilder.annotation.SmallTest;
-
 import org.junit.Test;
 import org.ligi.fast.util.StringUtils;
 

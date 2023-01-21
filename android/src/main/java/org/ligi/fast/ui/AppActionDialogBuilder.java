@@ -1,6 +1,5 @@
 package org.ligi.fast.ui;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -60,7 +59,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         fkt_map.add(new LabelAndCode(context.getString(R.string.change_label), new Runnable() {
             @Override
             public void run() {
-                new SetLabelDialogBuilder(context, app_info).show();
+                new SetLabelDialogBuilder(context, app_info).show().setCanceledOnTouchOutside(false);
                 ((SearchActivity) context).configureAdapter();
             }
         }));
@@ -135,7 +134,9 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             }));
         }
 
-        fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
+        if (Build.VERSION.SDK_INT < 26) {
+            fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
+        }
 
         if (App.getSettings().isMarketForAllActivated() || isMarketApp()) {
             fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
@@ -153,7 +154,7 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             @Override
             public void run() {
                 try {
-                    String message = "check out this app: " + App.getStoreURL4PackageName(app_info.getPackageName());
+                    String message = app_info.getLabel() + " - " + App.getStoreURL4PackageName(app_info.getPackageName());
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");
                     share.putExtra(Intent.EXTRA_TEXT, message);
@@ -187,18 +188,23 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
     }
 
-    //  @TargetApi(5)
-    // TODO find out why the above is not working and I need to use SupressLint to get rid of the error
-    @SuppressLint("newApi")
     private static void showInstalledAppDetails(Context context,
 
                                                 String packageName) {
         Intent intent = new Intent();
         final int apiLevel = Build.VERSION.SDK_INT;
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (apiLevel >= 9) { // above 2.3
             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts(SCHEME, packageName, null);
             intent.setData(uri);
+            if (apiLevel >= 11) {
+                // These flags give every new activity a separate entry on the recents screen instead
+                // of replacing the most recent one of the same type. The latter does exist since api
+                // level 1 but below android 3.0 the recents screen only displays the most recent
+                // 8 items - at least on some screen sizes - and does not allow removing them.
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            }
         } else { // below 2.3
             final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
             intent.setAction(Intent.ACTION_VIEW);
@@ -236,12 +242,13 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
         }
     }
 
+    //TODO adjust for notification channel requirement on api 26+
     private class OpenAsNotificationRunnable implements Runnable {
         @Override
         public void run() {
             final Intent notifyIntent = app_info.getIntent();
 
-            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent .FLAG_IMMUTABLE);
 
             final String title = app_info.getDisplayLabel();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

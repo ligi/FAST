@@ -1,86 +1,77 @@
 package org.ligi.fast.background;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
 
+import org.ligi.fast.App;
+import org.ligi.fast.model.AppIconCache;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
-import org.ligi.tracedroid.logging.Log;
+import org.ligi.fast.util.PackageManagerUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Async-Task to Retrieve / Store Application Info needed by this App
  */
 public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
-    private final Context ctx;
+    protected Context mContext;
+    protected final AppInfoList appInfoList = new AppInfoList();
+    protected List<String> mChangedPackageNames;
     protected int appCount;
-    protected AppInfoList appInfoList;
-    private final AppInfoList oldAppList;
 
     public BaseAppGatherAsyncTask(Context ctx) {
         this(ctx, null);
     }
 
-    public BaseAppGatherAsyncTask(Context ctx, AppInfoList oldAppList) {
-        this.ctx = ctx;
-        appInfoList = new AppInfoList();
-        this.oldAppList = oldAppList;
+    public BaseAppGatherAsyncTask(Context context, List<String> changedPackages) {
+        this.mContext = context.getApplicationContext();
+        this.mChangedPackageNames = changedPackages;
     }
-
-    private void processCategory(final String category) {
-        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(category);
-        try {
-            final List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
-            appCount += resolveInfoList.size();
-            for (ResolveInfo info : resolveInfoList) {
-                final AppInfo actAppInfo = new AppInfo(ctx, info);
-
-                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) { // ignore self
-
-                    // Update call count from current index that is being used.
-                    // This is because we may have updated the call count since the last time
-                    // we saved the package list. An alternative would be to save the package list
-                    // each time we leave
-                    if (oldAppList != null) {
-                        for(AppInfo oldInfo : oldAppList) {
-                            if (oldInfo.getActivityName().equals(actAppInfo.getActivityName())) {
-                                if (oldInfo.getLabelMode() == 2) {
-                                    appInfoList.add(oldInfo);
-                                } else {
-                                    actAppInfo.setCallCount(oldInfo.getCallCount());
-                                    actAppInfo.setPinMode(oldInfo.getPinMode());
-                                    actAppInfo.setLabelMode(oldInfo.getLabelMode());
-                                    actAppInfo.setOverrideLabel(oldInfo.getOverrideLabel());
-                                }
-                            }
-                        }
-                    }
-                    appInfoList.add(actAppInfo);
-                    publishProgress(actAppInfo);
-                }
-            }
-        } catch (Exception e) {
-            Log.d("Exception occurred when getting activities skipping...!");
-        }
-
-    }
-
 
     @Override
     protected Void doInBackground(Void... params) {
-        // TODO the progressbar could be more exact here by first querying both - calculating the
-        // total app-count and then process them - but as we do not expect that much launchers we
-        // should be OK here
-        appCount=0;
-        processCategory(Intent.CATEGORY_LAUNCHER);
-        processCategory(Intent.CATEGORY_HOME);
+        invalidateCacheIfIconMaskChanged();
+        List<ResolveInfo> activitiesResolveInfoList = PackageManagerUtils.getResolveInfo(mContext, mChangedPackageNames);
+        appCount = activitiesResolveInfoList.size();
+        for (ResolveInfo info : activitiesResolveInfoList) {
+            AppInfo newAppInfo = new AppInfo(mContext, info);
+            appInfoList.add(newAppInfo);
+            publishProgress(newAppInfo);
+        }
+        mContext = null;
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Void result) {
+        App.getPackageChangedListener().onPackageChange(mChangedPackageNames, appInfoList);
+    }
 
+    /**
+     * Check if the adaptive icons shape that was last used to generate the icon cache still applies
+     * If it changed, invalidate the icon cache and record the current shape.
+     */
+    private void invalidateCacheIfIconMaskChanged() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                Resources r = mContext.getPackageManager().getResourcesForApplication("android");
+                int resId = r.getIdentifier("config_icon_mask", "string", "android");
+                if (resId != 0) {
+                    String mask = r.getString(resId);
+                    if (mask.equals(App.getSettings().getLastIconShape())) {
+                        return;
+                    }
+                    AppIconCache.invalidateIconCache();
+                    mChangedPackageNames = null;
+                    App.getSettings().putLastIconShape(mask);
+                }
+            } catch (PackageManager.NameNotFoundException e) { /*no android package, help*/
+            }
+        }
+    }
 }

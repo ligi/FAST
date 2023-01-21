@@ -61,5 +61,6 @@ Si vous aimez cette application vous pouvez la partager, sélectionnez partager 
         <item>"Non trié"</item>
         <item>"Alphabétique"</item>
         <item>"Usage"</item>
+        <item>By installation time</item>
     </string-array>
 </resources>

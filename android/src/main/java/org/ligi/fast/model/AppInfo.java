@@ -2,12 +2,15 @@ package org.ligi.fast.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.ligi.axt.helpers.ResolveInfoHelper;
@@ -20,20 +23,26 @@ import org.ligi.tracedroid.logging.Log;
 public class AppInfo {
     private static final String SEPARATOR = ";;";
 
-    private String label;
-    private String alternateLabel;
-    private String overrideLabel;
+    // Static information, identifies this activity
     private String packageName;
-    private String alternatePackageName;
     private String activityName;
     private String hash;
-    private long installTime;
-    private int callCount;
-    private boolean isValid = true;
+
+    // User generated data
+    private String overrideLabel;
+    private int callCount = 0;
     private int pinMode = 0;
     private int labelMode = 0;
 
-    private final AppIconCache iconCache;
+    // Dynamic information that can be regenerated
+    private AppIconCache iconCache;
+    private String label;
+    private long installTime;
+    private long lastUpdateTime;
+
+    // Runtime state
+    private String alternateDisplayLabel;
+    private boolean isValid = false;
 
     private AppInfo(Context ctx) {
         iconCache = new AppIconCache(ctx, this);
@@ -43,94 +52,75 @@ public class AppInfo {
         this(ctx);
 
         String[] app_info_str_split = cache_str.split(SEPARATOR);
-
-        if (app_info_str_split.length > 4) {
-            try {
-                hash = app_info_str_split[0];
-                label = app_info_str_split[1];
-                packageName = app_info_str_split[2];
-                activityName = app_info_str_split[3];
-                callCount = Integer.parseInt(app_info_str_split[4]);
-
-                if (app_info_str_split.length > 5) {
-                    installTime = Long.parseLong(app_info_str_split[5]);
-                    if (app_info_str_split.length > 6) {
-                        pinMode = Integer.parseInt(app_info_str_split[6]);
-                        if (app_info_str_split.length > 7) {
-                            labelMode = Integer.parseInt(app_info_str_split[7]);
-                            if (app_info_str_split.length > 8) {
-                                overrideLabel = app_info_str_split[8];
-                            }
-                        }
-                    }
-                }
-
-                calculateAlternateLabelAndPackageName();
-                return;
-            } catch (Exception ignored) {
+        int highest_index = Math.min(app_info_str_split.length - 1, 9);
+        try {
+            switch (highest_index) {
+                case 9: lastUpdateTime = Long.parseLong(app_info_str_split[9]);
+                case 8: overrideLabel = app_info_str_split[8];
+                case 7: labelMode = Integer.parseInt(app_info_str_split[7]);
+                case 6: pinMode = Integer.parseInt(app_info_str_split[6]);
+                case 5: installTime = Long.parseLong(app_info_str_split[5]);
+                case 4: callCount = Integer.parseInt(app_info_str_split[4]);
+                case 3: // Minimal set of values in a valid entry
+                    activityName = app_info_str_split[3];
+                    packageName = app_info_str_split[2];
+                    label = app_info_str_split[1];
+                    hash = app_info_str_split[0];
+                    isValid = true;
+                    break;
             }
+        } catch (Exception ignored) {
         }
-        isValid = false;
+        if (!isValid) {
+            return;
+        }
+        if (lastUpdateTime < installTime) {
+            lastUpdateTime = installTime;
+        }
+        calculateAlternateLabel();
     }
 
     public AppInfo(Context _ctx, ResolveInfo ri) {
         this(_ctx);
-
-        // init attributes
         label = new ResolveInfoHelper(ri).getLabelSafely(_ctx);
-        label = label.replace("ά", "α")
-                     .replaceAll("έ", "ε")
-                     .replaceAll("ή", "η")
-                     .replaceAll("ί", "ι")
-                     .replaceAll("ό", "ο")
-                     .replaceAll("ύ", "υ")
-                     .replaceAll("ώ", "ω")
-                     .replaceAll("Ά", "Α")
-                     .replaceAll("Έ", "Ε")
-                     .replaceAll("Ή", "Η")
-                     .replaceAll("Ί", "Ι")
-                     .replaceAll("Ό", "Ο")
-                     .replaceAll("Ύ", "Υ")
-                     .replaceAll("Ώ", "Ω");
-        if (ri.activityInfo != null) {
-            packageName = ri.activityInfo.packageName;
-            activityName = ri.activityInfo.name;
-        } else {
-            packageName = "unknown";
-            activityName = "unknown";
+        if (ri.activityInfo == null) {
+            return;
         }
-        callCount = 0;
-
-        final PackageManager pmManager = _ctx.getPackageManager();
-
-        installTime = 0;
-
+        packageName = ri.activityInfo.packageName;
+        activityName = ri.activityInfo.name;
         try {
-            final PackageInfo pi = pmManager.getPackageInfo(packageName, 0);
-            if (Build.VERSION.SDK_INT >= 9) {
-                installTime = pi.lastUpdateTime;
+            PackageManager pm = _ctx.getPackageManager();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+                ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+                String appFile = appInfo.sourceDir;
+                lastUpdateTime = new File(appFile).lastModified();
+                installTime = lastUpdateTime;
+            } else {
+                PackageInfo pi = pm.getPackageInfo(packageName, 0);
+                lastUpdateTime = pi.lastUpdateTime;
+                installTime = pi.firstInstallTime;
             }
         } catch (NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            return; // Package does not exist
         }
-
-
         hash = calculateTheHash();
-        calculateAlternateLabelAndPackageName();
+        isValid = true;
+
+        // All static attributes done, call everything that depends on them now
+        calculateAlternateLabel();
         iconCache.cacheIcon(ri);
     }
 
-    private void calculateAlternateLabelAndPackageName() {
-        alternateLabel = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(label);
-        alternatePackageName = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(packageName);
+    private void calculateAlternateLabel() {
+        alternateDisplayLabel = UmlautConverter.replaceAllUmlautsReturnNullIfEqual(getDisplayLabel());
     }
 
     public String toCacheString() {
         return hash + SEPARATOR + label + SEPARATOR + packageName +
                 SEPARATOR + activityName + SEPARATOR + callCount +
                 SEPARATOR + installTime + SEPARATOR + pinMode +
-                SEPARATOR + labelMode + SEPARATOR + overrideLabel;
+                SEPARATOR + labelMode + SEPARATOR + overrideLabel +
+                SEPARATOR + lastUpdateTime;
     }
 
     private String calculateTheHash() {
@@ -169,6 +159,10 @@ public class AppInfo {
         return toCacheString().equals(other.toCacheString());
     }
 
+    public boolean isSameActivity(AppInfo appInfo) {
+        return this.hash.equals(appInfo.hash);
+    }
+
     public Drawable getIcon() {
         return iconCache.getIcon();
     }
@@ -177,16 +171,13 @@ public class AppInfo {
         return packageName;
     }
 
-    public String getActivityName() {
-        return activityName;
-    }
-
     /**
-     * Please keep in mind that this might now return unexpected values
-     * @return the user-set label if it is set, default otherwise
+     * The label that is meant to be displayed to the user.
+     *
+     * @return the user-set label if present, default otherwise
      */
     public String getDisplayLabel() {
-        if (labelMode == 0) {
+        if (labelMode == 0 || overrideLabel == null) {
             return label;
         } else {
             return overrideLabel;
@@ -205,8 +196,8 @@ public class AppInfo {
         return installTime;
     }
 
-    public void setCallCount(int count) {
-        callCount = count;
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
     }
 
     public void incrementCallCount() {
@@ -222,43 +213,30 @@ public class AppInfo {
     }
 
     /**
-     * Please keep in mind that this might now return unexpected values
-     * @return the user-set label if it is set, alternateLabel otherwise
+     * The sanitized version of {@link #getDisplayLabel()}}
+     * Umlauts are converted and accents are stripped from characters.
+     *
+     * @return sanitized display label. null if it would be equal to {@link #getDisplayLabel()}.
      */
     public String getAlternateDisplayLabel() {
-        if (labelMode == 0) {
-            return alternateLabel;
-        } else {
-            return overrideLabel;
-        }
+        return alternateDisplayLabel;
     }
 
-    public String getAlternateLabel() {
-        return alternateLabel;
-    }
-
-    public String getAlternatePackageName() {
-        return alternatePackageName;
-    }
-
-    public void mergeSafe(AppInfo appInfo) {
-        final int localCallCount = getCallCount();
-        final int remoteCallCount = appInfo.getCallCount();
-        setCallCount(Math.max(localCallCount, remoteCallCount));
-        if (appInfo.getPinMode() != 0) {
-            setPinMode(appInfo.getPinMode());
+    /**
+     * Update activity info while preserving user generated data and settings
+     *
+     * @param currentInfo up to date info about the activity
+     */
+    public void updateInfo(AppInfo currentInfo) {
+        this.iconCache = currentInfo.iconCache;
+        // Because we fall back to lastUpdateTime when setting installTime below gingerbread our
+        // best bet is to just never update this value to keep it close to the first install time.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            this.installTime = currentInfo.installTime;
         }
-        else {
-            setPinMode(getPinMode());
-        }
-
-        if (appInfo.getLabelMode() == 1) {
-            setLabelMode(1);
-            setOverrideLabel(appInfo.getOverrideLabel());
-        }
-
-        label = appInfo.getLabel();
-        calculateAlternateLabelAndPackageName();
+        this.lastUpdateTime = currentInfo.lastUpdateTime;
+        this.label = currentInfo.label;
+        calculateAlternateLabel();
     }
 
     public int getPinMode() {
@@ -269,19 +247,31 @@ public class AppInfo {
         this.pinMode = pinMode;
     }
 
+    /**
+     * The label mode controls which label to display to the user and identifies aliases.
+     * An alias is an independent entry for this activity with its own override label, call count
+     * and pin mode. An alias uses the user-set label if available.
+     * Valid label modes are:
+     *  0 - use the default label
+     *  1 - use the user-set label if available
+     *  2 - this is an alias
+     *
+     * @return the current label mode for this record
+     */
     public int getLabelMode() {
         return this.labelMode;
     }
 
+    /**
+     * @see #getLabelMode()
+     * @param mode the new label mode for this record
+     */
     public void setLabelMode(int mode) {
         this.labelMode = mode;
     }
 
-    public String getOverrideLabel() {
-        return overrideLabel;
-    }
-
     public void setOverrideLabel(String label) {
         this.overrideLabel = label;
+        calculateAlternateLabel();
     }
 }

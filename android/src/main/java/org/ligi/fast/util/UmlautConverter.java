@@ -1,5 +1,8 @@
 package org.ligi.fast.util;
 
+import android.os.Build;
+
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +58,11 @@ public class UmlautConverter {
              * but replace(..) is also doing the right thing but way faster ;-)
              */
             output = output.replace(entry.getKey(), entry.getValue());
+        }
+
+        if (Build.VERSION.SDK_INT >= 9) {
+            output = Normalizer.normalize(output, Normalizer.Form.NFD);
+            output = output.replaceAll("[\\p{M}]", "");
         }
 
         return output;

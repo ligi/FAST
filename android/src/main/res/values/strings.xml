@@ -38,8 +38,8 @@
     <string name="choose_your_look">Choose the look of FAST App Search</string>
     <string name="sort">Sort</string>
     <string name="sort_decr">How should the apps be sorted?</string>
-    <string name="convert_umlauts">Convert umlauts</string>
-    <string name="convert_umlauts_descr">Change ae to ä, oe to ö, ss to ß and ue to ü</string>
+    <string name="convert_umlauts">Regular characters match accented ones as well</string>
+    <string name="convert_umlauts_descr">Special matches: ae=ä, oe=ö, ue=ü and ss=ß</string>
     <string name="allow_gap_search">Search within words</string>
     <string name="allow_gap_search_descr">Matches all letters, not just whole words</string>
     <string name="loadingDialogTitle">Caching to serve FAST</string>
@@ -48,30 +48,29 @@
     <string name="show_keyboard">Show keyboard</string>
     <string name="show_keyboard_descr">Open the keyboard on startup</string>
     <string name="appActionDialog_title">FAST Launch </string>
-    <string name="remove_cache">Clear cache</string>
-    <string name="remove_cache_descr">Force FAST to reset app list and history</string>
+    <string name="remove_cache">Delete app list and icon cache</string>
+    <string name="remove_cache_descr">Resets app icons, usage data and customizations</string>
     <string name="icon_resolution_title">Icon Resolution</string>
     <string name="icon_resolution_summary">More speed or more pixels?</string>
     <string name="pin_app">Pin</string>
     <string name="unpin_app">Unpin</string>
+
     <string-array name="sizes">
         <item>Tiny</item>
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-
     <string-array name="themes">
         <item>Dark</item>
         <item>Light</item>
         <item>Transparent dark</item>
         <item>Transparent light</item>
     </string-array>
-
     <string-array name="sort_orders">
         <item>Unsorted</item>
         <item>Alphabetical</item>
         <item>By usage</item>
         <item>By installation time</item>
-        </string-array>
+    </string-array>
 </resources>
